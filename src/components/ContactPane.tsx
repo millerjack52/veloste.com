@@ -26,12 +26,17 @@ export default function ContactPane({
   const [btnHover, setBtnHover] = React.useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault(); // ✅ never let the browser navigate
+    e.preventDefault();
     setSending(true);
     setError("");
 
+    // 👇 dynamically select API base URL
+    const apiBase = import.meta.env.PROD
+      ? "https://www.veloste.com" // your live site
+      : "http://localhost:3001"; // local dev server
+
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(`${apiBase}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, message }),
