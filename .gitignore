@@ -1,24 +1,65 @@
-# Logs
-logs
+# -----------------------------
+# Node & Vite
+# -----------------------------
+node_modules/
+dist/
+build/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
+vite.config.timestamp-*
 
-node_modules
-dist
-dist-ssr
-*.local
+# -----------------------------
+# TypeScript
+# -----------------------------
+*.tsbuildinfo
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# -----------------------------
+# Environment files
+# -----------------------------
+.env
+.env.*
+!.env.example   # allow safe example env file
+*.env.local
+*.env.development
+*.env.production
+*.env.test
+
+# -----------------------------
+# OS / IDE files
+# -----------------------------
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+
+# VSCode / JetBrains
+.vscode/
+.idea/
+
+# -----------------------------
+# Logs / coverage / cache
+# -----------------------------
+coverage/
+*.lcov
+.cache/
+.temp/
+.tmp/
+out/
+logs/
+
+# -----------------------------
+# Misc
+# -----------------------------
+# Don’t upload your private keys or certificates
+*.pem
+*.key
+*.crt
+
+# Optional lockfiles
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
