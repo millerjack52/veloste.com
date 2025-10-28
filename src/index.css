@@ -2,15 +2,25 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%; /* full width */
+  height: 100%; /* optional full height */
+}
+
+@font-face {
+  font-family: 'VelosteFont';
+  src: url('./assets/Dream-Orphans-Bd.otf');
 }
 
 a {
@@ -18,12 +28,9 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
-a:hover {
-  color: #535bf2;
-}
+a:hover { color: #535bf2; }
 
 body {
-  margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
@@ -33,6 +40,11 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  font-family: 'VelosteFont';
+}
+
+h2 {
+  font-family: 'VelosteFont', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 button {
@@ -46,23 +58,159 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
+button:hover { border-color: #646cff; }
 button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #ffffff; /* Removed width: 1200px */
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+  a:hover { color: #747bff; }
+  button { background-color: #f9f9f9; }
+}
+
+.header-logo-canvas { width: 100%; height: 100%; display: block; }
+.page-header-box { box-shadow: none; } /* just to be explicit */
+
+
+/* ================================
+   Migrated from ui.ts (namespaced)
+   ================================ */
+
+/* Typography / content */
+.v-h1 {
+  font-size: clamp(32px, 5vw, 60px);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.v-h2 {
+  font-size: clamp(22px, 2.8vw, 34px);
+  margin: 28px 0 10px;
+  letter-spacing: 0.3px;
+}
+
+.v-lead {
+  font-size: clamp(16px, 1.8vw, 22px);
+  margin-top: 14px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.v-para {
+  font-size: clamp(14px, 1.6vw, 18px);
+  margin-top: 14px;
+  line-height: 1.6;
+  color: #222;
+}
+
+.v-ol {
+  margin: 8px 0 18px 20px;
+  padding: 0;
+  line-height: 1.7;
+}
+
+.v-hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  margin: 18px 0 24px;
+}
+
+/* Form / card */
+.v-card {
+  margin-top: 16px;
+  padding: 18px 18px 20px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  backdrop-filter: saturate(160%) blur(8px);
+  -webkit-backdrop-filter: saturate(160%) blur(8px);
+}
+
+.v-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.v-field-col {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.v-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 0.2px;
+}
+
+.v-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 12px;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  color: #111;
+  outline: none;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.03);
+}
+
+.v-btn {
+  align-self: start;
+  margin-top: 6px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease,
+    transform 120ms ease;
+}
+
+/* Content container (lets us override padding on small screens) */
+.v-content {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 6vw 0 0; /* keep your right gutter on desktop */
+  color: #111;
+}
+
+/* Footer */
+.v-footer { padding: 0 0 120px; }
+.v-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #fff;
+  text-align: left;
+}
+.v-footer-logo {
+  width: clamp(72px, 22vw, 120px);
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+/* Mobile tweaks */
+@media (max-width: 900px) {
+  .v-content { padding: 0 5vw; }        /* add left gutter on phones */
+}
+@media (max-width: 560px) {
+  .v-footer-inner {                      /* stack logo over text if tight */
+    flex-direction: column;
+    text-align: center;
   }
 }
+

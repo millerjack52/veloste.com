@@ -1,10 +1,9 @@
-import React from "react";
-import LogoScene from "./components/LogoScene";
+import LogoScene from "./scenes/LogoScene";
+import "./index.css";
 
 function App() {
   return (
     <div>
-      <h1> Veloste </h1>
       <LogoScene />
     </div>
   );
