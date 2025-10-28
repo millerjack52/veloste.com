@@ -1,4 +1,3 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import nodemailer from 'nodemailer';
 import { z, ZodError } from 'zod';
 
@@ -8,7 +7,7 @@ const schema = z.object({
   message: z.string().min(5),
 });
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: any, res: any) {
   // CORS for your production origin
   const origin = req.headers.origin || '';
   const allow = ['https://www.veloste.com', 'http://localhost:5173'];
