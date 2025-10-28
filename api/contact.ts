@@ -9,16 +9,16 @@ const schema = z.object({
 
 export default async function handler(req: any, res: any) {
   // CORS for your production origin
-  const origin = req.headers.origin || '';
-  const allow = ['https://www.veloste.com', 'http://localhost:5173'];
-  if (allow.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Vary', 'Origin');
-  }
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(204).end();
-  if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
+const origin = req.headers.origin || '';
+const allow = ['https://www.veloste.com', 'http://localhost:5173'];
+if (allow.includes(origin)) {
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Vary', 'Origin');
+}
+res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+if (req.method === 'OPTIONS') return res.status(204).end(); // preflight OK
+if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
 
   try {
     const { name, email, message } = schema.parse(req.body);

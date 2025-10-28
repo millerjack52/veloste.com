@@ -31,9 +31,10 @@ export default function ContactPane({
     setError("");
 
     // 👇 dynamically select API base URL
-    const apiBase = import.meta.env.PROD
-      ? "https://www.veloste.com" // your live site
-      : "http://localhost:3001"; // local dev server
+    const apiBase = import.meta.env.PROD;
+    import.meta.env.PROD
+      ? import.meta.env.VITE_API_BASE // 👈 set this below
+      : "http://localhost:3001"; // your local express dev server
 
     try {
       const res = await fetch(`${apiBase}/api/contact`, {
