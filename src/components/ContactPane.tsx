@@ -6,7 +6,13 @@ import {
   labelStyle,
   inputStyle,
   buttonStyle,
-} from "./ui.ts";
+} from "./ui";
+
+// Resolve API base once (env var in prod, localhost in dev)
+const API_BASE = String(
+  import.meta.env.VITE_API_BASE_URL ||
+    (import.meta.env.DEV ? "http://localhost:3001" : "")
+).replace(/\/+$/, "");
 
 export default function ContactPane({
   opacity,
@@ -30,14 +36,14 @@ export default function ContactPane({
     setSending(true);
     setError("");
 
-    // 👇 dynamically select API base URL
-    const apiBase = import.meta.env.PROD;
-    import.meta.env.PROD
-      ? import.meta.env.VITE_API_BASE // 👈 set this below
-      : "http://localhost:3001"; // your local express dev server
-
     try {
-      const res = await fetch(`${apiBase}/api/contact`, {
+      if (!API_BASE) {
+        throw new Error(
+          "VITE_API_BASE_URL is not defined (and no dev fallback)."
+        );
+      }
+
+      const res = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, message }),
