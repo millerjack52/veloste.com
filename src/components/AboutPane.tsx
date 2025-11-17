@@ -152,9 +152,11 @@ export default function AboutPane({
           >
             <h1 className="v-h1">ABOUT VELOSTE</h1>
             <p className="v-lead">
-              Wee design and build interactive experiences for the modern web.
+              We design and build interactive experiences for the modern web.
               From fluid 3D canvases to crisp interfaces, our work pairs
-              technical depth with editorial polish.
+              technical depth with editorial polish. We push the boundaries of
+              real-time graphics, interaction, and storytelling to craft digital
+              experiences that feel alive.
             </p>
 
             <hr className="v-hr" />
@@ -162,35 +164,25 @@ export default function AboutPane({
             <h2 className="v-h2">Process</h2>
             <ol className="v-ol">
               <li>
-                <strong>Discovery</strong> — goals, constraints, success
-                metrics.
+                <strong>Discovery</strong> — define goals, constraints, and
+                success metrics.
               </li>
               <li>
-                <strong>Prototyping</strong> — rapid visuals & interactions;
-                validate the feel.
+                <strong>Prototyping</strong> — explore visuals & interactions
+                rapidly; validate the feel.
               </li>
               <li>
-                <strong>Production</strong> — resilient, testable code.
+                <strong>Production</strong> — build resilient, testable,
+                scalable code.
               </li>
-              {Array.from({ length: 6 }).map((_, i) => (
-                <li key={i + 4}>
-                  <strong>Polish</strong> — micro-interactions, perf budgets,
-                  a11y passes.
-                </li>
-              ))}
+              <li>
+                <strong>Polish</strong> — refine micro-interactions, performance
+                budgets, and accessibility.
+              </li>
               <li>
                 <strong>Launch</strong> — deploy, measure, iterate.
               </li>
             </ol>
-
-            {Array.from({ length: 6 }).map((_, i) => (
-              <p key={i} className="v-para">
-                Veloste is a creative studio focused on immersive web
-                experiences. We specialize in 3D graphics, interactive design,
-                and innovative web solutions that explore new ways of
-                interacting and sharing.
-              </p>
-            ))}
           </div>
 
           {/* ===== FULL-BLEED FOOTER WITH WHITE TEXT ===== */}
