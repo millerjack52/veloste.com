@@ -1,4 +1,14 @@
-import React from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  UIEvent,
+  WheelEvent,
+} from "react";
+import useVh from "../hooks/useVH";
+
+const KNOB_SIZE = 12;
 
 export default function AboutPane({
   opacity,
@@ -7,42 +17,40 @@ export default function AboutPane({
   opacity: number;
   active: boolean;
 }) {
-  const scrollBoxRef = React.useRef<HTMLDivElement>(null);
-  const trackRef = React.useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = React.useState(0); // 0..1
-  const [trackHeight, setTrackHeight] = React.useState(0);
-  const [isScrollable, setIsScrollable] = React.useState(false);
-  const prevInteractiveRef = React.useRef(false);
-  const KNOB = 12;
-  const [logoLoaded, setLogoLoaded] = React.useState<boolean>(false);
-  const [logoError, setLogoError] = React.useState<boolean>(false);
+  const scrollBoxRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const prevInteractiveRef = useRef(false);
 
-  React.useEffect(() => {
-    const setVh = () =>
-      document.documentElement.style.setProperty(
-        "--vh",
-        `${window.innerHeight * 0.01}px`
-      );
-    setVh();
-    window.addEventListener("resize", setVh);
-    return () => window.removeEventListener("resize", setVh);
+  const [progress, setProgress] = useState(0); // 0..1
+  const [trackHeight, setTrackHeight] = useState(0);
+  const [isScrollable, setIsScrollable] = useState(false);
+
+  const [logoLoaded, setLogoLoaded] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+
+  // Use shared viewport-height hook instead of inline effect
+  useVh();
+
+  const updateProgress = useCallback((el: HTMLDivElement) => {
+    const scrollRange = Math.max(1, el.scrollHeight - el.clientHeight);
+    setProgress(el.scrollTop / scrollRange);
   }, []);
 
-  const measure = React.useCallback(() => {
-    const el = scrollBoxRef.current;
-    if (!el) return;
+  const measure = useCallback(() => {
+    const scrollEl = scrollBoxRef.current;
+    if (!scrollEl) return;
 
-    setIsScrollable(el.scrollHeight - el.clientHeight > 2);
+    const scrollRange = scrollEl.scrollHeight - scrollEl.clientHeight;
+    setIsScrollable(scrollRange > 2);
+    updateProgress(scrollEl);
 
-    if (trackRef.current) {
-      setTrackHeight(trackRef.current.getBoundingClientRect().height);
+    const trackEl = trackRef.current;
+    if (trackEl) {
+      setTrackHeight(trackEl.getBoundingClientRect().height);
     }
+  }, [updateProgress]);
 
-    const denom = Math.max(1, el.scrollHeight - el.clientHeight);
-    setProgress(el.scrollTop / denom);
-  }, []);
-
-  React.useEffect(() => {
+  useEffect(() => {
     measure();
 
     let ro: ResizeObserver | null = null;
@@ -50,7 +58,6 @@ export default function AboutPane({
       ro = new ResizeObserver(measure);
       if (scrollBoxRef.current) ro.observe(scrollBoxRef.current);
       if (trackRef.current) ro.observe(trackRef.current);
-      ro.observe(document.body);
     }
 
     window.addEventListener("resize", measure);
@@ -61,7 +68,7 @@ export default function AboutPane({
   }, [measure]);
 
   // reset to top on first activation
-  React.useEffect(() => {
+  useEffect(() => {
     if (active && !prevInteractiveRef.current && scrollBoxRef.current) {
       scrollBoxRef.current.scrollTo({ top: 0 });
       measure();
@@ -69,13 +76,11 @@ export default function AboutPane({
     prevInteractiveRef.current = active;
   }, [active, measure]);
 
-  const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const el = e.currentTarget;
-    const denom = Math.max(1, el.scrollHeight - el.clientHeight);
-    setProgress(el.scrollTop / denom);
+  const onScroll = (e: UIEvent<HTMLDivElement>) => {
+    updateProgress(e.currentTarget);
   };
 
-  const onWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+  const onWheel = (e: WheelEvent<HTMLDivElement>) => {
     if (!active) return;
 
     const el = e.currentTarget;
@@ -116,12 +121,12 @@ export default function AboutPane({
             flex: 1,
             height: "100%",
             width: "100%",
-            overflowY: active ? "auto" : "hidden", // 👈 scroll only when active
+            overflowY: active ? "auto" : "hidden", // scroll only when active
             WebkitOverflowScrolling: active ? "touch" : "auto",
             overscrollBehavior: active ? "auto" : "contain",
             paddingTop: "10vh",
             paddingBottom: "8vh",
-            touchAction: active ? "auto" : "none", // 👈 iOS: inert when inactive
+            touchAction: active ? "auto" : "none", // iOS: inert when inactive
           }}
           onScroll={active ? onScroll : undefined}
           onWheel={active ? onWheel : undefined}
@@ -185,7 +190,7 @@ export default function AboutPane({
             </ol>
           </div>
 
-          {/* ===== FULL-BLEED FOOTER WITH WHITE TEXT ===== */}
+          {/* FULL-BLEED FOOTER WITH WHITE TEXT */}
           <footer
             className="v-footer"
             style={{
@@ -260,10 +265,12 @@ export default function AboutPane({
             <div
               style={{
                 position: "absolute",
-                top: Math.round(progress * Math.max(0, trackHeight - KNOB)),
+                top: Math.round(
+                  progress * Math.max(0, trackHeight - KNOB_SIZE)
+                ),
                 left: -5,
-                width: KNOB,
-                height: KNOB,
+                width: KNOB_SIZE,
+                height: KNOB_SIZE,
                 borderRadius: "50%",
                 background: "#000",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
