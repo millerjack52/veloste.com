@@ -18,7 +18,7 @@ function TipCircle({ side, p, baseScale = 0.1, pos = { x: 5, y: 0, z: 0 }, world
 }
 export default function TipCircles({ p, groupWorldZ = 1, deadZone = 0.15, left = { x: 6, y: 0.22, z: 0 }, right = { x: 5.8, y: 0.22, z: 0 }, color = "#ffffff", }) {
     return (<>
-      <TipCircle side="left" p={p} pos={left} worldZOfGroup={groupWorldZ} deadZone={deadZone} color={color}/>
+      <TipCircle side="left" p={p} pos={left} worldZOfGroup={groupWorldZ} deadZone={deadZone} color={"#000"}/>
       <TipCircle side="right" p={p} pos={right} worldZOfGroup={groupWorldZ} deadZone={deadZone} color={color}/>
     </>);
 }
