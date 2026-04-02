@@ -49,46 +49,22 @@ export default function CircleContentOverlay({
 
   React.useEffect(() => {
     setLeftInteractive((prev) =>
-      prev ? leftOpacity > LEFT_OFF : leftOpacity > LEFT_ON
+      prev ? leftOpacity > LEFT_OFF : leftOpacity > LEFT_ON,
     );
   }, [leftOpacity]);
 
   React.useEffect(() => {
     setRightInteractive((prev) =>
-      prev ? rightOpacity > RIGHT_OFF : rightOpacity > RIGHT_ON
+      prev ? rightOpacity > RIGHT_OFF : rightOpacity > RIGHT_ON,
     );
   }, [rightOpacity]);
-
-  // Only render the engaged pane in single-column mode to avoid flicker/overlap.
-  const mode: "both" | "left" | "right" = rightInteractive
-    ? "right"
-    : leftInteractive
-    ? "left"
-    : "both";
 
   return (
     <Html fullscreen transform={false}>
       <HeaderBar opacity={headerOpacity} />
 
-      {mode === "both" ? (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            justifyItems: "center",
-            pointerEvents: "auto",
-            fontFamily:
-              "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-            overscrollBehavior: "contain",
-          }}
-        >
-          {/* both visible, neither interactive */}
-          <AboutPane opacity={leftOpacity} active={false} />
-          <ContactPane opacity={rightOpacity} active={false} stacked={false} />
-        </div>
-      ) : mode === "left" ? (
+      {/* About — always full-screen, fades in with scroll */}
+      {leftOpacity > 0 && (
         <div
           style={{
             position: "absolute",
@@ -96,14 +72,16 @@ export default function CircleContentOverlay({
             display: "grid",
             gridTemplateColumns: "1fr",
             justifyItems: "center",
-            pointerEvents: "auto",
+            pointerEvents: leftInteractive ? "auto" : "none",
             overscrollBehavior: "contain",
           }}
         >
-          {/* only About, fully interactive and fully visible */}
-          <AboutPane opacity={1} active />
+          <AboutPane opacity={leftOpacity} active={leftInteractive} />
         </div>
-      ) : (
+      )}
+
+      {/* Contact — always full-screen, fades in with scroll */}
+      {rightOpacity > 0 && (
         <div
           style={{
             position: "absolute",
@@ -111,12 +89,15 @@ export default function CircleContentOverlay({
             display: "grid",
             gridTemplateColumns: "1fr",
             justifyItems: "center",
-            pointerEvents: "auto",
+            pointerEvents: rightInteractive ? "auto" : "none",
             overscrollBehavior: "contain",
           }}
         >
-          {/* only Contact, fully interactive and fully visible */}
-          <ContactPane opacity={1} active stacked />
+          <ContactPane
+            opacity={rightOpacity}
+            active={rightInteractive}
+            stacked
+          />
         </div>
       )}
     </Html>
