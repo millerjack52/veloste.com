@@ -8,6 +8,7 @@
     "jsx": "preserve",
     "isolatedModules": true,
     "esModuleInterop": true,
+    "noEmit": true,
     "lib": ["ESNext", "DOM"]
   },
   "include": ["src", "vite-env.d.ts"]

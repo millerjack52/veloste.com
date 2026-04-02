@@ -11,7 +11,7 @@ import {
 // Resolve API base once (env var in prod, localhost in dev)
 const API_BASE = String(
   import.meta.env.VITE_API_BASE_URL ||
-    (import.meta.env.DEV ? "http://localhost:3001" : "")
+    (import.meta.env.DEV ? "http://localhost:3001" : ""),
 ).replace(/\/+$/, "");
 
 export default function ContactPane({
@@ -39,7 +39,7 @@ export default function ContactPane({
     try {
       if (!API_BASE) {
         throw new Error(
-          "VITE_API_BASE_URL is not defined (and no dev fallback)."
+          "VITE_API_BASE_URL is not defined (and no dev fallback).",
         );
       }
 

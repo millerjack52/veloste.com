@@ -78,7 +78,7 @@ export default function TipCircles({
         pos={left}
         worldZOfGroup={groupWorldZ}
         deadZone={deadZone}
-        color={color}
+        color={"#000"}
       />
       <TipCircle
         side="right"
