@@ -24,7 +24,7 @@ const LogoScene: React.FC = () => {
           1,
           Math.min(
             2,
-            typeof window !== "undefined" ? window.devicePixelRatio : 1
+            typeof window !== "undefined" ? window.devicePixelRatio : 1,
           ),
         ]}
         gl={{
