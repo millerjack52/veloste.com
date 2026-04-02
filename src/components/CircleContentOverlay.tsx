@@ -59,9 +59,101 @@ export default function CircleContentOverlay({
     );
   }, [rightOpacity]);
 
+  // Scroll indicators visible near center, fade as user scrolls
+  const indicatorOpacity = 1 - Math.min(1, Math.abs(p) / 0.15);
+
   return (
     <Html fullscreen transform={false}>
       <HeaderBar opacity={headerOpacity} />
+
+      {/* Scroll indicators */}
+      {indicatorOpacity > 0 && (
+        <>
+          {/* Left — About */}
+          <div
+            style={{
+              position: "absolute",
+              left: 28,
+              top: "50%",
+              transform: "translateY(-50%)",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              opacity: indicatorOpacity * 0.7,
+              pointerEvents: "none",
+              transition: "opacity 200ms ease",
+            }}
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              style={{ opacity: 0.9 }}
+            >
+              <path
+                d="M11 4L6 9L11 14"
+                stroke="#fff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span
+              style={{
+                fontSize: 11,
+                textTransform: "uppercase",
+                letterSpacing: "0.16em",
+                color: "#fff",
+              }}
+            >
+              About
+            </span>
+          </div>
+
+          {/* Right — Contact */}
+          <div
+            style={{
+              position: "absolute",
+              right: 28,
+              top: "50%",
+              transform: "translateY(-50%)",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              opacity: indicatorOpacity * 0.7,
+              pointerEvents: "none",
+              transition: "opacity 200ms ease",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                textTransform: "uppercase",
+                letterSpacing: "0.16em",
+                color: "#fff",
+              }}
+            >
+              Contact
+            </span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              style={{ opacity: 0.9 }}
+            >
+              <path
+                d="M7 4L12 9L7 14"
+                stroke="#fff"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </>
+      )}
 
       {/* About — always full-screen, fades in with scroll */}
       {leftOpacity > 0 && (
@@ -74,6 +166,7 @@ export default function CircleContentOverlay({
             justifyItems: "center",
             pointerEvents: leftInteractive ? "auto" : "none",
             overscrollBehavior: "contain",
+            background: `rgba(0,0,0,${leftOpacity * 0.92})`,
           }}
         >
           <AboutPane opacity={leftOpacity} active={leftInteractive} />
@@ -91,6 +184,7 @@ export default function CircleContentOverlay({
             justifyItems: "center",
             pointerEvents: rightInteractive ? "auto" : "none",
             overscrollBehavior: "contain",
+            background: `rgba(0,0,0,${rightOpacity * 0.92})`,
           }}
         >
           <ContactPane
