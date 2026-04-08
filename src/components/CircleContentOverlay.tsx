@@ -39,10 +39,11 @@ export default function CircleContentOverlay({
   const headerOpacity = Math.max(leftOpacity, rightOpacity);
 
   // --- Hysteresis for interaction gating ---
-  const LEFT_ON = 0.85,
-    LEFT_OFF = 0.7;
-  const RIGHT_ON = 0.85,
-    RIGHT_OFF = 0.7;
+  // Slightly later “interactive” handoff keeps scene scroll driving |p| longer — smoother both ways.
+  const LEFT_ON = 0.88,
+    LEFT_OFF = 0.72;
+  const RIGHT_ON = 0.88,
+    RIGHT_OFF = 0.72;
 
   const [leftInteractive, setLeftInteractive] = React.useState(false);
   const [rightInteractive, setRightInteractive] = React.useState(false);
