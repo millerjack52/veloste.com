@@ -132,6 +132,41 @@ const CASES: CaseItem[] = [
   },
 ];
 
+const FAQS = [
+  {
+    q: "How much does a custom Veloste website cost?",
+    a: "Pricing is project-specific and depends on scope, timeline, and interaction complexity. We provide a custom quote after discovery.",
+  },
+  {
+    q: "How long does a project usually take?",
+    a: "Delivery timelines depend on scope, revisions, and technical requirements. We provide timeline estimates in your proposal.",
+  },
+  {
+    q: "Do you serve clients outside your home city?",
+    a: "Yes. We support clients across Canada and the United States, with priority areas in Calgary, Edmonton, and Red Deer.",
+  },
+  {
+    q: "What services are included in a standard engagement?",
+    a: "Most engagements include strategy, visual direction, interaction design, and implementation. Scope can also include 3D elements, content structure, and post-launch iteration.",
+  },
+  {
+    q: "Do you offer retainers after launch?",
+    a: "Yes. Ongoing support arrangements are available for optimization, feature work, and design updates, based on your required scope.",
+  },
+  {
+    q: "What makes Veloste different from template-based studios?",
+    a: "We design custom systems around your brand goals instead of starting from a prebuilt theme. That gives you clearer differentiation and more control over performance and maintainability.",
+  },
+  {
+    q: "Do you provide warranty or post-launch support?",
+    a: "Yes. We provide free post-completion support for launch-related issues if anything unexpected appears after go-live.",
+  },
+  {
+    q: "How do we start a project?",
+    a: "Send your goals, rough budget, and timeline through the contact form. We follow with a discovery call and then a scoped proposal.",
+  },
+];
+
 // Pre-compute stable random offsets per card
 const CARD_OFFSETS = CASES.map((_, i) => ({
   titleX: Math.round(seededRand(i * 3) * 30 - 15),
@@ -156,6 +191,7 @@ export default function AboutPane({
   const [progress, setProgress] = React.useState(0);
   const [trackHeight, setTrackHeight] = React.useState(0);
   const [isScrollable, setIsScrollable] = React.useState(false);
+  const [openFaq, setOpenFaq] = React.useState<number | null>(0);
   const KNOB = 12;
 
   React.useEffect(() => {
@@ -213,14 +249,21 @@ export default function AboutPane({
     if (!active) return;
     const el = e.currentTarget;
     const { scrollTop, scrollHeight, clientHeight } = el;
-    const TOLERANCE = 8;
+    const TOLERANCE = 2;
     const atTop = scrollTop <= TOLERANCE;
     const atBottom = scrollTop + clientHeight >= scrollHeight - TOLERANCE;
     const up = e.deltaY < 0;
     const down = e.deltaY > 0;
+    // Capture while pane can still scroll. Let event bubble at edges so user can exit About.
     if ((down && !atBottom) || (up && !atTop)) {
       e.stopPropagation();
     }
+  };
+
+  const goToContact = () => {
+    window.dispatchEvent(
+      new CustomEvent("veloste:setProgress", { detail: { p: 1 } }),
+    );
   };
 
   return (
@@ -252,7 +295,7 @@ export default function AboutPane({
             overflowY: active ? "auto" : "hidden",
             WebkitOverflowScrolling: active ? "touch" : "auto",
             overscrollBehavior: active ? "auto" : "contain",
-            padding: "10vh 40px 8vh",
+            padding: "10vh 40px 12vh",
             touchAction: active ? "auto" : "none",
             background: "transparent",
           }}
@@ -263,7 +306,7 @@ export default function AboutPane({
             const el = scrollBoxRef.current;
             if (!el) return;
             const { scrollTop, scrollHeight, clientHeight } = el;
-            const TOLERANCE = 8;
+            const TOLERANCE = 2;
             const atTop = scrollTop <= TOLERANCE;
             const atBottom =
               scrollTop + clientHeight >= scrollHeight - TOLERANCE;
@@ -380,23 +423,156 @@ export default function AboutPane({
               );
             })}
 
-            {/* Footer strip */}
-            <div
+            {/* FAQ block for AI-readable Q&A on-page */}
+            <section
               style={{
-                marginTop: 20,
-                paddingTop: 18,
+                marginTop: 6,
                 borderTop: "1px solid rgba(255,255,255,0.15)",
-                fontSize: 11,
-                textTransform: "uppercase",
-                letterSpacing: "0.18em",
-                opacity: 0.5,
-                color: "#fff",
-                textAlign: "center",
-                paddingBottom: 40,
+                paddingTop: 22,
               }}
             >
-              VELOSTE © {new Date().getFullYear()}
-            </div>
+              <h2
+                style={{
+                  margin: 0,
+                  marginBottom: 16,
+                  fontSize: "clamp(20px, 3vw, 30px)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  color: "rgba(255,255,255,0.9)",
+                }}
+              >
+                Frequently Asked Questions
+              </h2>
+              <div style={{ display: "grid", gap: 12 }}>
+                {FAQS.map((item, idx) => (
+                  <article
+                    key={item.q}
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      borderRadius: 10,
+                      padding: "6px 12px",
+                      background: "rgba(255,255,255,0.03)",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenFaq((prev) => (prev === idx ? null : idx))
+                      }
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: 14,
+                        padding: "10px 4px",
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                        textAlign: "left",
+                        color: "#fff",
+                      }}
+                    >
+                      <span
+                        style={{
+                          margin: 0,
+                          fontSize: 15,
+                          lineHeight: 1.45,
+                          color: "#fff",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {item.q}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 20,
+                          lineHeight: 1,
+                          color: "rgba(255,255,255,0.68)",
+                          transform:
+                            openFaq === idx ? "rotate(45deg)" : "rotate(0deg)",
+                          transition: "transform 180ms ease",
+                        }}
+                        aria-hidden
+                      >
+                        +
+                      </span>
+                    </button>
+
+                    {openFaq === idx && (
+                      <p
+                        style={{
+                          margin: 0,
+                          marginTop: 2,
+                          marginBottom: 8,
+                          padding: "0 4px 4px",
+                          fontSize: 14,
+                          lineHeight: 1.6,
+                          color: "rgba(255,255,255,0.78)",
+                        }}
+                      >
+                        {item.a}
+                      </p>
+                    )}
+                  </article>
+                ))}
+                <div>
+                  {/*Footer for page */}
+                  <article
+                    style={{
+                      marginTop: 8,
+                      display: "grid",
+                      justifyItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "grid",
+                        justifyItems: "center",
+                        gap: 10,
+                        textAlign: "center",
+                      }}
+                    >
+                      <img
+                        src="/vstar.svg"
+                        alt="Veloste logo"
+                        style={{ width: 28, height: 28, opacity: 0.9 }}
+                      />
+                      <p
+                        style={{
+                          margin: 0,
+                          color: "rgba(255,255,255,0.62)",
+                          fontSize: 12,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        © {new Date().getFullYear()} Veloste. All rights
+                        reserved.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={goToContact}
+                        style={{
+                          border: "1px solid rgba(255,255,255,0.35)",
+                          background: "transparent",
+                          color: "rgba(255,255,255,0.82)",
+                          borderRadius: 8,
+                          padding: "9px 16px",
+                          marginBottom: 100,
+                          fontSize: 11,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.12em",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Contact
+                      </button>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
 

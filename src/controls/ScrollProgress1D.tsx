@@ -76,12 +76,25 @@ export default function ScrollProgress1D({
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
+    const onSetProgress = (e: Event) => {
+      const detail = (e as CustomEvent<{ p?: number }>).detail;
+      if (!detail || typeof detail.p !== "number") return;
+      pTarget.current = clamp(detail.p);
+    };
+    window.addEventListener(
+      "veloste:setProgress",
+      onSetProgress as EventListener,
+    );
 
     return () => {
       window.removeEventListener("wheel", onWheel as any);
       window.removeEventListener("touchstart", onTouchStart as any);
       window.removeEventListener("touchmove", onTouchMove as any);
       window.removeEventListener("touchend", onTouchEnd as any);
+      window.removeEventListener(
+        "veloste:setProgress",
+        onSetProgress as EventListener,
+      );
     };
   }, [ticksToMax, notchSize, polarity]);
 

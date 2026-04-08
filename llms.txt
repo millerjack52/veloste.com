@@ -1,0 +1,59 @@
+# Veloste
+
+## About
+Veloste is a design-focused web development studio creating unique websites that turn views into customers and clearly showcase what makes each business different.
+
+## Services and Pricing
+- Web development and design services: custom quote based on project scope, timeline, and complexity
+- Interaction and motion design: custom quote based on project requirements
+- Immersive 3D web experiences (Three.js / R3F): custom quote based on technical scope
+- Ongoing design-development support: custom monthly quote based on support scope
+
+## Locations
+- Calgary, Alberta
+
+## Contact
+- Phone: (825) 521 4542
+- Website: https://veloste.com
+- Email: contact@veloste.com
+- Hours: 24/7 (available any time for inquiries, Mountain Time)
+- Social: [INSERT SOCIAL URLS]
+
+## Service Area
+Canada and United States (priority cities: Calgary, Edmonton, and Red Deer, Alberta)
+
+## Key Facts
+- Founder/Director: Jack Miller
+- In-house team (no outsourcing)
+- Small specialized team focused on custom client delivery
+- Each project is tailored to client-specific needs and goals
+- Technical stack includes React, TypeScript, and real-time 3D rendering
+- [INSERT YEARS IN BUSINESS / PROJECT COUNT / CERTIFICATIONS / WARRANTY DETAILS]
+
+## What Makes Us Different
+Veloste works with a small in-house team to keep delivery focused and adaptable. Projects are built from scratch for each client instead of template reuse, with process and implementation shaped around each business's goals.
+
+## Frequently Asked Questions
+Q: What does a typical Veloste project cost?
+A: Pricing is project-specific and based on scope, timeline, and complexity. We provide a custom quote after discussing your goals and requirements.
+
+Q: Do you offer fixed-price projects or retainers?
+A: We support both one-off scoped projects and ongoing support arrangements. The structure is agreed after discovery based on your needs.
+
+Q: How long does a project usually take?
+A: Timeline depends on project scope, revisions, and technical complexity. We provide a delivery timeline in your proposal.
+
+Q: Do you build 3D websites, and will they be fast?
+A: Yes. We use performance budgets, progressive enhancement, and fallbacks so immersive experiences stay usable across devices and network conditions.
+
+Q: Do you work with in-house teams?
+A: Yes. We frequently collaborate with founders, product teams, and internal designers/developers as an embedded design-dev partner.
+
+Q: What industries do you serve?
+A: We work with businesses that want distinctive digital experiences and stronger conversion-focused websites.
+
+Q: Do you provide support after launch?
+A: Yes. Post-completion issue support is free for launch-related fixes if anything unexpected appears after go-live.
+
+Q: How do we start?
+A: Send your goals, timeline, and budget via the contact page or email. We follow with a discovery call and recommended scope.
