@@ -43,7 +43,7 @@ const LogoScene: React.FC = () => {
             ticksToMax={8}
             notchSize={60}
             polarity={1}
-            smooth={0.85}
+            smooth={0.92}
           >
             {(p) => (
               <group position={[0, 0, groupZ]} rotation={[0, p * maxYaw, 0]}>

@@ -44,7 +44,8 @@ function TipCircle({
         <circleGeometry args={[1, 64]} />
         <meshBasicMaterial
           color={color}
-          transparent={false}
+          transparent
+          opacity={side === "left" ? 0.55 : 1}
           depthTest={false}
           depthWrite={false}
           side={THREE.DoubleSide}
@@ -78,7 +79,7 @@ export default function TipCircles({
         pos={left}
         worldZOfGroup={groupWorldZ}
         deadZone={deadZone}
-        color={"#000"}
+        color="#e8e8e8"
       />
       <TipCircle
         side="right"

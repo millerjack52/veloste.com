@@ -247,14 +247,16 @@ export default function AboutPane({
 
   const onWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     if (!active) return;
+    // No inner scroll: behave like Contact — wheel always reaches the scene.
+    if (!isScrollable) return;
     const el = e.currentTarget;
     const { scrollTop, scrollHeight, clientHeight } = el;
-    const TOLERANCE = 2;
+    const TOLERANCE = 6;
     const atTop = scrollTop <= TOLERANCE;
     const atBottom = scrollTop + clientHeight >= scrollHeight - TOLERANCE;
     const up = e.deltaY < 0;
     const down = e.deltaY > 0;
-    // Capture while pane can still scroll. Let event bubble at edges so user can exit About.
+    // Capture only while the list can consume scroll; bubble at edges to exit About smoothly.
     if ((down && !atBottom) || (up && !atTop)) {
       e.stopPropagation();
     }
@@ -302,11 +304,11 @@ export default function AboutPane({
           onScroll={active ? onScroll : undefined}
           onWheel={active ? onWheel : undefined}
           onTouchMoveCapture={(e) => {
-            if (!active) return;
+            if (!active || !isScrollable) return;
             const el = scrollBoxRef.current;
             if (!el) return;
             const { scrollTop, scrollHeight, clientHeight } = el;
-            const TOLERANCE = 2;
+            const TOLERANCE = 6;
             const atTop = scrollTop <= TOLERANCE;
             const atBottom =
               scrollTop + clientHeight >= scrollHeight - TOLERANCE;
