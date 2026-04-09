@@ -1,5 +1,3 @@
-import HeaderLogoCanvas from "./HeaderLogoCanvas";
-
 export default function HeaderBar({ opacity }: { opacity: number }) {
   return (
     <div
@@ -23,9 +21,24 @@ export default function HeaderBar({ opacity }: { opacity: number }) {
           overflow: "hidden",
           background: "transparent",
           boxShadow: "none",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <HeaderLogoCanvas />
+        <img
+          src="/vstar.svg"
+          alt="Veloste"
+          width={520}
+          height={104}
+          draggable={false}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            display: "block",
+          }}
+        />
       </div>
     </div>
   );
