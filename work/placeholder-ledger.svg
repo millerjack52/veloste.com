@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <rect width="1200" height="675" fill="#f4f2ee"/>
+  <line x1="0" y1="140" x2="1200" y2="140" stroke="rgba(0,0,0,0.06)"/>
+  <line x1="0" y1="280" x2="1200" y2="280" stroke="rgba(0,0,0,0.06)"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="rgba(0,0,0,0.06)"/>
+  <rect x="100" y="180" width="520" height="48" rx="6" fill="#121218" opacity="0.07"/>
+  <rect x="100" y="260" width="720" height="28" rx="4" fill="#121218" opacity="0.05"/>
+  <rect x="100" y="310" width="640" height="28" rx="4" fill="#121218" opacity="0.05"/>
+  <rect x="100" y="360" width="680" height="28" rx="4" fill="#121218" opacity="0.05"/>
+  <rect x="900" y="180" width="200" height="200" rx="10" fill="#646cff" opacity="0.12"/>
+  <text x="100" y="120" fill="#6a6e7a" font-family="system-ui,sans-serif" font-size="22" letter-spacing="0.08em">PLACEHOLDER  TYPOGRAPHY RHYTHM</text>
+</svg>

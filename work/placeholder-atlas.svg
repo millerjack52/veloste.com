@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <rect width="1200" height="675" fill="#ebe8e3"/>
+  <rect x="80" y="80" width="1040" height="515" rx="12" fill="#f4f2ee" stroke="rgba(0,0,0,0.08)"/>
+  <path d="M120 520 L400 200 L600 420 L900 160 L1080 340" stroke="#646cff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+  <rect x="140" y="380" width="320" height="160" rx="8" fill="#121218" opacity="0.06"/>
+  <rect x="500" y="320" width="260" height="220" rx="8" fill="#121218" opacity="0.04"/>
+  <text x="120" y="130" fill="#6a6e7a" font-family="system-ui,sans-serif" font-size="22" letter-spacing="0.08em">PLACEHOLDER  INTERFACE STUDY</text>
+</svg>
