@@ -1,10 +1,25 @@
-import LogoScene from "./scenes/LogoScene";
+import { lazy, Suspense } from "react";
 import "./index.css";
+
+const LogoScene = lazy(() => import("./scenes/LogoScene"));
 
 function App() {
   return (
     <div>
-      <LogoScene />
+      <Suspense
+        fallback={
+          <div
+            style={{
+              minHeight: "100vh",
+              width: "100%",
+              background: "#000",
+            }}
+            aria-hidden
+          />
+        }
+      >
+        <LogoScene />
+      </Suspense>
     </div>
   );
 }
