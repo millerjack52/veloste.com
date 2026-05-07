@@ -11,16 +11,24 @@ Veloste is a design-focused web development studio creating unique websites that
 
 ## Locations
 - Calgary, Alberta
+- Airdrie, Alberta
+- Cochrane, Alberta
+- Okotoks, Alberta
+- Chestermere, Alberta
 
 ## Contact
 - Phone: (825) 521 4542
 - Website: https://veloste.com
 - Email: contact@veloste.com
 - Hours: 24/7 (available any time for inquiries, Mountain Time)
-- Social: [INSERT SOCIAL URLS]
+- Social: not listed publicly on the site; contact via email or contact form
 
 ## Service Area
-Canada and United States (priority cities: Calgary, Edmonton, and Red Deer, Alberta)
+Canada and United States (Calgary-first service with nearby Alberta support in Airdrie, Cochrane, Okotoks, and Chestermere)
+
+## Local Landing Pages
+- https://veloste.com/web-developer-calgary/
+- https://veloste.com/service-areas/calgary-region/
 
 ## Key Facts
 - Founder/Director: Jack Miller
@@ -28,7 +36,7 @@ Canada and United States (priority cities: Calgary, Edmonton, and Red Deer, Albe
 - Small specialized team focused on custom client delivery
 - Each project is tailored to client-specific needs and goals
 - Technical stack includes React, TypeScript, and real-time 3D rendering
-- [INSERT YEARS IN BUSINESS / PROJECT COUNT / CERTIFICATIONS / WARRANTY DETAILS]
+- Post-completion issue support is provided for launch-related fixes
 
 ## What Makes Us Different
 Veloste works with a small in-house team to keep delivery focused and adaptable. Projects are built from scratch for each client instead of template reuse, with process and implementation shaped around each business's goals.
