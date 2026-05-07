@@ -1,3 +1,8 @@
+html {
+  /* Reduces double-tap zoom delay on legacy mobile browsers */
+  touch-action: manipulation;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -16,6 +21,7 @@ html, body {
   padding: 0;
   width: 100%; /* full width */
   height: 100%; /* optional full height */
+  overflow-x: hidden; /* avoid 100vw / canvas horizontal bleed on mobile */
 }
 
 @font-face {
@@ -35,6 +41,17 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Full-bleed app shell: body centers content but #root stays full width */
+#root {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  align-self: stretch;
 }
 
 h1 {
@@ -47,20 +64,27 @@ h2 {
   font-family: 'VelosteFont', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
+}
+
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: none;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-button:hover { border-color: #646cff; }
+button:hover { background-color: #222; }
 button:focus,
-button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #646cff;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -84,12 +108,14 @@ button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
   font-size: clamp(32px, 5vw, 60px);
   margin: 0;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .v-h2 {
   font-size: clamp(22px, 2.8vw, 34px);
   margin: 28px 0 10px;
   letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
 .v-lead {
@@ -114,8 +140,9 @@ button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
 
 .v-hr {
   border: none;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  height: 1px;
   margin: 18px 0 24px;
+  background: rgba(0, 0, 0, 0.08);
 }
 
 /* Form / card */
@@ -123,7 +150,7 @@ button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
   margin-top: 16px;
   padding: 18px 18px 20px;
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: none;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   backdrop-filter: saturate(160%) blur(8px);
@@ -156,11 +183,11 @@ button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
   padding: 12px 12px;
   font-size: 14px;
   border-radius: 12px;
-  border: 1px solid #e6e6e6;
+  border: none;
   background: #fff;
   color: #111;
   outline: none;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.03);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .v-btn {
@@ -173,7 +200,6 @@ button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
   transition:
     background 160ms ease,
     color 160ms ease,
-    border-color 160ms ease,
     transform 120ms ease;
 }
 
@@ -214,3 +240,86 @@ button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
   }
 }
 
+/* Skip link: visible on keyboard focus for accessibility */
+.skip-to-main {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-to-main:focus {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 10px 16px;
+  overflow: visible;
+  clip: auto;
+  z-index: 100001;
+  background: #111;
+  color: #fff;
+  border-radius: 8px;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  outline: none;
+  box-shadow: 0 0 0 2px #646cff;
+}
+
+.seo-page-shell {
+  min-height: 100vh;
+  background: #000;
+  color: rgba(252, 252, 255, 0.96);
+  padding:
+    max(40px, calc(env(safe-area-inset-top, 0px) + 24px))
+    max(20px, calc(env(safe-area-inset-right, 0px) + 20px))
+    max(56px, calc(env(safe-area-inset-bottom, 0px) + 28px))
+    max(20px, calc(env(safe-area-inset-left, 0px) + 20px));
+}
+
+.seo-page-card {
+  max-width: 920px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.42);
+  backdrop-filter: saturate(140%) blur(12px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  padding: 28px;
+}
+
+.seo-kicker {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(160, 164, 178, 0.9);
+  font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+}
+
+.seo-page-title {
+  margin: 0 0 12px;
+  font-family: "VelosteFont", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: clamp(30px, 5vw, 54px);
+  line-height: 1.04;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.seo-page-text {
+  margin: 0;
+  margin-top: 12px;
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(220, 222, 232, 0.88);
+  max-width: 64ch;
+}
