@@ -35,86 +35,7 @@
       content="Calgary-region web developer service area: Calgary, Airdrie, Cochrane, Okotoks, and Chestermere."
     />
     <meta name="twitter:image" content="https://veloste.com/og-image.png" />
-    <style>
-      :root {
-        color-scheme: dark;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        background: #000;
-        color: rgba(252, 252, 255, 0.96);
-        font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        line-height: 1.7;
-      }
-      main {
-        min-height: 100vh;
-        padding:
-          max(40px, calc(env(safe-area-inset-top, 0px) + 24px))
-          max(20px, calc(env(safe-area-inset-right, 0px) + 20px))
-          max(56px, calc(env(safe-area-inset-bottom, 0px) + 28px))
-          max(20px, calc(env(safe-area-inset-left, 0px) + 20px));
-      }
-      article {
-        max-width: 920px;
-        margin: 0 auto;
-        background: rgba(255, 255, 255, 0.04);
-        border-radius: 12px;
-        box-shadow: 0 20px 56px rgba(0, 0, 0, 0.42);
-        backdrop-filter: saturate(140%) blur(12px);
-        -webkit-backdrop-filter: saturate(140%) blur(12px);
-        padding: 28px;
-      }
-      h1,
-      h2 {
-        font-family: "VelosteFont", system-ui, Avenir, Helvetica, Arial, sans-serif;
-        font-weight: 500;
-        letter-spacing: 0.02em;
-        line-height: 1.12;
-        margin: 0 0 12px;
-        text-transform: none;
-      }
-      h1 {
-        font-size: clamp(30px, 5vw, 54px);
-      }
-      h2 {
-        font-size: clamp(20px, 3vw, 30px);
-      }
-      p,
-      li {
-        margin: 0;
-        color: rgba(220, 222, 232, 0.88);
-        font-size: 15px;
-        max-width: 64ch;
-      }
-      ul {
-        margin: 0;
-        padding-left: 18px;
-      }
-      li {
-        margin-bottom: 8px;
-      }
-      section {
-        margin-top: 32px;
-      }
-      .kicker {
-        margin: 0 0 8px;
-        font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: rgba(160, 164, 178, 0.9);
-      }
-      a {
-        color: #8a91ff;
-        text-decoration: none;
-      }
-      a:hover {
-        color: #a4aaff;
-      }
-    </style>
+    <link rel="stylesheet" href="/seo-pages.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -149,58 +70,94 @@
     </script>
   </head>
   <body>
-    <main>
-      <article>
-        <p class="kicker">Service area</p>
-        <h1>Calgary region web development coverage.</h1>
-        <p>
-          Veloste serves Calgary first and supports nearby businesses that need custom websites with clear positioning,
-          conversion-focused structure, and performance-minded implementation.
-        </p>
+    <main class="shell">
+      <article class="frame">
+        <header class="topbar">
+          <a class="brand" href="/">
+            <img src="/vstar.svg" alt="" />
+            <span>Veloste</span>
+          </a>
+          <nav class="top-links">
+            <a href="/web-developer-calgary/">Calgary web developer</a>
+            <a href="/">Homepage</a>
+          </nav>
+        </header>
 
-        <section>
-          <p class="kicker">Primary city</p>
-          <h2>Calgary</h2>
-          <p>
-            Calgary is our core market and where we prioritize collaboration windows and project kickoff availability.
-          </p>
+        <section class="hero">
+          <div>
+            <p class="kicker">Service area</p>
+            <h1>Calgary region web development coverage.</h1>
+            <p class="lede">
+              Veloste serves Calgary first and supports nearby businesses that
+              need custom websites with clear positioning, conversion-focused
+              structure, and performance-minded implementation.
+            </p>
+          </div>
+          <aside class="cta-card">
+            <p class="kicker">Need a scoped quote?</p>
+            <p class="cta-title">Start with your goals, timeline, and budget range.</p>
+            <p>
+              We will recommend a practical build scope for your team and city.
+            </p>
+            <div class="btn-row">
+              <a class="btn" href="mailto:contact@veloste.com">Email us</a>
+              <a class="btn" href="tel:+18255214542">Call (825) 521-4542</a>
+            </div>
+          </aside>
         </section>
 
-        <section>
-          <p class="kicker">Nearby areas</p>
-          <h2>Airdrie, Cochrane, Okotoks, Chestermere</h2>
-          <p>
-            We support nearby-city clients with the same process: discovery, design direction, custom implementation,
-            QA, and launch support.
-          </p>
-          <p style="margin-top: 12px">
-            City-specific details are scoped per project based on timeline, complexity, and communication requirements.
-          </p>
-        </section>
+        <div class="content">
+          <section class="grid-2">
+            <article class="panel">
+              <p class="kicker">Primary city</p>
+              <h3>Calgary</h3>
+              <p>
+                Calgary is our core market and where we prioritize collaboration
+                windows and project kickoff availability.
+              </p>
+            </article>
+            <article class="panel">
+              <p class="kicker">Nearby areas</p>
+              <h3>Airdrie, Cochrane, Okotoks, Chestermere</h3>
+              <p>
+                We support nearby-city clients with the same process:
+                discovery, design direction, custom implementation, QA, and
+                launch support.
+              </p>
+            </article>
+          </section>
 
-        <section>
-          <p class="kicker">How we work</p>
-          <h2>Service-area expectations</h2>
-          <ul>
-            <li>Discovery and planning happen before build starts.</li>
-            <li>Milestones and delivery windows are confirmed in your proposal.</li>
-            <li>Launch support is included for launch-related fixes.</li>
-          </ul>
-        </section>
+          <section class="panel">
+            <p class="kicker">Service-area expectations</p>
+            <h2>How we work across Calgary and nearby cities.</h2>
+            <ul class="list">
+              <li>Discovery and planning happen before build starts.</li>
+              <li>
+                Milestones and delivery windows are confirmed in your proposal.
+              </li>
+              <li>Launch support is included for launch-related fixes.</li>
+              <li>
+                Collaboration format is tailored to project scope and team
+                preferences.
+              </li>
+            </ul>
+          </section>
 
-        <section>
-          <p class="kicker">Next step</p>
-          <h2>Start with Calgary web development scope</h2>
-          <p>
-            Email <a href="mailto:contact@veloste.com">contact@veloste.com</a> or call
-            <a href="tel:+18255214542"> (825) 521-4542</a>.
-          </p>
-          <p style="margin-top: 12px">
-            <a href="/web-developer-calgary/">View Calgary web developer page</a>
-            ·
-            <a href="/">Return to homepage experience</a>
-          </p>
-        </section>
+          <section class="panel">
+            <p class="kicker">Next step</p>
+            <h2>Start with Calgary web development scope.</h2>
+            <p>
+              Email <a href="mailto:contact@veloste.com">contact@veloste.com</a>
+              or call <a href="tel:+18255214542">(825) 521-4542</a>.
+            </p>
+            <div class="btn-row" style="margin-top: 12px">
+              <a class="btn" href="/web-developer-calgary/"
+                >View Calgary web developer page</a
+              >
+              <a class="btn" href="/">Return to homepage experience</a>
+            </div>
+          </section>
+        </div>
       </article>
     </main>
   </body>
