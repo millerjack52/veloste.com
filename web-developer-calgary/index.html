@@ -35,91 +35,7 @@
       content="Need a web developer in Calgary? Veloste builds custom small-business websites with in-house design + development."
     />
     <meta name="twitter:image" content="https://veloste.com/og-image.png" />
-    <style>
-      :root {
-        color-scheme: dark;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        background: #000;
-        color: rgba(252, 252, 255, 0.96);
-        font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        line-height: 1.7;
-      }
-      main {
-        min-height: 100vh;
-        padding:
-          max(40px, calc(env(safe-area-inset-top, 0px) + 24px))
-          max(20px, calc(env(safe-area-inset-right, 0px) + 20px))
-          max(56px, calc(env(safe-area-inset-bottom, 0px) + 28px))
-          max(20px, calc(env(safe-area-inset-left, 0px) + 20px));
-      }
-      article {
-        max-width: 920px;
-        margin: 0 auto;
-        background: rgba(255, 255, 255, 0.04);
-        border-radius: 12px;
-        box-shadow: 0 20px 56px rgba(0, 0, 0, 0.42);
-        backdrop-filter: saturate(140%) blur(12px);
-        -webkit-backdrop-filter: saturate(140%) blur(12px);
-        padding: 28px;
-      }
-      h1,
-      h2 {
-        font-family: "VelosteFont", system-ui, Avenir, Helvetica, Arial, sans-serif;
-        font-weight: 500;
-        letter-spacing: 0.02em;
-        line-height: 1.12;
-        margin: 0 0 12px;
-        text-transform: none;
-      }
-      h1 {
-        font-size: clamp(30px, 5vw, 54px);
-      }
-      h2 {
-        font-size: clamp(20px, 3vw, 30px);
-        margin-top: 0;
-      }
-      p,
-      li {
-        margin: 0;
-        color: rgba(220, 222, 232, 0.88);
-        font-size: 15px;
-        max-width: 64ch;
-      }
-      ul,
-      ol {
-        margin: 0;
-        padding-left: 18px;
-      }
-      li {
-        margin-bottom: 8px;
-      }
-      section {
-        margin-top: 32px;
-      }
-      .kicker {
-        margin: 0 0 8px;
-        font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: rgba(160, 164, 178, 0.9);
-      }
-      a {
-        color: #8a91ff;
-        text-decoration: none;
-      }
-      a:hover {
-        color: #a4aaff;
-      }
-      strong {
-        color: rgba(252, 252, 255, 0.96);
-      }
-    </style>
+    <link rel="stylesheet" href="/seo-pages.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -192,67 +108,110 @@
     </script>
   </head>
   <body>
-    <main>
-      <article>
-        <p class="kicker">Calgary web developer</p>
-        <h1>Custom websites for Calgary small businesses.</h1>
-        <p>
-          Veloste is a Calgary web developer and design studio for businesses that need more than a theme:
-          clean structure, conversion-focused UX, strong visual systems, and code your team can iterate with confidence.
-        </p>
+    <main class="shell">
+      <article class="frame">
+        <header class="topbar">
+          <a class="brand" href="/">
+            <img src="/vstar.svg" alt="" />
+            <span>Veloste</span>
+          </a>
+          <nav class="top-links">
+            <a href="/service-areas/calgary-region/">Service areas</a>
+            <a href="/">Homepage</a>
+          </nav>
+        </header>
 
-        <section>
-          <p class="kicker">Who this is for</p>
-          <h2>Built for teams that need clarity and momentum.</h2>
-          <ul>
-            <li>Local service businesses in Calgary that need their site to generate qualified leads.</li>
-            <li>Founder-led teams replacing dated websites that do not explain value clearly.</li>
-            <li>Businesses launching a new offer and needing a conversion-ready web presence quickly.</li>
-          </ul>
+        <section class="hero">
+          <div>
+            <p class="kicker">Calgary web developer</p>
+            <h1>Custom websites for Calgary small businesses.</h1>
+            <p class="lede">
+              Veloste is a Calgary web developer and design studio for businesses
+              that need more than a theme: clean structure, conversion-focused
+              UX, strong visual systems, and code your team can iterate with
+              confidence.
+            </p>
+            <p class="footer-note">
+              Calgary-first delivery, with support across Airdrie, Cochrane,
+              Okotoks, and Chestermere.
+            </p>
+          </div>
+          <aside class="cta-card">
+            <p class="kicker">Start a project</p>
+            <p class="cta-title">Talk to Veloste about your website goals.</p>
+            <p>
+              Send your timeline, budget range, and business goals. You will get
+              a scoped recommendation and next-step proposal.
+            </p>
+            <div class="btn-row">
+              <a class="btn" href="mailto:contact@veloste.com">Email us</a>
+              <a class="btn" href="tel:+18255214542">Call (825) 521-4542</a>
+            </div>
+          </aside>
         </section>
 
-        <section>
-          <p class="kicker">Process</p>
-          <h2>How engagements run</h2>
-          <ol>
-            <li>Discovery: goals, audience, constraints, and the conversion path.</li>
-            <li>Structure and visual direction: information architecture, copy hierarchy, and art direction.</li>
-            <li>Build: custom implementation, responsive QA, and performance tuning.</li>
-            <li>Launch and support: go-live checks and post-launch iteration.</li>
-          </ol>
-        </section>
+        <div class="content">
+          <section class="panel">
+            <p class="kicker">Who this is for</p>
+            <h2>Built for teams that need clarity and momentum.</h2>
+            <ul class="list">
+              <li>
+                Local service businesses in Calgary that need their site to
+                generate qualified leads.
+              </li>
+              <li>
+                Founder-led teams replacing dated websites that do not explain
+                value clearly.
+              </li>
+              <li>
+                Businesses launching a new offer and needing a conversion-ready
+                web presence quickly.
+              </li>
+            </ul>
+          </section>
 
-        <section>
-          <p class="kicker">Pricing and timelines</p>
-          <h2>Scoped to what your business needs</h2>
-          <p>
-            Every project is quoted after discovery. Cost and timeline depend on content volume, integrations,
-            animation complexity, and review cycles. You get a clear proposal with deliverables, phases, and timeline
-            expectations before work starts.
-          </p>
-        </section>
+          <section class="grid-2">
+            <article class="panel">
+              <p class="kicker">Process</p>
+              <h3>How engagements run</h3>
+              <ol class="list">
+                <li>Discovery: goals, audience, constraints, and conversion path.</li>
+                <li>Structure + art direction for clear messaging and hierarchy.</li>
+                <li>Custom implementation, responsive QA, and performance tuning.</li>
+                <li>Launch support and post-launch iteration.</li>
+              </ol>
+            </article>
+            <article class="panel">
+              <p class="kicker">Pricing + timelines</p>
+              <h3>Scoped to what your business needs</h3>
+              <p>
+                Every project is quoted after discovery. Cost and timing depend
+                on content volume, integrations, animation complexity, and review
+                cycles.
+              </p>
+              <p>
+                You get a clear proposal with deliverables, phases, and timeline
+                expectations before work starts.
+              </p>
+            </article>
+          </section>
 
-        <section>
-          <p class="kicker">Local service area</p>
-          <h2>Calgary first, nearby cities supported</h2>
-          <p>
-            Veloste is Calgary-based and supports nearby businesses in Airdrie, Cochrane, Okotoks, and Chestermere
-            with the same custom-first delivery model.
-          </p>
-          <p style="margin-top: 12px">
-            <a href="/service-areas/calgary-region/">See full Calgary region service details.</a>
-          </p>
-        </section>
-
-        <section>
-          <p class="kicker">Start</p>
-          <h2>Discuss your project</h2>
-          <p>
-            Email <a href="mailto:contact@veloste.com">contact@veloste.com</a> or call
-            <a href="tel:+18255214542"> (825) 521-4542</a>.
-          </p>
-          <p style="margin-top: 12px"><a href="/">Return to Veloste homepage experience</a></p>
-        </section>
+          <section class="panel">
+            <p class="kicker">Local service area</p>
+            <h2>Calgary first, nearby cities supported.</h2>
+            <p>
+              Veloste is Calgary-based and supports nearby businesses in
+              Airdrie, Cochrane, Okotoks, and Chestermere with the same
+              custom-first delivery model.
+            </p>
+            <div class="btn-row" style="margin-top: 12px">
+              <a class="btn" href="/service-areas/calgary-region/"
+                >View Calgary region service details</a
+              >
+              <a class="btn" href="/">Return to homepage experience</a>
+            </div>
+          </section>
+        </div>
       </article>
     </main>
   </body>
