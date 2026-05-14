@@ -680,9 +680,8 @@ export default function AboutPane({
                     color: ink.main,
                   }}
                 >
-                  Calgary web design &amp; custom websites — graphic, motion-led
-                  experiences that turn attention into clarity — and clarity
-                  into conversion.
+                  Calgary web developer for custom websites that turn traffic
+                  into qualified leads.
                 </h1>
                 <p
                   style={{
@@ -695,10 +694,10 @@ export default function AboutPane({
                     color: ink.body,
                   }}
                 >
-                  Veloste is a Calgary web design studio working with clients
-                  across Canada and the US: website design, interaction systems,
-                  and implementation tailored in-house — custom systems, not
-                  templates.
+                  Veloste is a Calgary web design and development studio helping
+                  small businesses in Calgary, Airdrie, Cochrane, Okotoks, and
+                  Chestermere launch custom sites with clearer positioning and
+                  stronger conversion paths.
                 </p>
                 <p
                   style={{
@@ -713,12 +712,14 @@ export default function AboutPane({
                 >
                   Looking for local details?{" "}
                   <a href="/web-developer-calgary/">
-                    Calgary web developer page
+                    Calgary web developer services
                   </a>{" "}
                   ·{" "}
                   <a href="/service-areas/calgary-region/">
-                    Calgary region service areas
+                    Calgary-region coverage
                   </a>
+                  {" "}·{" "}
+                  <a href="mailto:contact@veloste.com">Get a scoped quote</a>
                 </p>
                 <p
                   style={{
@@ -971,7 +972,7 @@ export default function AboutPane({
                           fontFamily: fontDisplay,
                         }}
                       >
-                        Contact
+                        Start a project
                       </button>
                     </div>
                   </div>

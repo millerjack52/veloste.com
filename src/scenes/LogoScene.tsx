@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -10,9 +10,25 @@ import CircleContentOverlay from "../components/CircleContentOverlay";
 import Lights from "../components/Lights";
 import ScrollProgress1D from "../controls/ScrollProgress1D";
 
+function useResponsiveMaxDpr() {
+  const [maxDpr, setMaxDpr] = useState(2);
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      /* Narrow screens: cap pixel ratio to keep 3D smooth and thermals in check */
+      setMaxDpr(w < 480 ? 1.35 : w < 768 ? 1.65 : 2);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return maxDpr;
+}
+
 const LogoScene: React.FC = () => {
   const groupZ = 1;
   const maxYaw = THREE.MathUtils.degToRad(40);
+  const maxDpr = useResponsiveMaxDpr();
 
   return (
     <div className="logo-wrap">
@@ -23,7 +39,7 @@ const LogoScene: React.FC = () => {
         dpr={[
           1,
           Math.min(
-            2,
+            maxDpr,
             typeof window !== "undefined" ? window.devicePixelRatio : 1,
           ),
         ]}
@@ -40,8 +56,8 @@ const LogoScene: React.FC = () => {
         <Suspense fallback={null}>
           <Lights />
           <ScrollProgress1D
-            ticksToMax={8}
-            notchSize={60}
+            ticksToMax={7}
+            notchSize={48}
             polarity={1}
             smooth={0.92}
           >

@@ -5,7 +5,6 @@ import * as THREE from "three";
 import HeaderBar from "./HeaderBar";
 import AboutPane from "./AboutPane";
 import ContactPane from "./ContactPane";
-import useVh from "../hooks/useVH";
 
 export default function CircleContentOverlay({
   p,
@@ -18,9 +17,6 @@ export default function CircleContentOverlay({
   easePower?: number;
   curvePower?: number;
 }) {
-  // iOS-safe 100vh variable
-  useVh();
-
   // --- opacity curves ---
   const toUnit = (val: number) =>
     THREE.MathUtils.clamp((val - deadZone) / (1 - deadZone), 0, 1);
@@ -74,7 +70,7 @@ export default function CircleContentOverlay({
           <div
             style={{
               position: "absolute",
-              left: 28,
+              left: "max(28px, calc(env(safe-area-inset-left, 0px) + 16px))",
               top: "50%",
               transform: "translateY(-50%)",
               display: "flex",
@@ -116,7 +112,7 @@ export default function CircleContentOverlay({
           <div
             style={{
               position: "absolute",
-              right: 28,
+              right: "max(28px, calc(env(safe-area-inset-right, 0px) + 16px))",
               top: "50%",
               transform: "translateY(-50%)",
               display: "flex",
