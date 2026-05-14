@@ -16,4 +16,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://veloste.com/sitemap.xml
+Sitemap: https://www.veloste.com/sitemap.xml
