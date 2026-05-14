@@ -30,8 +30,9 @@ export const ol: React.CSSProperties = {
 };
 export const hr: React.CSSProperties = {
   border: "none",
-  borderTop: "1px solid rgba(0,0,0,0.08)",
+  height: 1,
   margin: "18px 0 24px",
+  background: "rgba(0,0,0,0.08)",
 };
 
 // Form / card
@@ -39,7 +40,7 @@ export const cardStyle: React.CSSProperties = {
   marginTop: 16,
   padding: "18px 18px 20px",
   background: "rgba(255,255,255,0.92)",
-  border: "1px solid rgba(0,0,0,0.06)",
+  border: "none",
   borderRadius: 16,
   boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
   backdropFilter: "saturate(160%) blur(8px)",
@@ -60,11 +61,11 @@ export const inputStyle: React.CSSProperties = {
   padding: "12px 12px",
   fontSize: 14,
   borderRadius: 12,
-  border: "1px solid #e6e6e6",
+  border: "none",
   background: "#fff",
   color: "#111",
   outline: "none",
-  boxShadow: "inset 0 1px 1px rgba(0,0,0,0.03)",
+  boxShadow: "inset 0 1px 2px rgba(0,0,0,0.06)",
 };
 export const buttonStyle: React.CSSProperties = {
   alignSelf: "start",
@@ -73,5 +74,5 @@ export const buttonStyle: React.CSSProperties = {
   borderRadius: 12,
   fontSize: 14,
   fontWeight: 600,
-  transition: "background 160ms ease, color 160ms ease, border-color 160ms ease, transform 120ms ease",
+  transition: "background 160ms ease, color 160ms ease, transform 120ms ease",
 };

@@ -1,0 +1,33 @@
+Veloste — ongoing SEO operations (local + organic)
+
+Canonical host (www vs apex)
+- Production uses apex https://www.veloste.com as canonical (see index.html and sitemap).
+- On Vercel, vercel.json redirects www.veloste.com to https://www.veloste.com (deploy this repo so the rule is live).
+- If you use GitHub Pages or another host without host-based redirects, configure a redirect at DNS/CDN (e.g. CNAME + redirect rules) so only one hostname serves the site.
+
+Structured data (site)
+- The homepage uses schema.org ProfessionalService (not LocalBusiness) because there is no public storefront address published on the site. If you add a verified street address you want public, consider LocalBusiness with matching GBP address.
+
+Google Business Profile (GBP)
+- Keep business name, phone, and website URL identical to veloste.com and schema markup.
+- Primary categories: choose the closest fit (e.g. Website designer); add secondary categories only if accurate.
+- Service area: match priority cities (Calgary, Edmonton, Red Deer) and broader regions as you actually serve them.
+- Upload current photos (team, work, logo); post short updates monthly when possible.
+- Enable messaging if you can respond quickly; set hours to match how you operate (including “by appointment” if applicable).
+- Reviews: after successful deliveries, ask satisfied clients for a Google review in your own words; reply to every review professionally.
+- Monitor GBP insights (searches, actions) quarterly.
+
+Reviews process (ethical)
+- Ask only clients who had a genuine positive experience; never incentivize fake reviews.
+- Make the link easy (Google review link from GBP dashboard); follow up once if appropriate.
+
+Google Search Console (GSC)
+- Property: URL prefix https://www.veloste.com/ (or domain property if preferred). Site already has HTML file verification in /public.
+- After deploy: submit sitemap https://www.veloste.com/sitemap.xml in GSC.
+- Monthly (30 min): Performance — top queries, impressions, CTR, average position; note changes vs prior month.
+- Coverage / Page indexing: fix “Error” or “Excluded” issues that affect important URLs.
+- Experience reports: Core Web Vitals for mobile and desktop; prioritize fixes that affect many URLs or the homepage.
+
+Optional
+- Bing Webmaster Tools: add site and submit the same sitemap.
+- Social sharing image: public/og-image.png (1200×630) is referenced in index.html; replace the file if you rebrand—keep the URL or update meta tags.

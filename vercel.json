@@ -3,8 +3,8 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.veloste.com" }],
-      "destination": "https://veloste.com/:path*",
+      "has": [{ "type": "host", "value": "veloste.com" }],
+      "destination": "https://www.veloste.com/:path*",
       "permanent": true
     }
   ],
