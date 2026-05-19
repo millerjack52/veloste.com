@@ -1,29 +1,13 @@
 import React from "react";
 
-/** Align with AboutPane — neutral dark glass, no chromatic accent */
-const BRAND = {
-  ink: {
-    main: "rgba(252, 252, 255, 0.96)",
-    body: "rgba(220, 222, 232, 0.88)",
-    muted: "rgba(160, 164, 178, 0.9)",
-    faint: "rgba(120, 124, 138, 0.75)",
-  },
-  columnBg: "rgba(255, 255, 255, 0.04)",
-  radius: 12,
-  shadow: "0 20px 56px rgba(0, 0, 0, 0.42)",
-} as const;
-
 const SCROLL_PAD =
-  "max(10vh, calc(env(safe-area-inset-top, 0px) + 20px)) max(20px, calc(env(safe-area-inset-right, 0px) + 20px)) max(12vh, calc(env(safe-area-inset-bottom, 0px) + 20px)) max(20px, calc(env(safe-area-inset-left, 0px) + 20px))";
-const COLUMN_MAX = 640;
-const CARD_PAD_Y = 22;
-const CARD_PAD_X = 28;
+  "max(8vh, calc(env(safe-area-inset-top, 0px) + 20px)) max(20px, calc(env(safe-area-inset-right, 0px) + 20px)) max(10vh, calc(env(safe-area-inset-bottom, 0px) + 20px)) max(20px, calc(env(safe-area-inset-left, 0px) + 20px))";
+const SHELL_MAX = 1240;
 
 const fontDisplay = `'VelosteFont', system-ui, Avenir, Helvetica, Arial, sans-serif`;
 const fontBody = `system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`;
 const fontMono = `ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace`;
 
-// Resolve API base once (env var in prod, localhost in dev)
 const API_BASE = String(
   import.meta.env.VITE_API_BASE_URL ||
     (import.meta.env.DEV ? "http://localhost:3001" : ""),
@@ -90,211 +74,232 @@ export default function ContactPane({
     }
   }
 
-  const ink = BRAND.ink;
-
-  const sectionLabel: React.CSSProperties = {
-    fontSize: 11,
-    letterSpacing: "0.14em",
-    textTransform: "uppercase",
-    color: ink.muted,
-    fontFamily: fontMono,
-  };
-
-  const labelStyle: React.CSSProperties = {
-    display: "block",
-    marginBottom: 8,
-    ...sectionLabel,
-  };
-
-  const fieldBase: React.CSSProperties = {
-    boxSizing: "border-box",
-    width: "100%",
-    padding: "13px 14px",
-    /* 16px+ avoids iOS Safari zooming inputs on focus */
-    fontSize: 16,
-    lineHeight: 1.45,
-    fontFamily: fontBody,
-    borderRadius: 8,
-    border: "none",
-    color: ink.main,
-    outline: "none",
-    transition: "background 160ms ease",
-  };
-
   return (
     <>
       <style>{`
-        .contact-column {
-          background: ${BRAND.columnBg};
-          backdrop-filter: saturate(140%) blur(12px);
-          -webkit-backdrop-filter: saturate(140%) blur(12px);
+        .contact-scroll {
+          scroll-behavior: smooth;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,0.24) transparent;
+        }
+        .contact-scroll::-webkit-scrollbar { width: 6px; }
+        .contact-scroll::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.22);
+          border-radius: 999px;
+        }
+        .contact-shell {
+          width: min(100%, ${SHELL_MAX}px);
+          margin: 0 auto;
+          padding-bottom: 18vh;
+          color: #fff;
+        }
+        .contact-block {
+          min-height: min(84vh, 920px);
+          display: grid;
+          grid-template-columns: minmax(74px, 11vw) minmax(0, 1fr);
+          gap: clamp(14px, 2vw, 32px);
+          align-items: start;
+        }
+        .contact-kicker {
+          margin: 0;
+          position: sticky;
+          top: max(20px, calc(env(safe-area-inset-top, 0px) + 16px));
+          font-family: ${fontMono};
+          font-size: clamp(10px, 0.9vw, 12px);
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #fff;
+          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+        }
+        .contact-title {
+          margin: 0;
+          font-family: ${fontDisplay};
+          font-size: clamp(42px, 10vw, 136px);
+          line-height: 0.9;
+          letter-spacing: 0.01em;
+          color: #fff;
+          max-width: 12ch;
+          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+        }
+        .contact-body,
+        .contact-meta {
+          margin: 0;
+          margin-top: clamp(14px, 2.2vw, 26px);
+          font-family: ${fontBody};
+          font-size: clamp(15px, 1.7vw, 22px);
+          line-height: 1.6;
+          color: #fff;
+          max-width: 58ch;
+          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+        }
+        .contact-meta {
+          margin-top: clamp(10px, 1.4vw, 18px);
+          font-size: clamp(14px, 1.4vw, 18px);
+        }
+        .contact-meta a {
+          color: #fff;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+        }
+        .contact-form {
+          margin-top: clamp(28px, 4vw, 48px);
+          display: grid;
+          gap: clamp(22px, 3vw, 32px);
+          max-width: 58ch;
+        }
+        .contact-fields-row {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+          gap: clamp(18px, 2.5vw, 28px);
+        }
+        .contact-field-wrap {
+          display: grid;
+          gap: 10px;
+        }
+        .contact-label {
+          margin: 0;
+          font-family: ${fontMono};
+          font-size: clamp(10px, 0.9vw, 12px);
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #fff;
+          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
         }
         .contact-field {
-          background: rgba(255, 255, 255, 0.055);
+          box-sizing: border-box;
+          width: 100%;
+          padding: 12px 0 10px;
+          font-size: 16px;
+          line-height: 1.45;
+          font-family: ${fontBody};
+          color: #fff;
+          background: transparent;
+          border: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.32);
+          border-radius: 0;
+          outline: none;
+          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+          transition: border-color 160ms ease;
         }
         .contact-field::placeholder {
-          color: ${ink.faint};
+          color: rgba(255, 255, 255, 0.42);
         }
         .contact-field:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.085);
+          border-bottom-color: rgba(255, 255, 255, 0.52);
         }
         .contact-field:focus,
         .contact-field:focus-visible {
-          background: rgba(255, 255, 255, 0.1);
+          border-bottom-color: rgba(255, 255, 255, 0.88);
+        }
+        .contact-textarea {
+          min-height: 120px;
+          resize: vertical;
+        }
+        .contact-error {
+          margin: 0;
+          padding: 12px 0;
+          font-family: ${fontBody};
+          font-size: clamp(14px, 1.4vw, 16px);
+          line-height: 1.5;
+          color: #ffb4a8;
+          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
         }
         .contact-submit {
-          background: rgba(255, 255, 255, 0.06);
+          justify-self: start;
+          margin-top: 4px;
+          padding: 0;
+          border: none;
+          background: transparent;
+          font-family: ${fontDisplay};
+          font-size: clamp(28px, 5vw, 52px);
+          line-height: 0.94;
+          letter-spacing: 0.01em;
+          color: #fff;
+          cursor: pointer;
+          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+          transition: opacity 160ms ease;
         }
         .contact-submit:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.1);
-        }
-        .contact-submit:focus-visible {
-          background: rgba(255, 255, 255, 0.12);
-          outline: none;
-          box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.9);
+          opacity: 0.72;
         }
         .contact-submit:disabled {
-          opacity: 0.55;
+          opacity: 0.45;
           cursor: default;
+        }
+        .contact-submit:focus-visible {
+          outline: 2px solid rgba(255, 255, 255, 0.55);
+          outline-offset: 4px;
+        }
+        .contact-success {
+          margin: clamp(28px, 4vw, 48px) 0 0;
+          max-width: 58ch;
+          font-family: ${fontBody};
+          font-size: clamp(15px, 1.7vw, 22px);
+          line-height: 1.6;
+          color: #fff;
+          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+        }
+        @media (max-width: 900px) {
+          .contact-block {
+            min-height: 72vh;
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
+          .contact-kicker {
+            position: static;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .contact-scroll {
+            scroll-behavior: auto;
+          }
         }
       `}</style>
 
       <div
+        className="contact-scroll"
         style={{
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-start",
           width: "100%",
-          height: "100%",
-          minHeight: 0,
+          height: "calc(var(--vh, 1vh) * 100)",
+          background: "transparent",
+          color: "#fff",
           opacity,
-          transition: "opacity 120ms linear",
+          transition: "opacity 160ms linear",
           pointerEvents: active ? "auto" : "none",
+          overflowY: active ? "auto" : "hidden",
+          WebkitOverflowScrolling: active ? "touch" : "auto",
+          overscrollBehavior: active ? "contain" : "auto",
           touchAction: active ? "auto" : "none",
           padding: SCROLL_PAD,
-          background: "#000",
           boxSizing: "border-box",
-          overflowY: active ? "auto" : "hidden",
-          overflowX: "hidden",
-          WebkitOverflowScrolling: "touch",
         }}
       >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: COLUMN_MAX,
-            margin: "0 auto",
-            flexShrink: 0,
-          }}
-        >
-          <div
-            className="contact-column"
-            style={{
-              borderRadius: BRAND.radius,
-              boxShadow: BRAND.shadow,
-              overflow: "hidden",
-            }}
-          >
-            <header
-              style={{
-                padding: `${CARD_PAD_Y}px ${CARD_PAD_X}px ${CARD_PAD_Y - 4}px`,
-              }}
-            >
-              <p style={{ margin: 0, marginBottom: 8, ...sectionLabel }}>
-                Contact
+        <div className="contact-shell">
+          <section className="contact-block" aria-label="05 Contact">
+            <p className="contact-kicker">05 Contact</p>
+            <div>
+              <h1 className="contact-title">Get a scoped quote.</h1>
+              <p className="contact-body">
+                Share your business type, timeline, and budget range. We&apos;ll
+                reply with a recommended scope and next steps.
               </p>
-              <h1
-                style={{
-                  margin: 0,
-                  fontFamily: fontDisplay,
-                  fontSize: "clamp(22px, 4vw, 32px)",
-                  lineHeight: 1.14,
-                  fontWeight: 500,
-                  letterSpacing: "0.02em",
-                  color: ink.main,
-                }}
-              >
-                Get in touch
-              </h1>
-              <p
-                style={{
-                  margin: 0,
-                  marginTop: 14,
-                  maxWidth: "48ch",
-                  fontSize: 15,
-                  lineHeight: 1.65,
-                  fontFamily: fontBody,
-                  color: ink.body,
-                }}
-              >
-                Interested in exploring what Veloste can create for you? Send a
-                message and we&apos;ll get back to you shortly.
+              <p className="contact-meta">
+                Calgary-based, serving Airdrie, Cochrane, Okotoks, and
+                Chestermere. Email{" "}
+                <a href="mailto:contact@veloste.com">contact@veloste.com</a> or
+                call <a href="tel:+18255214542">(825) 521-4542</a>.
               </p>
-              <p
-                style={{
-                  margin: 0,
-                  marginTop: 10,
-                  maxWidth: "56ch",
-                  fontSize: 13,
-                  lineHeight: 1.65,
-                  fontFamily: fontBody,
-                  color: ink.muted,
-                }}
-              >
-                Calgary-based, serving nearby cities including Airdrie,
-                Cochrane, Okotoks, and Chestermere.
-              </p>
-              <p
-                style={{
-                  margin: 0,
-                  marginTop: 8,
-                  maxWidth: "56ch",
-                  fontSize: 13,
-                  lineHeight: 1.65,
-                  fontFamily: fontBody,
-                  color: ink.muted,
-                }}
-              >
-                <a href="/web-developer-calgary/">Calgary web developer page</a>{" "}
-                ·{" "}
-                <a href="/service-areas/calgary-region/">
-                  Calgary region service areas
-                </a>
-              </p>
-              <p
-                style={{
-                  margin: 0,
-                  marginTop: 8,
-                  maxWidth: "56ch",
-                  fontSize: 13,
-                  lineHeight: 1.65,
-                  fontFamily: fontBody,
-                  color: ink.muted,
-                }}
-              >
-                Email <a href="mailto:contact@veloste.com">contact@veloste.com</a>{" "}
-                or call <a href="tel:+18255214542">(825) 521-4542</a>.
-              </p>
-            </header>
 
-            <div style={{ padding: `${CARD_PAD_Y}px ${CARD_PAD_X}px` }}>
               {!sent ? (
                 <form
+                  className="contact-form"
                   onSubmit={handleSubmit}
-                  style={{ display: "grid", gap: 0 }}
                   noValidate
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: 18,
-                      marginBottom: 20,
-                    }}
-                  >
-                    <div style={{ flex: "1 1 220px", minWidth: 0 }}>
-                      <label htmlFor="contact-name" style={labelStyle}>
+                  <div className="contact-fields-row">
+                    <div className="contact-field-wrap">
+                      <label htmlFor="contact-name" className="contact-label">
                         Name
                       </label>
                       <input
@@ -306,11 +311,10 @@ export default function ContactPane({
                         required
                         autoComplete="name"
                         placeholder="Your name"
-                        style={fieldBase}
                       />
                     </div>
-                    <div style={{ flex: "1 1 220px", minWidth: 0 }}>
-                      <label htmlFor="contact-email" style={labelStyle}>
+                    <div className="contact-field-wrap">
+                      <label htmlFor="contact-email" className="contact-label">
                         Email
                       </label>
                       <input
@@ -322,106 +326,46 @@ export default function ContactPane({
                         required
                         autoComplete="email"
                         placeholder="you@example.com"
-                        style={fieldBase}
                       />
                     </div>
                   </div>
 
-                  <div>
-                    <label htmlFor="contact-message" style={labelStyle}>
+                  <div className="contact-field-wrap">
+                    <label htmlFor="contact-message" className="contact-label">
                       Message
                     </label>
                     <textarea
                       id="contact-message"
-                      className="contact-field"
+                      className="contact-field contact-textarea"
                       required
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Tell us about your project, timeline, and goals…"
                       rows={5}
-                      style={{
-                        ...fieldBase,
-                        resize: "vertical",
-                        minHeight: 120,
-                      }}
                     />
                   </div>
 
                   {error && (
-                    <div
-                      role="alert"
-                      aria-live="polite"
-                      style={{
-                        marginTop: 18,
-                        padding: "12px 14px",
-                        borderRadius: 8,
-                        background: "rgba(255, 120, 90, 0.12)",
-                        fontSize: 14,
-                        lineHeight: 1.5,
-                        fontFamily: fontBody,
-                        color: "rgba(255, 210, 200, 0.95)",
-                      }}
-                    >
+                    <p className="contact-error" role="alert" aria-live="polite">
                       {error}
-                    </div>
+                    </p>
                   )}
 
-                  <div style={{ marginTop: 22 }}>
-                    <button
-                      type="submit"
-                      className="contact-submit"
-                      disabled={sending}
-                      style={{
-                        padding: "11px 22px",
-                        borderRadius: 8,
-                        fontSize: 11,
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.12em",
-                        fontFamily: fontDisplay,
-                        cursor: sending ? "default" : "pointer",
-                        border: "none",
-                        color: ink.main,
-                        transition: "background 160ms ease",
-                      }}
-                    >
-                      {sending ? "Sending…" : "Send message"}
-                    </button>
-                  </div>
+                  <button
+                    type="submit"
+                    className="contact-submit"
+                    disabled={sending}
+                  >
+                    {sending ? "Sending…" : "Send message"}
+                  </button>
                 </form>
               ) : (
-                <div
-                  style={{
-                    display: "grid",
-                    justifyItems: "center",
-                    gap: 16,
-                    textAlign: "center",
-                    padding: "8px 0 4px",
-                  }}
-                >
-                  <img
-                    src="/vstar.svg"
-                    alt=""
-                    width={28}
-                    height={28}
-                    style={{ opacity: 0.88 }}
-                  />
-                  <p
-                    style={{
-                      margin: 0,
-                      fontSize: 16,
-                      lineHeight: 1.6,
-                      fontFamily: fontBody,
-                      color: ink.body,
-                      maxWidth: "36ch",
-                    }}
-                  >
-                    Thanks — we&apos;ll get back to you shortly.
-                  </p>
-                </div>
+                <p className="contact-success">
+                  Thanks — we&apos;ll get back to you shortly.
+                </p>
               )}
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </>
