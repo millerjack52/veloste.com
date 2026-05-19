@@ -12,6 +12,7 @@ type TipProps = {
   easePower?: number;
   curvePower?: number;
   color?: string;
+  aboutBlurAmount?: number;
 };
 
 function TipCircle({
@@ -24,6 +25,7 @@ function TipCircle({
   easePower = 1.5,
   curvePower = 1.6,
   color = "#ffffff",
+  aboutBlurAmount = 0,
 }: TipProps) {
   const toUnit = (val: number) =>
     THREE.MathUtils.clamp((val - deadZone) / (1 - deadZone), 0, 1);
@@ -37,6 +39,8 @@ function TipCircle({
     baseScale * Math.pow(fillScale / baseScale, Math.pow(easedT, curvePower));
 
   const x = side === "right" ? -Math.abs(pos.x) : +Math.abs(pos.x);
+  const baseOpacity = side === "left" ? 0.55 : 1;
+  const opacity = baseOpacity * (1 - THREE.MathUtils.clamp(aboutBlurAmount, 0, 1));
 
   return (
     <Billboard position={[x, pos.y, pos.z]} follow>
@@ -45,7 +49,7 @@ function TipCircle({
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={side === "left" ? 0.55 : 1}
+          opacity={opacity}
           depthTest={false}
           depthWrite={false}
           side={THREE.DoubleSide}
@@ -63,6 +67,7 @@ export default function TipCircles({
   left = { x: 6, y: 0.22, z: 0 },
   right = { x: 5.8, y: 0.22, z: 0 },
   color = "#ffffff",
+  aboutBlurAmount = 0,
 }: {
   p: number;
   groupWorldZ?: number;
@@ -70,6 +75,7 @@ export default function TipCircles({
   left?: { x: number; y: number; z: number };
   right?: { x: number; y: number; z: number };
   color?: string;
+  aboutBlurAmount?: number;
 }) {
   return (
     <>
@@ -79,6 +85,7 @@ export default function TipCircles({
         pos={left}
         worldZOfGroup={groupWorldZ}
         deadZone={deadZone}
+        aboutBlurAmount={aboutBlurAmount}
         color="#e8e8e8"
       />
       <TipCircle
@@ -87,6 +94,7 @@ export default function TipCircles({
         pos={right}
         worldZOfGroup={groupWorldZ}
         deadZone={deadZone}
+        aboutBlurAmount={aboutBlurAmount}
         color={color}
       />
     </>

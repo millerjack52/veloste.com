@@ -2,7 +2,6 @@
 import React from "react";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
-import HeaderBar from "./HeaderBar";
 import AboutPane from "./AboutPane";
 import ContactPane from "./ContactPane";
 
@@ -32,7 +31,18 @@ export default function CircleContentOverlay({
   };
   const rightOpacity = smoothstep(0.75, 0.97, expR);
   const leftOpacity = smoothstep(0.75, 0.97, expL);
-  const headerOpacity = Math.max(leftOpacity, rightOpacity);
+  const aboutBlurAmount = THREE.MathUtils.clamp(
+    Math.pow(leftOpacity, 0.88),
+    0,
+    1,
+  );
+  const contactBlurAmount = THREE.MathUtils.clamp(
+    Math.pow(rightOpacity, 0.88),
+    0,
+    1,
+  );
+  const overlayBlurAmount = Math.max(aboutBlurAmount, contactBlurAmount);
+  const overlayBlurPx = overlayBlurAmount * 8;
 
   // --- Hysteresis for interaction gating ---
   // Slightly later “interactive” handoff keeps scene scroll driving |p| longer — smoother both ways.
@@ -43,6 +53,15 @@ export default function CircleContentOverlay({
 
   const [leftInteractive, setLeftInteractive] = React.useState(false);
   const [rightInteractive, setRightInteractive] = React.useState(false);
+  const [reducedMotion, setReducedMotion] = React.useState(false);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onChange = () => setReducedMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   React.useEffect(() => {
     setLeftInteractive((prev) =>
@@ -56,13 +75,29 @@ export default function CircleContentOverlay({
     );
   }, [rightOpacity]);
 
+  React.useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty(
+      "--veloste-about-blur",
+      `${Math.round(overlayBlurAmount * 14)}px`,
+    );
+    root.style.setProperty(
+      "--veloste-about-open",
+      overlayBlurAmount.toFixed(3),
+    );
+    root.style.setProperty("--veloste-about-dim", "0");
+    return () => {
+      root.style.setProperty("--veloste-about-blur", "0px");
+      root.style.setProperty("--veloste-about-open", "0");
+      root.style.setProperty("--veloste-about-dim", "0");
+    };
+  }, [overlayBlurAmount]);
+
   // Scroll indicators visible near center, fade as user scrolls
   const indicatorOpacity = 1 - Math.min(1, Math.abs(p) / 0.15);
 
   return (
     <Html fullscreen transform={false}>
-      <HeaderBar opacity={headerOpacity} />
-
       {/* Scroll indicators */}
       {indicatorOpacity > 0 && (
         <>
@@ -77,8 +112,11 @@ export default function CircleContentOverlay({
               alignItems: "center",
               gap: 8,
               opacity: indicatorOpacity * 0.7,
+              filter: `blur(${overlayBlurPx}px)`,
               pointerEvents: "none",
-              transition: "opacity 200ms ease",
+              transition: reducedMotion
+                ? "none"
+                : "opacity 200ms ease, filter 260ms ease",
             }}
           >
             <svg
@@ -119,8 +157,11 @@ export default function CircleContentOverlay({
               alignItems: "center",
               gap: 8,
               opacity: indicatorOpacity * 0.7,
+              filter: `blur(${overlayBlurPx}px)`,
               pointerEvents: "none",
-              transition: "opacity 200ms ease",
+              transition: reducedMotion
+                ? "none"
+                : "opacity 200ms ease, filter 260ms ease",
             }}
           >
             <span
@@ -163,10 +204,13 @@ export default function CircleContentOverlay({
             justifyItems: "center",
             pointerEvents: leftInteractive ? "auto" : "none",
             overscrollBehavior: "contain",
-            background: `rgba(0,0,0,${leftOpacity * 0.92})`,
+            background: "transparent",
           }}
         >
-          <AboutPane opacity={leftOpacity} active={leftInteractive} />
+          <AboutPane
+            opacity={leftOpacity > 0 ? 1 : 0}
+            active={leftInteractive}
+          />
         </div>
       )}
 
@@ -181,7 +225,7 @@ export default function CircleContentOverlay({
             justifyItems: "center",
             pointerEvents: rightInteractive ? "auto" : "none",
             overscrollBehavior: "contain",
-            background: `rgba(0,0,0,${rightOpacity * 0.92})`,
+            background: "transparent",
           }}
         >
           <ContactPane

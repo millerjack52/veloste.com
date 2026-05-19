@@ -7,6 +7,12 @@
   font-display: swap;
 }
 
+:root {
+  --veloste-about-blur: 0px;
+  --veloste-about-open: 0;
+  --veloste-about-dim: 0;
+}
+
 /* Stacking: text behind, canvas on top */
 .logo-wrap {
   position: relative;
@@ -19,6 +25,37 @@
   background: #000; /* page background behind transparent canvas */
   overflow: hidden;
 }
+.logo-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(90% 70% at 50% 46%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.72) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.84) 100%);
+  opacity: calc(1 - var(--veloste-about-open) * 1.05);
+  transition: opacity 280ms ease;
+}
+.logo-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: rgba(0, 0, 0, var(--veloste-about-dim));
+  transition: background 280ms ease;
+}
+
+.logo-about-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 1.5;
+  background: #000;
+  opacity: var(--veloste-about-open);
+  pointer-events: none;
+  transition: opacity 280ms ease;
+}
 
 /* Canvas sits above text */
 .logo-canvas {
@@ -26,6 +63,11 @@
   inset: 0;
   z-index: 2;
 }
+.logo-canvas canvas {
+  filter: blur(var(--veloste-about-blur));
+  transition: filter 320ms ease;
+}
+
 
 /* Centered background text */
 .bg-text {
@@ -37,11 +79,21 @@
   font-family: "Dream Orphans", sans-serif;
   font-size: clamp(64px, 17vw, 500px);
   color: #ffffff;
+  text-shadow: 0 0 22px rgba(255, 255, 255, 0.14);
   transform: scale(1.8, 2.5);
-}
-
-:root {
-  /* fallback set by your useVh hook */
+  filter: blur(calc(var(--veloste-about-blur) * 0.96));
+  opacity: calc(1 - var(--veloste-about-open));
+  transition: filter 320ms ease, opacity 320ms ease;
 }
 
 html, body, #__next, #root { height: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-wrap::before,
+  .logo-wrap::after,
+  .logo-about-plate,
+  .logo-canvas > canvas,
+  .bg-text {
+    transition: none;
+  }
+}

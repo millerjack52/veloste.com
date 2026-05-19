@@ -1,9 +1,10 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
 import "../components/logoStyles.css";
+import AboutCanvasMode from "../components/AboutCanvasMode";
+import LogoPanelSpin from "../components/LogoPanelSpin";
 import VelosteLogoModel from "../components/VelosteLogoModel";
 import TipCircles from "../components/TipCircles";
 import CircleContentOverlay from "../components/CircleContentOverlay";
@@ -29,10 +30,37 @@ const LogoScene: React.FC = () => {
   const groupZ = 1;
   const maxYaw = THREE.MathUtils.degToRad(40);
   const maxDpr = useResponsiveMaxDpr();
+  const deadZone = 0.15;
+  const easePower = 1.5;
+  const curvePower = 1.6;
+  // Lightroom-style scene grade values: -100..100
+  const grade = {
+    whites: 34,
+    highlights: 26,
+    shadows: -28,
+    blacks: -36,
+  } as const;
+  const toSignedUnit = (v: number) => THREE.MathUtils.clamp(v / 100, -1, 1);
+  const whites = toSignedUnit(grade.whites);
+  const highlights = toSignedUnit(grade.highlights);
+  const shadows = toSignedUnit(grade.shadows);
+  const blacks = toSignedUnit(grade.blacks);
+  // Scene grade stays in-renderer; canvas CSS blur is driven by --veloste-about-blur.
+  const toneMappingExposure =
+    1 +
+    whites * 0.22 +
+    highlights * 0.2 -
+    Math.abs(shadows) * 0.06 -
+    Math.abs(blacks) * 0.05;
+  const smoothstep = (a: number, b: number, x: number) => {
+    const t = THREE.MathUtils.clamp((x - a) / Math.max(1e-6, b - a), 0, 1);
+    return t * t * (3 - 2 * t);
+  };
 
   return (
     <div className="logo-wrap">
       <div className="bg-text">VELOSTE</div>
+      <div className="logo-about-plate" aria-hidden />
 
       <Canvas
         className="logo-canvas"
@@ -48,39 +76,86 @@ const LogoScene: React.FC = () => {
           antialias: true,
           powerPreference: "high-performance",
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1,
+          toneMappingExposure,
         }}
-        style={{ background: "transparent", touchAction: "none" }} // prevent two-finger scroll zoom
+        style={{
+          background: "transparent",
+          touchAction: "none",
+        }} // prevent two-finger scroll zoom
         camera={{ position: [0, 0, 7], fov: 80 }}
       >
         <Suspense fallback={null}>
-          <Lights />
           <ScrollProgress1D
             ticksToMax={7}
             notchSize={48}
             polarity={1}
             smooth={0.92}
           >
-            {(p) => (
-              <group position={[0, 0, groupZ]} rotation={[0, p * maxYaw, 0]}>
-                <VelosteLogoModel rotation={[0, Math.PI * 1.5, 0]} />
-                <TipCircles p={p} groupWorldZ={groupZ} deadZone={0.15} />
-                <CircleContentOverlay
-                  p={p}
-                  deadZone={0.15}
-                  easePower={1.5}
-                  curvePower={1.6}
-                />
-              </group>
-            )}
+            {(p) => {
+              const toUnit = (val: number) =>
+                THREE.MathUtils.clamp((val - deadZone) / (1 - deadZone), 0, 1);
+              const sideRawL = Math.max(0, -p);
+              const easedL = Math.pow(toUnit(sideRawL), easePower);
+              const expL = Math.pow(easedL, curvePower);
+              const sideRawR = Math.max(0, p);
+              const easedR = Math.pow(toUnit(sideRawR), easePower);
+              const expR = Math.pow(easedR, curvePower);
+              const rightOpacity = smoothstep(0.75, 0.97, expR);
+              const leftOpacity = smoothstep(0.75, 0.97, expL);
+              const aboutBlurAmount = THREE.MathUtils.clamp(
+                Math.pow(leftOpacity, 0.88),
+                0,
+                1,
+              );
+              const contactBlurAmount = THREE.MathUtils.clamp(
+                Math.pow(rightOpacity, 0.88),
+                0,
+                1,
+              );
+              const overlayBlurAmount = Math.max(
+                aboutBlurAmount,
+                contactBlurAmount,
+              );
+              const panelSpin =
+                aboutBlurAmount > contactBlurAmount && aboutBlurAmount > 0.02
+                  ? -aboutBlurAmount
+                  : contactBlurAmount > 0.02
+                    ? contactBlurAmount
+                    : 0;
+
+              return (
+                <>
+                  <AboutCanvasMode overlayBlurAmount={overlayBlurAmount} />
+                  <Lights boost={1 + overlayBlurAmount * 2.4} />
+                  <group
+                    position={[0, 0, groupZ]}
+                    rotation={[0, p * maxYaw, 0]}
+                  >
+                    <LogoPanelSpin spin={panelSpin}>
+                      <VelosteLogoModel
+                        rotation={[0, Math.PI * 1.5, 0]}
+                        glow={overlayBlurAmount}
+                      />
+                    </LogoPanelSpin>
+                    <TipCircles
+                      p={p}
+                      groupWorldZ={groupZ}
+                      deadZone={deadZone}
+                      aboutBlurAmount={overlayBlurAmount}
+                    />
+                    <CircleContentOverlay
+                      p={p}
+                      deadZone={deadZone}
+                      easePower={easePower}
+                      curvePower={curvePower}
+                    />
+                  </group>
+                </>
+              );
+            }}
           </ScrollProgress1D>
         </Suspense>
 
-        <OrbitControls
-          enablePan={false}
-          enableZoom={false}
-          enableRotate={false}
-        />
       </Canvas>
     </div>
   );
