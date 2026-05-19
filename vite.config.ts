@@ -9,11 +9,15 @@ export default defineConfig({
     },
   },
   build: {
+    // three.js core alone is ~800 kB minified; expected for WebGL apps.
+    chunkSizeWarningLimit: 850,
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (id.includes("node_modules/three/examples")) return "three-addons";
           if (id.includes("node_modules/three")) return "three";
-          if (id.includes("node_modules/@react-three")) return "r3f";
+          if (id.includes("node_modules/@react-three/drei")) return "drei";
+          if (id.includes("node_modules/@react-three/fiber")) return "r3f";
         },
       },
     },
