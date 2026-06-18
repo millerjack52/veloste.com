@@ -1,55 +1,87 @@
+import { useRef } from "react";
 import { Billboard } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import useFillScaleAtDepth from "../hooks/useFillScaleAtDepth";
+import { useScrollProgress } from "../context/scrollProgressState";
 
-type TipProps = {
+const deadZone = 0.15;
+const easePower = 1.5;
+const curvePower = 1.6;
+
+type TipCircleProps = {
   side: "left" | "right";
-  p: number;
-  baseScale?: number;
-  pos?: { x: number; y: number; z: number };
-  worldZOfGroup?: number;
-  deadZone?: number;
-  easePower?: number;
-  curvePower?: number;
-  color?: string;
-  aboutBlurAmount?: number;
+  pos: { x: number; y: number; z: number };
+  worldZOfGroup: number;
+  color: string;
+  baseOpacity: number;
 };
 
 function TipCircle({
   side,
-  p,
-  baseScale = 0.1,
-  pos = { x: 5, y: 0, z: 0 },
-  worldZOfGroup = 1,
-  deadZone = 0.15,
-  easePower = 1.5,
-  curvePower = 1.6,
-  color = "#ffffff",
-  aboutBlurAmount = 0,
-}: TipProps) {
-  const toUnit = (val: number) =>
-    THREE.MathUtils.clamp((val - deadZone) / (1 - deadZone), 0, 1);
+  pos,
+  worldZOfGroup,
+  color,
+  baseOpacity,
+}: TipCircleProps) {
+  const { pRef, sceneRefs } = useScrollProgress();
+  const meshRef = useRef<THREE.Mesh>(null);
+  const materialRef = useRef<THREE.MeshBasicMaterial>(null);
+  const fillScaleRef = useRef(1);
+  const lastTRef = useRef(-1);
 
-  const sideRaw = side === "right" ? Math.max(0, p) : Math.max(0, -p);
-  const tRaw = toUnit(sideRaw);
-  const easedT = Math.pow(tRaw, easePower);
+  useFrame(({ viewport, camera }) => {
+    const p = pRef.current;
+    const overlayBlur = sceneRefs.overlayBlur.current;
+    if (overlayBlur > 0.92) {
+      if (meshRef.current) meshRef.current.visible = false;
+      return;
+    }
 
-  const fillScale = useFillScaleAtDepth(worldZOfGroup)();
-  const scale =
-    baseScale * Math.pow(fillScale / baseScale, Math.pow(easedT, curvePower));
+    const toUnit = (val: number) =>
+      THREE.MathUtils.clamp((val - deadZone) / (1 - deadZone), 0, 1);
+    const sideRaw = side === "right" ? Math.max(0, p) : Math.max(0, -p);
+    const easedT = Math.pow(toUnit(sideRaw), easePower);
+    const t = Math.pow(easedT, curvePower);
+
+    if (Math.abs(t - lastTRef.current) < 0.004 && meshRef.current?.visible) {
+      if (materialRef.current) {
+        materialRef.current.opacity =
+          baseOpacity * (1 - THREE.MathUtils.clamp(overlayBlur, 0, 1));
+      }
+      return;
+    }
+    lastTRef.current = t;
+
+    const v = viewport.getCurrentViewport(camera, [0, 0, worldZOfGroup]);
+    fillScaleRef.current = Math.max(v.width, v.height) / 1.5;
+
+    const baseScale = 0.1;
+    const scale =
+      baseScale *
+      Math.pow(fillScaleRef.current / baseScale, t);
+
+    if (meshRef.current) {
+      meshRef.current.visible = t > 0.008;
+      meshRef.current.scale.setScalar(scale);
+    }
+
+    if (materialRef.current) {
+      materialRef.current.opacity =
+        baseOpacity * (1 - THREE.MathUtils.clamp(overlayBlur, 0, 1));
+    }
+  });
 
   const x = side === "right" ? -Math.abs(pos.x) : +Math.abs(pos.x);
-  const baseOpacity = side === "left" ? 0.55 : 1;
-  const opacity = baseOpacity * (1 - THREE.MathUtils.clamp(aboutBlurAmount, 0, 1));
 
   return (
     <Billboard position={[x, pos.y, pos.z]} follow>
-      <mesh scale={scale} renderOrder={10}>
-        <circleGeometry args={[1, 64]} />
+      <mesh ref={meshRef} scale={0.1} renderOrder={10}>
+        <circleGeometry args={[1, 32]} />
         <meshBasicMaterial
+          ref={materialRef}
           color={color}
           transparent
-          opacity={opacity}
+          opacity={baseOpacity}
           depthTest={false}
           depthWrite={false}
           side={THREE.DoubleSide}
@@ -61,41 +93,25 @@ function TipCircle({
 }
 
 export default function TipCircles({
-  p,
   groupWorldZ = 1,
-  deadZone = 0.15,
-  left = { x: 6, y: 0.22, z: 0 },
-  right = { x: 5.8, y: 0.22, z: 0 },
-  color = "#ffffff",
-  aboutBlurAmount = 0,
 }: {
-  p: number;
   groupWorldZ?: number;
-  deadZone?: number;
-  left?: { x: number; y: number; z: number };
-  right?: { x: number; y: number; z: number };
-  color?: string;
-  aboutBlurAmount?: number;
 }) {
   return (
     <>
       <TipCircle
         side="left"
-        p={p}
-        pos={left}
+        pos={{ x: 6, y: 0.22, z: 0 }}
         worldZOfGroup={groupWorldZ}
-        deadZone={deadZone}
-        aboutBlurAmount={aboutBlurAmount}
         color="#e8e8e8"
+        baseOpacity={0.55}
       />
       <TipCircle
         side="right"
-        p={p}
-        pos={right}
+        pos={{ x: 5.8, y: 0.22, z: 0 }}
         worldZOfGroup={groupWorldZ}
-        deadZone={deadZone}
-        aboutBlurAmount={aboutBlurAmount}
-        color={color}
+        color="#ffffff"
+        baseOpacity={1}
       />
     </>
   );

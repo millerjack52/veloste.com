@@ -1,23 +1,29 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, {
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Canvas } from "@react-three/fiber";
+import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
 
 import "../components/logoStyles.css";
-import AboutCanvasMode from "../components/AboutCanvasMode";
-import LogoPanelSpin from "../components/LogoPanelSpin";
 import VelosteLogoModel from "../components/VelosteLogoModel";
+import LogoGlowHalo from "../components/LogoGlowHalo";
 import TipCircles from "../components/TipCircles";
 import CircleContentOverlay from "../components/CircleContentOverlay";
 import Lights from "../components/Lights";
+import SceneScrollDriver from "../components/SceneScrollDriver";
 import ScrollProgress1D from "../controls/ScrollProgress1D";
+import ScrollDebugHud from "../components/ScrollDebugHud";
 
 function useResponsiveMaxDpr() {
-  const [maxDpr, setMaxDpr] = useState(2);
+  const [maxDpr, setMaxDpr] = useState(1.5);
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
-      /* Narrow screens: cap pixel ratio to keep 3D smooth and thermals in check */
-      setMaxDpr(w < 480 ? 1.35 : w < 768 ? 1.65 : 2);
+      setMaxDpr(w < 480 ? 1.15 : w < 768 ? 1.35 : 1.5);
     };
     update();
     window.addEventListener("resize", update);
@@ -26,137 +32,147 @@ function useResponsiveMaxDpr() {
   return maxDpr;
 }
 
+const LogoSceneCanvas = React.memo(function LogoSceneCanvas({
+  groupRef,
+  maxYaw,
+  deadZone,
+  easePower,
+  curvePower,
+  groupZ,
+  maxDpr,
+  toneMappingExposure,
+}: {
+  groupRef: React.RefObject<THREE.Group | null>;
+  maxYaw: number;
+  deadZone: number;
+  easePower: number;
+  curvePower: number;
+  groupZ: number;
+  maxDpr: number;
+  toneMappingExposure: number;
+}) {
+  return (
+    <Canvas
+      className="logo-canvas"
+      dpr={[
+        1,
+        Math.min(
+          maxDpr,
+          typeof window !== "undefined" ? window.devicePixelRatio : 1,
+        ),
+      ]}
+      gl={{
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance",
+        toneMapping: THREE.ACESFilmicToneMapping,
+        toneMappingExposure,
+      }}
+      style={{
+        background: "transparent",
+        touchAction: "none",
+      }}
+      camera={{ position: [0, 0, 7], fov: 80 }}
+    >
+      <Suspense fallback={null}>
+        <ScrollProgress1D
+          ticksToMax={7}
+          notchSize={48}
+          polarity={1}
+          smooth={0.88}
+        >
+          <SceneScrollDriver
+            groupRef={groupRef}
+            maxYaw={maxYaw}
+            deadZone={deadZone}
+            easePower={easePower}
+            curvePower={curvePower}
+          />
+          <Lights />
+          <group ref={groupRef} position={[0, 0, groupZ]}>
+            <LogoGlowHalo rotation={[0, Math.PI * 1.5, 0]} />
+            <VelosteLogoModel rotation={[0, Math.PI * 1.5, 0]} />
+            <TipCircles groupWorldZ={groupZ} />
+          </group>
+          <EffectComposer multisampling={maxDpr > 1.25 ? 4 : 0}>
+            <Bloom
+              intensity={0.36}
+              luminanceThreshold={0.72}
+              luminanceSmoothing={0.18}
+              mipmapBlur
+            />
+            <Vignette offset={0.32} darkness={0.72} />
+          </EffectComposer>
+        </ScrollProgress1D>
+      </Suspense>
+    </Canvas>
+  );
+});
+
 const LogoScene: React.FC = () => {
+  const groupRef = useRef<THREE.Group>(null);
   const groupZ = 1;
   const maxYaw = THREE.MathUtils.degToRad(40);
   const maxDpr = useResponsiveMaxDpr();
   const deadZone = 0.15;
   const easePower = 1.5;
   const curvePower = 1.6;
-  // Lightroom-style scene grade values: -100..100
+
   const grade = {
-    whites: 34,
-    highlights: 26,
-    shadows: -28,
-    blacks: -36,
+    whites: 52,
+    highlights: 46,
+    shadows: -76,
+    blacks: -86,
   } as const;
   const toSignedUnit = (v: number) => THREE.MathUtils.clamp(v / 100, -1, 1);
-  const whites = toSignedUnit(grade.whites);
-  const highlights = toSignedUnit(grade.highlights);
-  const shadows = toSignedUnit(grade.shadows);
-  const blacks = toSignedUnit(grade.blacks);
-  // Scene grade stays in-renderer; canvas CSS blur is driven by --veloste-about-blur.
   const toneMappingExposure =
     1 +
-    whites * 0.22 +
-    highlights * 0.2 -
-    Math.abs(shadows) * 0.06 -
-    Math.abs(blacks) * 0.05;
-  const smoothstep = (a: number, b: number, x: number) => {
-    const t = THREE.MathUtils.clamp((x - a) / Math.max(1e-6, b - a), 0, 1);
-    return t * t * (3 - 2 * t);
-  };
+    toSignedUnit(grade.whites) * 0.22 +
+    toSignedUnit(grade.highlights) * 0.2 -
+    Math.abs(toSignedUnit(grade.shadows)) * 0.06 -
+    Math.abs(toSignedUnit(grade.blacks)) * 0.05;
+
+  const [leftInteractive, setLeftInteractive] = useState(false);
+  const [rightInteractive, setRightInteractive] = useState(false);
+
+  useEffect(() => {
+    const onLeft = (e: Event) => {
+      const active = (e as CustomEvent<{ active: boolean }>).detail.active;
+      setLeftInteractive(active);
+    };
+    const onRight = (e: Event) => {
+      const active = (e as CustomEvent<{ active: boolean }>).detail.active;
+      setRightInteractive(active);
+    };
+    window.addEventListener("veloste:leftInteractive", onLeft);
+    window.addEventListener("veloste:rightInteractive", onRight);
+    return () => {
+      window.removeEventListener("veloste:leftInteractive", onLeft);
+      window.removeEventListener("veloste:rightInteractive", onRight);
+    };
+  }, []);
 
   return (
     <div className="logo-wrap">
       <div className="bg-text">VELOSTE</div>
       <div className="logo-about-plate" aria-hidden />
 
-      <Canvas
-        className="logo-canvas"
-        dpr={[
-          1,
-          Math.min(
-            maxDpr,
-            typeof window !== "undefined" ? window.devicePixelRatio : 1,
-          ),
-        ]}
-        gl={{
-          alpha: true,
-          antialias: true,
-          powerPreference: "high-performance",
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure,
-        }}
-        style={{
-          background: "transparent",
-          touchAction: "none",
-        }} // prevent two-finger scroll zoom
-        camera={{ position: [0, 0, 7], fov: 80 }}
-      >
-        <Suspense fallback={null}>
-          <ScrollProgress1D
-            ticksToMax={7}
-            notchSize={48}
-            polarity={1}
-            smooth={0.92}
-          >
-            {(p) => {
-              const toUnit = (val: number) =>
-                THREE.MathUtils.clamp((val - deadZone) / (1 - deadZone), 0, 1);
-              const sideRawL = Math.max(0, -p);
-              const easedL = Math.pow(toUnit(sideRawL), easePower);
-              const expL = Math.pow(easedL, curvePower);
-              const sideRawR = Math.max(0, p);
-              const easedR = Math.pow(toUnit(sideRawR), easePower);
-              const expR = Math.pow(easedR, curvePower);
-              const rightOpacity = smoothstep(0.75, 0.97, expR);
-              const leftOpacity = smoothstep(0.75, 0.97, expL);
-              const aboutBlurAmount = THREE.MathUtils.clamp(
-                Math.pow(leftOpacity, 0.88),
-                0,
-                1,
-              );
-              const contactBlurAmount = THREE.MathUtils.clamp(
-                Math.pow(rightOpacity, 0.88),
-                0,
-                1,
-              );
-              const overlayBlurAmount = Math.max(
-                aboutBlurAmount,
-                contactBlurAmount,
-              );
-              const panelSpin =
-                aboutBlurAmount > contactBlurAmount && aboutBlurAmount > 0.02
-                  ? -aboutBlurAmount
-                  : contactBlurAmount > 0.02
-                    ? contactBlurAmount
-                    : 0;
+      <LogoSceneCanvas
+        groupRef={groupRef}
+        maxYaw={maxYaw}
+        deadZone={deadZone}
+        easePower={easePower}
+        curvePower={curvePower}
+        groupZ={groupZ}
+        maxDpr={maxDpr}
+        toneMappingExposure={toneMappingExposure}
+      />
 
-              return (
-                <>
-                  <AboutCanvasMode overlayBlurAmount={overlayBlurAmount} />
-                  <Lights boost={1 + overlayBlurAmount * 2.4} />
-                  <group
-                    position={[0, 0, groupZ]}
-                    rotation={[0, p * maxYaw, 0]}
-                  >
-                    <LogoPanelSpin spin={panelSpin}>
-                      <VelosteLogoModel
-                        rotation={[0, Math.PI * 1.5, 0]}
-                        glow={overlayBlurAmount}
-                      />
-                    </LogoPanelSpin>
-                    <TipCircles
-                      p={p}
-                      groupWorldZ={groupZ}
-                      deadZone={deadZone}
-                      aboutBlurAmount={overlayBlurAmount}
-                    />
-                    <CircleContentOverlay
-                      p={p}
-                      deadZone={deadZone}
-                      easePower={easePower}
-                      curvePower={curvePower}
-                    />
-                  </group>
-                </>
-              );
-            }}
-          </ScrollProgress1D>
-        </Suspense>
-
-      </Canvas>
+      <CircleContentOverlay
+        leftInteractive={leftInteractive}
+        rightInteractive={rightInteractive}
+      />
+      <ScrollDebugHud />
     </div>
   );
 };

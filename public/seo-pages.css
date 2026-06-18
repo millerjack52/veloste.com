@@ -101,15 +101,6 @@ a:hover {
   padding: 28px 22px;
 }
 
-.kicker {
-  margin: 0 0 10px;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-muted);
-  font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
-}
-
 h1,
 h2,
 h3 {

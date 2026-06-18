@@ -1,240 +1,53 @@
-// src/components/CircleContentOverlay.tsx
 import React from "react";
-import { Html } from "@react-three/drei";
-import * as THREE from "three";
 import AboutPane from "./AboutPane";
 import ContactPane from "./ContactPane";
 
+const MemoAboutPane = React.memo(AboutPane);
+const MemoContactPane = React.memo(ContactPane);
+
 export default function CircleContentOverlay({
-  p,
-  deadZone = 0.15,
-  easePower = 1.5,
-  curvePower = 1.6,
+  leftInteractive,
+  rightInteractive,
 }: {
-  p: number;
-  deadZone?: number;
-  easePower?: number;
-  curvePower?: number;
+  leftInteractive: boolean;
+  rightInteractive: boolean;
 }) {
-  // --- opacity curves ---
-  const toUnit = (val: number) =>
-    THREE.MathUtils.clamp((val - deadZone) / (1 - deadZone), 0, 1);
-  const sideRawR = Math.max(0, p);
-  const sideRawL = Math.max(0, -p);
-  const easedR = Math.pow(toUnit(sideRawR), easePower);
-  const easedL = Math.pow(toUnit(sideRawL), easePower);
-  const expR = Math.pow(easedR, curvePower);
-  const expL = Math.pow(easedL, curvePower);
-  const smoothstep = (a: number, b: number, x: number) => {
-    const t = THREE.MathUtils.clamp((x - a) / Math.max(1e-6, b - a), 0, 1);
-    return t * t * (3 - 2 * t);
-  };
-  const rightOpacity = smoothstep(0.75, 0.97, expR);
-  const leftOpacity = smoothstep(0.75, 0.97, expL);
-  const aboutBlurAmount = THREE.MathUtils.clamp(
-    Math.pow(leftOpacity, 0.88),
-    0,
-    1,
-  );
-  const contactBlurAmount = THREE.MathUtils.clamp(
-    Math.pow(rightOpacity, 0.88),
-    0,
-    1,
-  );
-  const overlayBlurAmount = Math.max(aboutBlurAmount, contactBlurAmount);
-  const overlayBlurPx = overlayBlurAmount * 8;
-
-  // --- Hysteresis for interaction gating ---
-  // Slightly later “interactive” handoff keeps scene scroll driving |p| longer — smoother both ways.
-  const LEFT_ON = 0.88,
-    LEFT_OFF = 0.72;
-  const RIGHT_ON = 0.88,
-    RIGHT_OFF = 0.72;
-
-  const [leftInteractive, setLeftInteractive] = React.useState(false);
-  const [rightInteractive, setRightInteractive] = React.useState(false);
-  const [reducedMotion, setReducedMotion] = React.useState(false);
-
-  React.useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
-    const onChange = () => setReducedMotion(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
-  React.useEffect(() => {
-    setLeftInteractive((prev) =>
-      prev ? leftOpacity > LEFT_OFF : leftOpacity > LEFT_ON,
-    );
-  }, [leftOpacity]);
-
-  React.useEffect(() => {
-    setRightInteractive((prev) =>
-      prev ? rightOpacity > RIGHT_OFF : rightOpacity > RIGHT_ON,
-    );
-  }, [rightOpacity]);
-
-  React.useEffect(() => {
-    const root = document.documentElement;
-    root.style.setProperty(
-      "--veloste-about-blur",
-      `${Math.round(overlayBlurAmount * 14)}px`,
-    );
-    root.style.setProperty(
-      "--veloste-about-open",
-      overlayBlurAmount.toFixed(3),
-    );
-    root.style.setProperty("--veloste-about-dim", "0");
-    return () => {
-      root.style.setProperty("--veloste-about-blur", "0px");
-      root.style.setProperty("--veloste-about-open", "0");
-      root.style.setProperty("--veloste-about-dim", "0");
-    };
-  }, [overlayBlurAmount]);
-
-  // Scroll indicators visible near center, fade as user scrolls
-  const indicatorOpacity = 1 - Math.min(1, Math.abs(p) / 0.15);
-
   return (
-    <Html fullscreen transform={false}>
-      {/* Scroll indicators */}
-      {indicatorOpacity > 0 && (
-        <>
-          {/* Left — About */}
-          <div
-            style={{
-              position: "absolute",
-              left: "max(28px, calc(env(safe-area-inset-left, 0px) + 16px))",
-              top: "50%",
-              transform: "translateY(-50%)",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              opacity: indicatorOpacity * 0.7,
-              filter: `blur(${overlayBlurPx}px)`,
-              pointerEvents: "none",
-              transition: reducedMotion
-                ? "none"
-                : "opacity 200ms ease, filter 260ms ease",
-            }}
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              style={{ opacity: 0.9 }}
-            >
-              <path
-                d="M11 4L6 9L11 14"
-                stroke="#fff"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span
-              style={{
-                fontSize: 11,
-                textTransform: "uppercase",
-                letterSpacing: "0.16em",
-                color: "#fff",
-              }}
-            >
-              About
-            </span>
-          </div>
-
-          {/* Right — Contact */}
-          <div
-            style={{
-              position: "absolute",
-              right: "max(28px, calc(env(safe-area-inset-right, 0px) + 16px))",
-              top: "50%",
-              transform: "translateY(-50%)",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              opacity: indicatorOpacity * 0.7,
-              filter: `blur(${overlayBlurPx}px)`,
-              pointerEvents: "none",
-              transition: reducedMotion
-                ? "none"
-                : "opacity 200ms ease, filter 260ms ease",
-            }}
-          >
-            <span
-              style={{
-                fontSize: 11,
-                textTransform: "uppercase",
-                letterSpacing: "0.16em",
-                color: "#fff",
-              }}
-            >
-              Contact
-            </span>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              style={{ opacity: 0.9 }}
-            >
-              <path
-                d="M7 4L12 9L7 14"
-                stroke="#fff"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-        </>
-      )}
-
-      {/* About — always full-screen, fades in with scroll */}
-      {leftOpacity > 0 && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            justifyItems: "center",
-            pointerEvents: leftInteractive ? "auto" : "none",
-            overscrollBehavior: "contain",
-            background: "transparent",
-          }}
-        >
-          <AboutPane
-            opacity={leftOpacity > 0 ? 1 : 0}
-            active={leftInteractive}
-          />
+    <div className="veloste-overlay" aria-hidden={false}>
+      <div className="veloste-scroll-indicators" aria-hidden>
+        <div className="veloste-scroll-indicator veloste-scroll-indicator--left">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path
+              d="M11 4L6 9L11 14"
+              stroke="#fff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span>About</span>
         </div>
-      )}
-
-      {/* Contact — always full-screen, fades in with scroll */}
-      {rightOpacity > 0 && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            justifyItems: "center",
-            pointerEvents: rightInteractive ? "auto" : "none",
-            overscrollBehavior: "contain",
-            background: "transparent",
-          }}
-        >
-          <ContactPane
-            opacity={rightOpacity}
-            active={rightInteractive}
-            stacked
-          />
+        <div className="veloste-scroll-indicator veloste-scroll-indicator--right">
+          <span>Contact</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path
+              d="M7 4L12 9L7 14"
+              stroke="#fff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
-      )}
-    </Html>
+      </div>
+
+      <div className="veloste-pane veloste-pane--left">
+        <MemoAboutPane active={leftInteractive} />
+      </div>
+
+      <div className="veloste-pane veloste-pane--right">
+        <MemoContactPane active={rightInteractive} stacked />
+      </div>
+    </div>
   );
 }

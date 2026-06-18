@@ -12,43 +12,65 @@ const fontMono = `ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace`
 const ABOUT_SECTIONS = [
   {
     id: "intro",
-    kicker: "01 About",
+    eyebrow: "Calgary-first. Built custom.",
     title: "Calgary web developer for lead-generating websites.",
     body: "Veloste is a Calgary web developer and design studio building custom websites, motion-led interfaces, and immersive 3D experiences for businesses across Canada and the United States.",
   },
   {
     id: "services",
-    kicker: "02 Services",
+    eyebrow: "Strategy, design, code.",
     title: "Custom websites built to convert.",
     body: "For teams that need more than a theme: clean structure, conversion-focused UX, strong visual systems, and code your team can iterate with confidence.",
   },
   {
     id: "work",
-    kicker: "03 Who it's for",
+    eyebrow: "For teams with momentum.",
     title: "Built for teams that need clarity and momentum.",
-    body: "Veloste works with Calgary small businesses and founder-led teams — local service businesses that need qualified leads, teams replacing dated websites that do not explain value clearly, and businesses launching new offers that need a conversion-ready web presence quickly.",
+    body: "Veloste works with Calgary small businesses and founder-led teams - local service businesses that need qualified leads, teams replacing dated websites that do not explain value clearly, and businesses launching new offers that need a conversion-ready web presence quickly.",
   },
   {
     id: "team",
-    kicker: "04 Process",
+    eyebrow: "Clear scope. Fast iteration.",
     title: "Discovery through launch, with clear scope.",
     body: "Every project starts with discovery: goals, audience, constraints, and conversion path. From there we shape structure and art direction, build with responsive QA and performance tuning, then support launch and post-launch iteration. Calgary-first delivery, with support across Airdrie, Cochrane, Okotoks, and Chestermere.",
   },
 ] as const;
 
 const ABOUT_SERVICES = [
-  "Brand-led website design and development",
-  "Interaction and motion system design",
-  "Immersive 3D web experiences",
+  {
+    title: "Brand-led website design and development",
+    body: "Positioning, UX, visual systems, and implementation shaped around the offer.",
+  },
+  {
+    title: "Interaction and motion system design",
+    body: "Motion that clarifies the experience instead of decorating around it.",
+  },
+  {
+    title: "Immersive 3D web experiences",
+    body: "Real-time interfaces for teams that need a distinctive first impression.",
+  },
 ] as const;
 
-export default function AboutPane({
-  opacity,
-  active,
-}: {
-  opacity: number;
-  active: boolean;
-}) {
+const ABOUT_SIGNALS = [
+  "Custom builds",
+  "Conversion-focused UX",
+  "Motion-led interfaces",
+] as const;
+
+const ABOUT_FITS = [
+  "Local service businesses that need qualified leads.",
+  "Teams replacing dated sites that no longer explain their value.",
+  "Founders launching new offers that need a focused web presence quickly.",
+] as const;
+
+const ABOUT_PROCESS = [
+  "Discovery",
+  "Structure",
+  "Art direction",
+  "Build and launch",
+] as const;
+
+export default function AboutPane({ active }: { active: boolean }) {
   const scrollBoxRef = React.useRef<HTMLDivElement>(null);
   const lastTouchYRef = React.useRef<number | null>(null);
   const prevInteractiveRef = React.useRef(false);
@@ -115,82 +137,206 @@ export default function AboutPane({
           width: min(100%, ${SHELL_MAX}px);
           margin: 0 auto;
           display: grid;
-          gap: 22vh;
-          padding-bottom: 18vh;
+          gap: clamp(96px, 18vh, 190px);
+          padding-bottom: clamp(88px, 16vh, 170px);
           color: #fff;
         }
         .about-block {
-          min-height: min(84vh, 920px);
+          min-height: min(86vh, 940px);
           scroll-snap-align: start;
           display: grid;
-          grid-template-columns: minmax(74px, 11vw) minmax(0, 1fr);
-          gap: clamp(14px, 2vw, 32px);
+          grid-template-columns: minmax(76px, 0.18fr) minmax(0, 1fr);
+          gap: clamp(18px, 4vw, 68px);
+          align-items: center;
+        }
+        .about-rail {
+          align-self: stretch;
+          display: block;
+          padding: clamp(6px, 1vw, 12px) 0;
+          border-left: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .about-content {
+          width: min(100%, 70rem);
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.72fr);
+          gap: clamp(24px, 5.6vw, 76px);
           align-items: start;
         }
-        .about-kicker {
-          margin: 0;
-          position: sticky;
-          top: max(20px, calc(env(safe-area-inset-top, 0px) + 16px));
+        .about-heading {
+          min-width: 0;
+        }
+        .about-eyebrow {
+          margin: 0 0 clamp(12px, 1.7vw, 20px);
           font-family: ${fontMono};
           font-size: clamp(10px, 0.9vw, 12px);
-          letter-spacing: 0.14em;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: #fff;
-          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+          color: rgba(255, 255, 255, 0.72);
+          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
         }
         .about-title {
           margin: 0;
           font-family: ${fontDisplay};
-          font-size: clamp(42px, 10vw, 136px);
-          line-height: 0.9;
+          font-size: clamp(42px, 8.4vw, 118px);
+          line-height: 0.88;
           letter-spacing: 0.01em;
           color: #fff;
-          max-width: 12ch;
+          max-width: 11.5ch;
           text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+        }
+        .about-support {
+          min-width: 0;
+          display: grid;
+          gap: clamp(18px, 2.6vw, 30px);
         }
         .about-body {
           margin: 0;
-          margin-top: clamp(14px, 2.2vw, 26px);
           font-family: ${fontBody};
-          font-size: clamp(15px, 1.7vw, 22px);
+          font-size: clamp(15px, 1.45vw, 20px);
           line-height: 1.6;
-          color: #fff;
-          max-width: 58ch;
+          color: rgba(255, 255, 255, 0.9);
+          max-width: 54ch;
           text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
         }
+        .about-signals {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 1px;
+          border-top: 1px solid rgba(255, 255, 255, 0.22);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+        }
+        .about-signal {
+          min-height: 72px;
+          display: flex;
+          align-items: center;
+          padding: 14px 16px;
+          border-left: 1px solid rgba(255, 255, 255, 0.16);
+          font-family: ${fontMono};
+          font-size: clamp(10px, 0.95vw, 12px);
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.84);
+          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
+        }
+        .about-signal:first-child {
+          border-left: 0;
+        }
+        .about-case-link {
+          width: fit-content;
+          display: inline-flex;
+          min-height: 42px;
+          align-items: center;
+          justify-content: center;
+          padding: 0 16px;
+          border: 1px solid rgba(255, 255, 255, 0.34);
+          border-radius: 0;
+          font-family: ${fontMono};
+          font-size: clamp(10px, 0.92vw, 12px);
+          letter-spacing: 0.13em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.92);
+          background: rgba(255, 255, 255, 0.045);
+          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
+          transition:
+            background-color 160ms ease,
+            border-color 160ms ease;
+        }
+        .about-case-link:hover,
+        .about-case-link:focus-visible {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.62);
+          text-decoration: none;
+        }
         .about-services {
-          margin: clamp(20px, 3vw, 34px) 0 0;
+          grid-column: 1 / -1;
+          margin: clamp(10px, 1.4vw, 16px) 0 0;
           padding: 0;
           list-style: none;
           display: grid;
-          gap: clamp(8px, 1.4vw, 16px);
+          border-top: 1px solid rgba(255, 255, 255, 0.22);
         }
         .about-services li {
+          display: grid;
+          grid-template-columns: minmax(0, 0.9fr) minmax(240px, 0.7fr);
+          gap: clamp(18px, 3vw, 44px);
+          padding: clamp(18px, 2.4vw, 28px) 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .about-service-title {
+          margin: 0;
           font-family: ${fontDisplay};
-          font-size: clamp(34px, 6.7vw, 92px);
+          font-size: clamp(28px, 4.7vw, 68px);
           line-height: 0.94;
           letter-spacing: 0.01em;
-          color: #fff;
-          text-transform: none;
+          color: rgba(255, 255, 255, 0.98);
           text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
         }
-        .about-services li:first-child {
-          color: #fff;
+        .about-service-body {
+          margin: 0;
+          align-self: center;
+          font-family: ${fontBody};
+          font-size: clamp(14px, 1.24vw, 17px);
+          line-height: 1.55;
+          color: rgba(255, 255, 255, 0.78);
+          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.82);
+        }
+        .about-fit-list {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: grid;
+          gap: 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.22);
+        }
+        .about-fit-list li {
+          padding: 16px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+          font-family: ${fontBody};
+          font-size: clamp(14px, 1.26vw, 18px);
+          line-height: 1.55;
+          color: rgba(255, 255, 255, 0.82);
+          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.82);
+        }
+        .about-process {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: block;
+          border-top: 1px solid rgba(255, 255, 255, 0.22);
+        }
+        .about-process li {
+          display: grid;
+          grid-template-columns: 42px minmax(0, 1fr);
+          gap: clamp(14px, 2vw, 24px);
+          align-items: baseline;
+          padding: clamp(12px, 1.8vw, 18px) 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .about-process-num {
+          font-family: ${fontMono};
+          font-size: 11px;
+          letter-spacing: 0.16em;
+          color: rgba(255, 255, 255, 0.48);
+        }
+        .about-process-name {
+          font-family: ${fontDisplay};
+          font-size: clamp(30px, 4vw, 58px);
+          line-height: 0.9;
+          color: rgba(255, 255, 255, 0.96);
+          text-shadow: 0 2px 24px rgba(0, 0, 0, 0.85);
         }
         .about-reveal {
           animation: about-reveal-in 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
-          will-change: transform, opacity, filter;
         }
         @keyframes about-reveal-in {
           from {
             opacity: 0;
             transform: translateY(24px);
-            filter: blur(6px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
-            filter: blur(0);
           }
         }
         @media (max-width: 900px) {
@@ -199,11 +345,39 @@ export default function AboutPane({
           }
           .about-block {
             min-height: 72vh;
-            grid-template-columns: 1fr;
-            gap: 10px;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 18px;
+            align-items: start;
           }
-          .about-kicker {
-            position: static;
+          .about-rail {
+            min-height: 0;
+            border-left: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.22);
+            padding: 14px 0 0;
+          }
+          .about-content {
+            grid-template-columns: minmax(0, 1fr);
+            gap: clamp(18px, 5vw, 34px);
+            align-items: start;
+          }
+          .about-title {
+            max-width: 11ch;
+          }
+          .about-signals {
+            grid-template-columns: minmax(0, 1fr);
+          }
+          .about-signal {
+            min-height: 52px;
+            border-left: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+            padding-left: 0;
+          }
+          .about-signal:first-child {
+            border-top: 0;
+          }
+          .about-services li {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 10px;
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -224,8 +398,6 @@ export default function AboutPane({
           height: "calc(var(--vh, 1vh) * 100)",
           background: "transparent",
           color: "#fff",
-          opacity,
-          transition: "opacity 160ms linear",
           pointerEvents: active ? "auto" : "none",
           overflow: "hidden",
         }}
@@ -286,20 +458,73 @@ export default function AboutPane({
             {ABOUT_SECTIONS.map((section, idx) => (
               <section
                 key={section.id}
-                className="about-block about-reveal"
+                className={`about-block about-block--${section.id} about-reveal`}
                 style={{
                   animationDelay: reducedMotion ? "0ms" : `${idx * 70}ms`,
                 }}
-                aria-label={section.kicker}
+                aria-label={section.title}
               >
-                <p className="about-kicker">{section.kicker}</p>
-                <div>
-                  <h1 className="about-title">{section.title}</h1>
-                  <p className="about-body">{section.body}</p>
+                <aside className="about-rail" aria-hidden />
+
+                <div className="about-content">
+                  <div className="about-heading">
+                    <p className="about-eyebrow">{section.eyebrow}</p>
+                    <h1 className="about-title">{section.title}</h1>
+                  </div>
+
+                  <div className="about-support">
+                    <p className="about-body">{section.body}</p>
+
+                    {section.id === "intro" && (
+                      <>
+                        <div className="about-signals" aria-label="Veloste focus">
+                          {ABOUT_SIGNALS.map((item) => (
+                            <span className="about-signal" key={item}>
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                        <a
+                          className="about-case-link"
+                          href="/uptown-workroom/index.html"
+                        >
+                          View Uptown Workroom
+                        </a>
+                      </>
+                    )}
+
+                    {section.id === "work" && (
+                      <ul
+                        className="about-fit-list"
+                        aria-label="Who Veloste works with"
+                      >
+                        {ABOUT_FITS.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {section.id === "team" && (
+                      <ol className="about-process" aria-label="Veloste process">
+                        {ABOUT_PROCESS.map((item, processIdx) => (
+                          <li key={item}>
+                            <span className="about-process-num">
+                              {String(processIdx + 1).padStart(2, "0")}
+                            </span>
+                            <span className="about-process-name">{item}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    )}
+                  </div>
+
                   {section.id === "services" && (
                     <ul className="about-services" aria-label="Veloste services">
                       {ABOUT_SERVICES.map((item) => (
-                        <li key={item}>{item}</li>
+                        <li key={item.title}>
+                          <p className="about-service-title">{item.title}</p>
+                          <p className="about-service-body">{item.body}</p>
+                        </li>
                       ))}
                     </ul>
                   )}
