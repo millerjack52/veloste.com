@@ -1,9 +1,10 @@
 Veloste — ongoing SEO operations (local + organic)
 
 Canonical host (www vs apex)
-- Production uses apex https://www.veloste.com as canonical (see index.html and sitemap).
-- On Vercel, vercel.json redirects www.veloste.com to https://www.veloste.com (deploy this repo so the rule is live).
-- If you use GitHub Pages or another host without host-based redirects, configure a redirect at DNS/CDN (e.g. CNAME + redirect rules) so only one hostname serves the site.
+- Production canonical is https://www.veloste.com/ (www host).
+- Current live behavior: https://veloste.com/ redirects (301) to https://www.veloste.com/.
+- If hosting on Vercel, keep the host redirect rule aligned to veloste.com -> www.veloste.com.
+- If hosting on GitHub Pages or another host without host-based redirects, enforce a single hostname at DNS/CDN.
 
 Structured data (site)
 - The homepage uses schema.org ProfessionalService (not LocalBusiness) because there is no public storefront address published on the site. If you add a verified street address you want public, consider LocalBusiness with matching GBP address.

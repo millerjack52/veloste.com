@@ -1,51 +1,84 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import {
+  ScrollProgressProvider,
+} from "../context/ScrollProgressContext";
+import { useScrollProgress } from "../context/scrollProgressState";
+import { scrollDebug } from "../debug/scrollDebug";
 
-export default function ScrollProgress1D({
+function ScrollProgressFrame({
   children,
-  ticksToMax = 24,
-  notchSize = 120,
-  polarity = 1,
-  smooth = 0.85,
 }: {
-  children: (p: number) => React.ReactNode;
-  ticksToMax?: number;
-  notchSize?: number;
-  polarity?: 1 | -1;
-  smooth?: number;
+  children: React.ReactNode;
 }) {
-  const pTarget = useRef(0);
-  const [p, setP] = useState(0);
+  const { pRef, pTargetRef, smooth } = useScrollProgress();
 
-  const clamp = (v: number) => THREE.MathUtils.clamp(v, -1, 1);
-  const atMin = () => pTarget.current <= -1 + 1e-6;
-  const atMax = () => pTarget.current >= 1 - 1e-6;
+  useFrame((_, dt) => {
+    const k = 1 - Math.pow(smooth, dt * 60);
+    pRef.current = THREE.MathUtils.lerp(pRef.current, pTargetRef.current, k);
+    scrollDebug.recordFrame({
+      dtSeconds: dt,
+      pCurrent: pRef.current,
+      pTarget: pTargetRef.current,
+    });
+  });
 
-  const deltaToP = (dyPixels: number) => {
-    const notches = dyPixels / notchSize;
-    return (-notches * polarity) / ticksToMax;
-  };
+  return <>{children}</>;
+}
 
-  const willConsume = (deltaP: number) => {
-    if (deltaP > 0 && atMax()) return false;
-    if (deltaP < 0 && atMin()) return false;
-    return true;
-  };
+function ScrollProgressInput({
+  ticksToMax,
+  notchSize,
+  polarity,
+  children,
+}: {
+  ticksToMax: number;
+  notchSize: number;
+  polarity: 1 | -1;
+  children: React.ReactNode;
+}) {
+  const { pTargetRef } = useScrollProgress();
 
   useEffect(() => {
+    const clamp = (v: number) => THREE.MathUtils.clamp(v, -1, 1);
+    const atMin = () => pTargetRef.current <= -1 + 1e-6;
+    const atMax = () => pTargetRef.current >= 1 - 1e-6;
+
+    const deltaToP = (dyPixels: number) => {
+      const notches = dyPixels / notchSize;
+      return (-notches * polarity) / ticksToMax;
+    };
+
+    const willConsume = (deltaP: number) => {
+      if (deltaP > 0 && atMax()) return false;
+      if (deltaP < 0 && atMin()) return false;
+      return true;
+    };
+
     const onWheel = (e: WheelEvent) => {
       const modeScale =
         e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
       const dy = e.deltaY * modeScale;
       const dP = deltaToP(dy);
+      const prevTarget = pTargetRef.current;
+      const nextRaw = prevTarget + dP;
+      const nextClamped = clamp(nextRaw);
+      const consumed = willConsume(dP);
 
-      if (!willConsume(dP)) return; // pass-through to native scroll
+      scrollDebug.recordInput({
+        t: performance.now(),
+        mode: "wheel",
+        deltaP: dP,
+        consumed,
+        clamped: Math.abs(nextClamped - nextRaw) > 1e-9,
+      });
+
+      if (!consumed) return;
       e.preventDefault();
-      pTarget.current = clamp(pTarget.current + dP);
+      pTargetRef.current = nextClamped;
     };
 
-    // Touch support with identical pass-through semantics
     let lastY = 0;
     let touching = false;
 
@@ -58,51 +91,91 @@ export default function ScrollProgress1D({
     const onTouchMove = (e: TouchEvent) => {
       if (!touching || e.touches.length !== 1) return;
       const y = e.touches[0].clientY;
-      const dy = lastY - y; // finger up => positive dy (like wheel)
+      const dy = lastY - y;
       lastY = y;
 
       const dP = deltaToP(dy);
-      if (!willConsume(dP)) return; // pass-through
+      const prevTarget = pTargetRef.current;
+      const nextRaw = prevTarget + dP;
+      const nextClamped = clamp(nextRaw);
+      const consumed = willConsume(dP);
+      scrollDebug.recordInput({
+        t: performance.now(),
+        mode: "touch",
+        deltaP: dP,
+        consumed,
+        clamped: Math.abs(nextClamped - nextRaw) > 1e-9,
+      });
+      if (!consumed) return;
 
-      e.preventDefault(); // consume
-      pTarget.current = clamp(pTarget.current + dP);
+      e.preventDefault();
+      pTargetRef.current = nextClamped;
     };
 
     const onTouchEnd = () => {
       touching = false;
     };
 
+    const onSetProgress = (e: Event) => {
+      const detail = (e as CustomEvent<{ p?: number }>).detail;
+      if (!detail || typeof detail.p !== "number") return;
+      const nextClamped = clamp(detail.p);
+      scrollDebug.recordInput({
+        t: performance.now(),
+        mode: "api",
+        deltaP: detail.p - pTargetRef.current,
+        consumed: true,
+        clamped: Math.abs(nextClamped - detail.p) > 1e-9,
+      });
+      pTargetRef.current = nextClamped;
+    };
+
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
-    const onSetProgress = (e: Event) => {
-      const detail = (e as CustomEvent<{ p?: number }>).detail;
-      if (!detail || typeof detail.p !== "number") return;
-      pTarget.current = clamp(detail.p);
-    };
     window.addEventListener(
       "veloste:setProgress",
       onSetProgress as EventListener,
     );
 
     return () => {
-      window.removeEventListener("wheel", onWheel as any);
-      window.removeEventListener("touchstart", onTouchStart as any);
-      window.removeEventListener("touchmove", onTouchMove as any);
-      window.removeEventListener("touchend", onTouchEnd as any);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener(
         "veloste:setProgress",
         onSetProgress as EventListener,
       );
     };
-  }, [ticksToMax, notchSize, polarity]);
+  }, [ticksToMax, notchSize, polarity, pTargetRef]);
 
-  useFrame((_, dt) => {
-    const k = 1 - Math.pow(smooth, dt * 60);
-    const next = THREE.MathUtils.lerp(p, pTarget.current, k);
-    if (next !== p) setP(next);
-  });
+  return <>{children}</>;
+}
 
-  return <>{children(p)}</>;
+export default function ScrollProgress1D({
+  children,
+  ticksToMax = 24,
+  notchSize = 120,
+  polarity = 1,
+  smooth = 0.85,
+}: {
+  children: React.ReactNode;
+  ticksToMax?: number;
+  notchSize?: number;
+  polarity?: 1 | -1;
+  smooth?: number;
+}) {
+  return (
+    <ScrollProgressProvider smooth={smooth}>
+      <ScrollProgressInput
+        ticksToMax={ticksToMax}
+        notchSize={notchSize}
+        polarity={polarity}
+      >
+        <ScrollProgressFrame>{children}</ScrollProgressFrame>
+      </ScrollProgressInput>
+    </ScrollProgressProvider>
+  );
 }

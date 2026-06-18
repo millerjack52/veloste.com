@@ -307,15 +307,6 @@ button:focus-visible {
   padding: 28px;
 }
 
-.seo-kicker {
-  margin: 0 0 8px;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(160, 164, 178, 0.9);
-  font-family: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
-}
-
 .seo-page-title {
   margin: 0 0 12px;
   font-family: "VelosteFont", system-ui, Avenir, Helvetica, Arial, sans-serif;

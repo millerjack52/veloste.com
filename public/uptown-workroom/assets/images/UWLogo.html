@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Concept landing page for Uptown Workroom, a Dunedin printing, embroidery, branding and clothing customisation studio." />
+  <title>Uptown Workroom | Concept Landing Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --ink: #121212;
+  --ink-soft: #202020;
+  --paper: #f4efe6;
+  --paper-muted: #ded5ca;
+  --concrete: #a59f96;
+  --orange: #f45b2f;
+  --lime: #72e06a;
+  --blue: #45a3ff;
+  --yellow: #f2df4e;
+  --white: #fffaf1;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+  --radius-xl: 34px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(244, 91, 47, 0.28), transparent 30rem),
+    radial-gradient(circle at 85% 12%, rgba(69, 163, 255, 0.22), transparent 28rem),
+    linear-gradient(135deg, #fff8ed 0%, #e7ded3 46%, #f6efe5 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body.nav-open {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.skip-link {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
+  transform: translateY(-140%);
+  background: var(--ink);
+  color: var(--white);
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.cursor-orb {
+  position: fixed;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(114, 224, 106, 0.16), transparent 65%);
+  transition: opacity 0.2s ease;
+}
+
+.page-noise {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  background-image:
+    linear-gradient(90deg, rgba(18, 18, 18, 0.07) 1px, transparent 1px),
+    linear-gradient(rgba(18, 18, 18, 0.05) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.site-header {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  z-index: 30;
+  width: min(calc(100% - 2rem), 1180px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem;
+  border: 1px solid rgba(18, 18, 18, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 250, 241, 0.78);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 45px rgba(18, 18, 18, 0.08);
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.site-header.scrolled {
+  background: rgba(18, 18, 18, 0.82);
+  color: var(--white);
+  box-shadow: 0 18px 45px rgba(18, 18, 18, 0.22);
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: max-content;
+}
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50% 50% 42% 58%;
+  background: var(--ink);
+  color: var(--white);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.site-header.scrolled .brand-icon {
+  background: var(--orange);
+  color: var(--ink);
+}
+
+.brand-mark strong,
+.brand-mark em {
+  display: block;
+  line-height: 0.96;
+}
+
+.brand-mark strong {
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.brand-mark em {
+  font-style: normal;
+  color: currentColor;
+  opacity: 0.66;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.site-nav a {
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.92rem;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  background: rgba(18, 18, 18, 0.08);
+  outline: none;
+}
+
+.site-header.scrolled .site-nav a:hover,
+.site-header.scrolled .site-nav a:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.site-nav .nav-cta {
+  background: var(--orange);
+  color: var(--ink);
+}
+
+.nav-toggle {
+  display: none;
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  padding: 0.78rem;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin: 5px 0;
+  background: var(--white);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-open .nav-toggle span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-open .nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-open .nav-toggle span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  min-height: 100vh;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 8.5rem 0 4rem;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.street-grid {
+  position: absolute;
+  inset: 10% -20% 3% 36%;
+  opacity: 0.34;
+  transform: skewY(-8deg) rotate(-3deg);
+  background:
+    linear-gradient(90deg, transparent 0 19%, rgba(18,18,18,0.5) 19% 20%, transparent 20% 39%, rgba(18,18,18,0.5) 39% 40%, transparent 40% 59%, rgba(18,18,18,0.5) 59% 60%, transparent 60%),
+    linear-gradient(0deg, transparent 0 23%, rgba(18,18,18,0.45) 23% 24%, transparent 24% 47%, rgba(18,18,18,0.45) 47% 48%, transparent 48% 71%, rgba(18,18,18,0.45) 71% 72%, transparent 72%);
+  mask-image: radial-gradient(circle, black, transparent 75%);
+}
+
+.ink-splash {
+  position: absolute;
+  border-radius: 58% 42% 40% 60% / 55% 55% 45% 45%;
+  filter: blur(0.2px);
+}
+
+.splash-one {
+  top: 20%;
+  left: -8%;
+  width: 16rem;
+  height: 16rem;
+  background: rgba(244, 91, 47, 0.2);
+  animation: float 10s ease-in-out infinite;
+}
+
+.splash-two {
+  right: 0;
+  bottom: 10%;
+  width: 12rem;
+  height: 12rem;
+  background: rgba(69, 163, 255, 0.2);
+  animation: float 12s ease-in-out infinite reverse;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 0.7rem;
+  height: 0.7rem;
+  background: var(--orange);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2 {
+  font-family: "Anton", Impact, sans-serif;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 11ch;
+  margin-bottom: 1.25rem;
+  font-size: clamp(4.2rem, 11vw, 9.8rem);
+}
+
+h2 {
+  margin-bottom: 1rem;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.hero-lede,
+.section-intro p,
+.city-copy p,
+.quote-copy p {
+  color: rgba(18, 18, 18, 0.72);
+  font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin: 2rem 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.2rem;
+  padding: 0.9rem 1.25rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 7px 7px 0 var(--ink);
+  outline: none;
+}
+
+.btn.primary {
+  background: var(--orange);
+  color: var(--ink);
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hero-stats li {
+  padding: 1rem;
+  border: 1px solid rgba(18, 18, 18, 0.16);
+  border-radius: var(--radius-md);
+  background: rgba(255, 250, 241, 0.55);
+}
+
+.hero-stats strong,
+.hero-stats span {
+  display: block;
+}
+
+.hero-stats strong {
+  font-family: "Anton", Impact, sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.hero-stats span {
+  color: rgba(18, 18, 18, 0.58);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-art {
+  position: relative;
+}
+
+.city-card {
+  position: relative;
+  min-height: 650px;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.2), transparent),
+    radial-gradient(circle at 20% 20%, rgba(242, 223, 78, 0.7), transparent 11rem),
+    linear-gradient(145deg, #181818, #2b2925);
+  box-shadow: var(--shadow), 12px 12px 0 var(--ink);
+}
+
+.city-card::before {
+  content: "";
+  position: absolute;
+  inset: 2rem;
+  border: 1px solid rgba(255, 250, 241, 0.16);
+  border-radius: 50% 50% 45% 55%;
+}
+
+.city-card::after {
+  content: "DUNEDIN CENTRAL";
+  position: absolute;
+  right: -3.6rem;
+  bottom: 7.5rem;
+  transform: rotate(-90deg);
+  color: rgba(255, 250, 241, 0.16);
+  font-family: "Anton", Impact, sans-serif;
+  font-size: 5rem;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.octagon-badge {
+  position: absolute;
+  top: 1.4rem;
+  left: 1.4rem;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 9.8rem;
+  aspect-ratio: 1;
+  padding: 1rem;
+  background: var(--lime);
+  color: var(--ink);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+  font-weight: 1000;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  animation: spinBadge 24s linear infinite;
+}
+
+.shirt-preview {
+  --shirt: #f45b2f;
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: min(78%, 400px);
+  height: 470px;
+  transform: translate(-50%, -50%);
+  background: var(--shirt);
+  border: 2px solid var(--ink);
+  border-radius: 90px 90px 48px 48px;
+  box-shadow: 0 20px 0 rgba(255,255,255,0.14), 0 34px 70px rgba(0,0,0,0.35);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.shirt-preview::before,
+.shirt-preview::after {
+  content: "";
+  position: absolute;
+  top: 72px;
+  width: 135px;
+  height: 210px;
+  background: var(--shirt);
+  border: 2px solid var(--ink);
+  transition: background 0.3s ease;
+}
+
+.shirt-preview::before {
+  left: -98px;
+  border-radius: 66px 22px 28px 58px;
+  transform: rotate(15deg);
+}
+
+.shirt-preview::after {
+  right: -98px;
+  border-radius: 22px 66px 58px 28px;
+  transform: rotate(-15deg);
+}
+
+.shirt-neck {
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  width: 128px;
+  height: 78px;
+  transform: translateX(-50%);
+  background: #24211e;
+  border: 2px solid var(--ink);
+  border-top: 0;
+  border-radius: 0 0 70px 70px;
+  z-index: 2;
+}
+
+.shirt-logo {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  z-index: 2;
+  transform: translate(-50%, -50%) rotate(-4deg);
+  width: 72%;
+  padding: 1rem;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  color: var(--ink);
+  font-family: "Anton", Impact, sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4.7rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-align: center;
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.thread {
+  position: absolute;
+  z-index: 4;
+  border: 3px dashed var(--white);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+.thread-a {
+  right: -2rem;
+  top: 11rem;
+  width: 8rem;
+  height: 8rem;
+  animation: float 8s ease-in-out infinite;
+}
+
+.thread-b {
+  left: -1.3rem;
+  bottom: 5rem;
+  width: 6rem;
+  height: 6rem;
+  border-color: var(--yellow);
+  animation: float 9s ease-in-out infinite reverse;
+}
+
+.swatch-panel {
+  position: absolute;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 5;
+  display: flex;
+  gap: 0.6rem;
+  transform: translateX(-50%);
+  padding: 0.65rem;
+  border: 1px solid rgba(255, 250, 241, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 250, 241, 0.16);
+  backdrop-filter: blur(14px);
+}
+
+.swatch {
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--swatch);
+  cursor: pointer;
+}
+
+.swatch.active {
+  outline: 3px solid var(--white);
+  outline-offset: 3px;
+}
+
+.ticker {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  border-block: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--white);
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 22s linear infinite;
+}
+
+.ticker span {
+  padding: 1.2rem 1.6rem;
+  font-family: "Anton", Impact, sans-serif;
+  font-size: clamp(1.8rem, 4vw, 4rem);
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ticker span:nth-child(3n) {
+  color: var(--lime);
+}
+
+.ticker span:nth-child(3n+1) {
+  color: var(--orange);
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: clamp(5rem, 10vw, 9rem) 0;
+}
+
+.section-intro {
+  max-width: 840px;
+  margin-bottom: 2rem;
+}
+
+.lookbook-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1rem;
+}
+
+.look-card {
+  position: relative;
+  min-height: 310px;
+  overflow: hidden;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.look-card::after {
+  content: "";
+  position: absolute;
+  right: -3rem;
+  bottom: -4rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  background: repeating-linear-gradient(45deg, rgba(18,18,18,0.9) 0 6px, transparent 6px 13px);
+  opacity: 0.14;
+}
+
+.look-card.large {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 640px;
+  background:
+    linear-gradient(135deg, rgba(244, 91, 47, 0.9), rgba(242, 223, 78, 0.84)),
+    var(--orange);
+}
+
+.look-card.large::before {
+  content: "PRINT BIG";
+  position: absolute;
+  top: 1.2rem;
+  left: -0.3rem;
+  color: rgba(18, 18, 18, 0.13);
+  font-family: "Anton", Impact, sans-serif;
+  font-size: clamp(5rem, 13vw, 11rem);
+  line-height: 0.8;
+  letter-spacing: -0.07em;
+}
+
+.look-card.stitch {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(114, 224, 106, 0.6), transparent 10rem),
+    var(--white);
+}
+
+.look-card.transfer {
+  background:
+    radial-gradient(circle at 90% 10%, rgba(69, 163, 255, 0.52), transparent 9rem),
+    var(--white);
+}
+
+.tag {
+  display: inline-flex;
+  width: max-content;
+  margin-bottom: 1rem;
+  padding: 0.45rem 0.7rem;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.service-card {
+  min-height: 280px;
+  padding: 1.2rem;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 250, 241, 0.65);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 0 0 var(--ink);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.service-card:hover,
+.service-card:focus-visible,
+.service-card.active {
+  transform: translateY(-8px);
+  background: var(--ink);
+  color: var(--white);
+  box-shadow: 7px 7px 0 var(--orange);
+  outline: none;
+}
+
+.service-card:nth-child(2).active,
+.service-card:nth-child(2):hover,
+.service-card:nth-child(2):focus-visible {
+  box-shadow: 7px 7px 0 var(--lime);
+}
+
+.service-card:nth-child(3).active,
+.service-card:nth-child(3):hover,
+.service-card:nth-child(3):focus-visible {
+  box-shadow: 7px 7px 0 var(--blue);
+}
+
+.service-card:nth-child(4).active,
+.service-card:nth-child(4):hover,
+.service-card:nth-child(4):focus-visible {
+  box-shadow: 7px 7px 0 var(--yellow);
+}
+
+.service-number {
+  display: block;
+  margin-bottom: 2.5rem;
+  font-family: "Anton", Impact, sans-serif;
+  font-size: 4rem;
+  line-height: 0.8;
+  opacity: 0.4;
+}
+
+.service-stage {
+  margin-top: 1rem;
+  padding: clamp(1.4rem, 4vw, 2.4rem);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.stage-label {
+  margin-bottom: 0.4rem;
+  color: rgba(18, 18, 18, 0.55);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.city-section {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.city-map {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(115deg, rgba(18,18,18,0.05), transparent),
+    var(--ink-soft);
+  box-shadow: 12px 12px 0 var(--ink);
+}
+
+.city-map::before {
+  content: "ŌTEPOTI";
+  position: absolute;
+  left: 1rem;
+  bottom: -0.1rem;
+  color: rgba(255, 250, 241, 0.08);
+  font-family: "Anton", Impact, sans-serif;
+  font-size: 8rem;
+  letter-spacing: -0.08em;
+}
+
+.map-line {
+  position: absolute;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--paper-muted);
+  transform-origin: left center;
+}
+
+.line-one {
+  left: 10%;
+  top: 28%;
+  width: 86%;
+  transform: rotate(18deg);
+}
+
+.line-two {
+  left: 8%;
+  top: 65%;
+  width: 90%;
+  transform: rotate(-24deg);
+  background: var(--blue);
+}
+
+.map-dot {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 5px 5px 0 rgba(255,250,241,0.18);
+}
+
+.map-dot span {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: var(--white);
+  font-weight: 900;
+  font-size: 0.8rem;
+}
+
+.dot-octagon {
+  left: 32%;
+  top: 22%;
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+
+.dot-birch {
+  right: 16%;
+  top: 54%;
+  background: var(--lime);
+}
+
+.dot-vogel {
+  left: 18%;
+  bottom: 20%;
+  background: var(--yellow);
+}
+
+.railway-arches {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.6rem;
+  width: 10rem;
+  height: 7rem;
+  background:
+    radial-gradient(circle at 25% 100%, transparent 0 31%, var(--paper-muted) 32% 36%, transparent 37%),
+    radial-gradient(circle at 50% 100%, transparent 0 31%, var(--paper-muted) 32% 36%, transparent 37%),
+    radial-gradient(circle at 75% 100%, transparent 0 31%, var(--paper-muted) 32% 36%, transparent 37%);
+  border-bottom: 10px solid var(--paper-muted);
+  opacity: 0.75;
+}
+
+.city-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.city-tags span {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--white);
+  font-weight: 900;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.process-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.process-list li {
+  padding: 1.2rem;
+  border-top: 6px solid var(--ink);
+  background: rgba(255, 250, 241, 0.62);
+}
+
+.process-list span {
+  display: block;
+  margin-bottom: 2rem;
+  color: var(--orange);
+  font-family: "Anton", Impact, sans-serif;
+  font-size: 3rem;
+}
+
+.process-list strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.quote-section {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.65fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto 1rem;
+  padding: clamp(2rem, 5vw, 4rem);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(114, 224, 106, 0.38), transparent 18rem),
+    var(--ink);
+  color: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.quote-section .eyebrow::before {
+  background: var(--lime);
+}
+
+.quote-section h2 {
+  max-width: 10ch;
+}
+
+.quote-copy p {
+  color: rgba(255, 250, 241, 0.72);
+}
+
+address {
+  margin-top: 2rem;
+  font-style: normal;
+  line-height: 1.7;
+  color: rgba(255, 250, 241, 0.8);
+}
+
+address a {
+  color: var(--lime);
+  font-weight: 800;
+}
+
+.quote-form {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  color: var(--ink);
+}
+
+.quote-form label {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.quote-form input,
+.quote-form select,
+.quote-form textarea {
+  width: 100%;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: #fff;
+  padding: 0.9rem 1rem;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.quote-form input:focus,
+.quote-form select:focus,
+.quote-form textarea:focus {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+.form-note {
+  margin: 0;
+  color: rgba(18, 18, 18, 0.62);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.site-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.5rem 0 2rem;
+  color: rgba(18, 18, 18, 0.62);
+  font-weight: 800;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(7deg);
+  }
+}
+
+@keyframes spinBadge {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (max-width: 980px) {
+  .hero,
+  .city-section,
+  .quote-section {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 7.5rem;
+  }
+
+  h1 {
+    max-width: 9ch;
+  }
+
+  .lookbook-grid,
+  .service-grid,
+  .process-list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .look-card.large {
+    grid-row: auto;
+    grid-column: span 2;
+    min-height: 460px;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    top: 0.6rem;
+    width: calc(100% - 1rem);
+    border-radius: 28px;
+  }
+
+  .nav-toggle {
+    display: block;
+    z-index: 32;
+  }
+
+  .site-nav {
+    position: fixed;
+    inset: 0.5rem;
+    z-index: 31;
+    display: grid;
+    place-content: center;
+    gap: 1rem;
+    border: 2px solid var(--ink);
+    border-radius: 28px;
+    background: var(--paper);
+    color: var(--ink);
+    transform: translateY(-120%);
+    transition: transform 0.3s ease;
+  }
+
+  .nav-open .site-nav {
+    transform: translateY(0);
+  }
+
+  .site-nav a {
+    font-family: "Anton", Impact, sans-serif;
+    font-size: 3rem;
+    line-height: 0.9;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .hero-stats,
+  .lookbook-grid,
+  .service-grid,
+  .process-list {
+    grid-template-columns: 1fr;
+  }
+
+  .look-card.large {
+    grid-column: auto;
+  }
+
+  .city-card {
+    min-height: 540px;
+  }
+
+  .shirt-preview {
+    width: 65%;
+    height: 390px;
+  }
+
+  .shirt-preview::before,
+  .shirt-preview::after {
+    top: 64px;
+    width: 100px;
+    height: 170px;
+  }
+
+  .shirt-preview::before {
+    left: -72px;
+  }
+
+  .shirt-preview::after {
+    right: -72px;
+  }
+
+  .site-footer {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="cursor-orb" aria-hidden="true"></div>
+  <div class="page-noise" aria-hidden="true"></div>
+
+  <header class="site-header" data-header>
+    <a class="brand-mark" href="#hero" aria-label="Uptown Workroom home">
+      <span class="brand-icon">UW</span>
+      <span>
+        <strong>Uptown</strong>
+        <em>Workroom</em>
+      </span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu" data-nav-toggle>
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="site-nav" data-nav>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#city">Dunedin</a>
+      <a href="#quote" class="nav-cta">Request quote</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="street-grid"></div>
+        <div class="ink-splash splash-one"></div>
+        <div class="ink-splash splash-two"></div>
+      </div>
+
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Dunedin Central • print • stitch • brand</p>
+        <h1 id="hero-title">Turn everyday gear into street-level brand energy.</h1>
+        <p class="hero-lede">A bold concept homepage for Uptown Workroom — where screen printing, embroidery, branded merch and custom clothing collide with a metropolitan Ōtepoti attitude.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#quote">Start a project</a>
+          <a class="btn ghost" href="#work">Explore the look</a>
+        </div>
+        <ul class="hero-stats" aria-label="Service highlights">
+          <li><strong data-count="4">0</strong><span>core services</span></li>
+          <li><strong data-count="9016">0</strong><span>Dunedin postcode</span></li>
+          <li><strong data-count="100">0</strong><span>% custom energy</span></li>
+        </ul>
+      </div>
+
+      <div class="hero-art reveal" aria-label="Abstract garment customisation preview">
+        <div class="city-card">
+          <div class="octagon-badge">The Octagon → Birch St</div>
+          <div class="shirt-preview" data-shirt>
+            <div class="shirt-neck"></div>
+            <div class="shirt-logo">UPTOWN<br>WORKROOM</div>
+            <div class="thread thread-a"></div>
+            <div class="thread thread-b"></div>
+          </div>
+          <div class="swatch-panel" aria-label="Choose shirt colour">
+            <button class="swatch active" type="button" data-colour="#f45b2f" style="--swatch:#f45b2f" aria-label="Coral ink"></button>
+            <button class="swatch" type="button" data-colour="#72e06a" style="--swatch:#72e06a" aria-label="Hi-vis green"></button>
+            <button class="swatch" type="button" data-colour="#45a3ff" style="--swatch:#45a3ff" aria-label="Harbour blue"></button>
+            <button class="swatch" type="button" data-colour="#f2df4e" style="--swatch:#f2df4e" aria-label="Gold ink"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Brand promise ticker">
+      <div class="ticker-track">
+        <span>Screen print</span><span>Embroidery</span><span>Promo products</span><span>Supacolour</span><span>Digital transfers</span><span>Vinyl transfers</span>
+        <span>Screen print</span><span>Embroidery</span><span>Promo products</span><span>Supacolour</span><span>Digital transfers</span><span>Vinyl transfers</span>
+      </div>
+    </section>
+
+    <section class="section work-section" id="work" aria-labelledby="work-title">
+      <div class="section-intro reveal">
+        <p class="eyebrow">Concept direction</p>
+        <h2 id="work-title">Metropolitan, handmade, unmistakably local.</h2>
+        <p>The visual language combines Dunedin warehouse textures, street-art confidence, punchy ink colours and tactile embroidery details.</p>
+      </div>
+
+      <div class="lookbook-grid">
+        <article class="look-card large reveal">
+          <span class="tag">For business</span>
+          <h3>Team uniforms that feel like campaign posters.</h3>
+          <p>Bold blocks, crisp logo placement and confident calls-to-action for companies that want to be noticed.</p>
+        </article>
+        <article class="look-card stitch reveal">
+          <span class="tag">For clubs</span>
+          <h3>Stitched identity for teams.</h3>
+          <p>Caps, hoodies, polos and sideline gear with embroidered crests and durable finishes.</p>
+        </article>
+        <article class="look-card transfer reveal">
+          <span class="tag">For everyone</span>
+          <h3>Short-run ideas, fast visual impact.</h3>
+          <p>Limited merch drops, event tees, one-off gifts and community projects.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section services-section" id="services" aria-labelledby="services-title">
+      <div class="section-intro reveal">
+        <p class="eyebrow">What the homepage should sell</p>
+        <h2 id="services-title">Choose the finish. Build the feeling.</h2>
+      </div>
+
+      <div class="service-grid" data-services>
+        <button class="service-card reveal active" type="button" data-service="screen">
+          <span class="service-number">01</span>
+          <h3>Screen printing</h3>
+          <p>High-impact colour for tees, uniforms, event merch and workwear.</p>
+        </button>
+        <button class="service-card reveal" type="button" data-service="embroidery">
+          <span class="service-number">02</span>
+          <h3>Embroidery</h3>
+          <p>Premium stitched logos for caps, polos, jackets and durable team gear.</p>
+        </button>
+        <button class="service-card reveal" type="button" data-service="promo">
+          <span class="service-number">03</span>
+          <h3>Promotional products</h3>
+          <p>Useful brand objects that travel through offices, events and giveaways.</p>
+        </button>
+        <button class="service-card reveal" type="button" data-service="transfer">
+          <span class="service-number">04</span>
+          <h3>Supacolour & transfers</h3>
+          <p>Digital and vinyl options for flexible finishes and smaller runs.</p>
+        </button>
+      </div>
+
+      <div class="service-stage reveal" data-service-stage>
+        <p class="stage-label">Selected finish</p>
+        <h3>Screen printing</h3>
+        <p>Layer rich colour, oversized graphics and sharp campaign artwork onto garments that have to work hard and look louder.</p>
+      </div>
+    </section>
+
+    <section class="section city-section" id="city" aria-labelledby="city-title">
+      <div class="city-map reveal" aria-hidden="true">
+        <div class="map-line line-one"></div>
+        <div class="map-line line-two"></div>
+        <div class="map-dot dot-octagon"><span>Octagon</span></div>
+        <div class="map-dot dot-birch"><span>Birch St</span></div>
+        <div class="map-dot dot-vogel"><span>Vogel</span></div>
+        <div class="railway-arches"></div>
+      </div>
+      <div class="city-copy reveal">
+        <p class="eyebrow">Ōtepoti references</p>
+        <h2 id="city-title">A city-made workroom aesthetic.</h2>
+        <p>This concept borrows from Dunedin’s street art trail, warehouse precinct, gothic heritage and central-city rhythm — not as postcards, but as texture, movement and attitude.</p>
+        <div class="city-tags">
+          <span>Birch Street studio</span>
+          <span>Warehouse grit</span>
+          <span>Harbour blue</span>
+          <span>Octagon geometry</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section process-section" aria-labelledby="process-title">
+      <div class="section-intro reveal">
+        <p class="eyebrow">Customer journey</p>
+        <h2 id="process-title">From sketch to stitched, in four clear moves.</h2>
+      </div>
+      <ol class="process-list">
+        <li class="reveal"><span>01</span><strong>Brief</strong><p>Tell the studio what you’re making, who it’s for and when it’s needed.</p></li>
+        <li class="reveal"><span>02</span><strong>Design</strong><p>Artwork, garment choices and placement are refined into a production-ready plan.</p></li>
+        <li class="reveal"><span>03</span><strong>Make</strong><p>Print, stitch or transfer using the right finish for the job.</p></li>
+        <li class="reveal"><span>04</span><strong>Launch</strong><p>Collect custom gear that helps your team, club or project show up properly.</p></li>
+      </ol>
+    </section>
+
+    <section class="quote-section" id="quote" aria-labelledby="quote-title">
+      <div class="quote-copy reveal">
+        <p class="eyebrow">Ready when the idea is</p>
+        <h2 id="quote-title">Bring the logo. Bring the wild idea. Bring the blank hoodie.</h2>
+        <p>Use this area as the homepage conversion point: a project form, quick contact details and a strong local call-to-action.</p>
+        <address>
+          Uptown Workroom<br>
+          6 Birch Street, Dunedin Central<br>
+          <a href="mailto:info@uptownworkroom.co.nz">info@uptownworkroom.co.nz</a> · <a href="tel:+6434741306">03 474 1306</a>
+        </address>
+      </div>
+
+      <form class="quote-form reveal" data-quote-form>
+        <label>
+          Name
+          <input type="text" name="name" placeholder="Your name" required>
+        </label>
+        <label>
+          Project type
+          <select name="project" required>
+            <option value="">Choose one</option>
+            <option>Business uniforms</option>
+            <option>Sports team gear</option>
+            <option>Promo products</option>
+            <option>Custom clothing</option>
+          </select>
+        </label>
+        <label>
+          Quantity
+          <input type="number" name="quantity" min="1" placeholder="e.g. 50">
+        </label>
+        <label>
+          Message
+          <textarea name="message" rows="4" placeholder="Tell us about the artwork, garment, deadline or idea."></textarea>
+        </label>
+        <button class="btn primary" type="submit">Mock submit</button>
+        <p class="form-note" data-form-note>This is a front-end concept only — hook this into the real quote flow later.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© Concept mockup for Uptown Workroom</p>
+    <a href="#hero">Back to top ↑</a>
+  </footer>
+
+  <script>
+const body = document.body;
+const header = document.querySelector('[data-header]');
+const nav = document.querySelector('[data-nav]');
+const navToggle = document.querySelector('[data-nav-toggle]');
+const revealEls = document.querySelectorAll('.reveal');
+const serviceCards = document.querySelectorAll('[data-service]');
+const serviceStage = document.querySelector('[data-service-stage]');
+const swatches = document.querySelectorAll('[data-colour]');
+const shirt = document.querySelector('[data-shirt]');
+const quoteForm = document.querySelector('[data-quote-form]');
+const formNote = document.querySelector('[data-form-note]');
+const cursorOrb = document.querySelector('.cursor-orb');
+
+const serviceContent = {
+  screen: {
+    title: 'Screen printing',
+    copy: 'Layer rich colour, oversized graphics and sharp campaign artwork onto garments that have to work hard and look louder.'
+  },
+  embroidery: {
+    title: 'Embroidery',
+    copy: 'Add texture, permanence and polish with stitched logos for polos, caps, jackets and club kit.'
+  },
+  promo: {
+    title: 'Promotional products',
+    copy: 'Create branded pieces people keep using — from everyday workroom staples to launch-day giveaways.'
+  },
+  transfer: {
+    title: 'Supacolour & transfers',
+    copy: 'Use flexible digital and vinyl transfer options when the artwork, garment or quantity needs another route.'
+  }
+};
+
+function setHeaderState() {
+  header.classList.toggle('scrolled', window.scrollY > 28);
+}
+
+setHeaderState();
+window.addEventListener('scroll', setHeaderState, { passive: true });
+
+navToggle.addEventListener('click', () => {
+  const isOpen = body.classList.toggle('nav-open');
+  navToggle.setAttribute('aria-expanded', String(isOpen));
+  navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+});
+
+nav.addEventListener('click', (event) => {
+  if (event.target.matches('a')) {
+    body.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open menu');
+  }
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.16 });
+
+revealEls.forEach((el) => revealObserver.observe(el));
+
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+
+    const target = entry.target;
+    const end = Number(target.dataset.count);
+    const duration = end > 1000 ? 1300 : 900;
+    const start = performance.now();
+
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      target.textContent = Math.round(end * eased).toLocaleString('en-NZ');
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+    countObserver.unobserve(target);
+  });
+}, { threshold: 0.6 });
+
+document.querySelectorAll('[data-count]').forEach((counter) => countObserver.observe(counter));
+
+serviceCards.forEach((card) => {
+  card.addEventListener('click', () => {
+    serviceCards.forEach((item) => item.classList.remove('active'));
+    card.classList.add('active');
+
+    const content = serviceContent[card.dataset.service];
+    serviceStage.animate([
+      { opacity: 0, transform: 'translateY(14px)' },
+      { opacity: 1, transform: 'translateY(0)' }
+    ], { duration: 260, easing: 'ease-out' });
+
+    serviceStage.innerHTML = `
+      <p class="stage-label">Selected finish</p>
+      <h3>${content.title}</h3>
+      <p>${content.copy}</p>
+    `;
+  });
+});
+
+swatches.forEach((swatch) => {
+  swatch.addEventListener('click', () => {
+    swatches.forEach((item) => item.classList.remove('active'));
+    swatch.classList.add('active');
+    shirt.style.setProperty('--shirt', swatch.dataset.colour);
+  });
+});
+
+quoteForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const data = new FormData(quoteForm);
+  const name = data.get('name') || 'there';
+  const project = data.get('project') || 'custom project';
+  formNote.textContent = `Thanks, ${name}. In a live build this would send your ${project.toLowerCase()} enquiry to Uptown Workroom.`;
+  quoteForm.reset();
+});
+
+window.addEventListener('pointermove', (event) => {
+  if (!cursorOrb) return;
+  cursorOrb.style.left = `${event.clientX}px`;
+  cursorOrb.style.top = `${event.clientY}px`;
+}, { passive: true });
+
+  </script>
+</body>
+</html>

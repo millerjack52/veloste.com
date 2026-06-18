@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Uptown Workroom | Screen Printing, Embroidery & Branded Products</title>
+    <meta
+      name="description"
+      content="Uptown Workroom helps Dunedin businesses elevate their brand with screen printing, embroidery, promotional products, and transfer services."
+    />
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script src="./src/main.js" defer></script>
+  </head>
+  <body class="is-locked">
+    <div class="password-gate" data-password-gate>
+      <form class="password-gate__panel" data-password-form>
+        <p class="password-gate__eyebrow">Private preview</p>
+        <h1>Uptown Workroom</h1>
+        <label for="preview-password">Enter password</label>
+        <div class="password-gate__row">
+          <input
+            id="preview-password"
+            name="password"
+            type="password"
+            autocomplete="off"
+            data-password-input
+          />
+          <button type="submit">Enter</button>
+        </div>
+        <p class="password-gate__error" data-password-error hidden>
+          Incorrect password.
+        </p>
+      </form>
+    </div>
+    <a class="motion-logo" href="#top" aria-label="Uptown Workroom home" data-motion-logo>
+      <span class="motion-logo__dots" aria-hidden="true">
+        <span class="motion-logo__dot motion-logo__dot--one" data-dot="1"></span>
+        <span class="motion-logo__dot motion-logo__dot--two" data-dot="2"></span>
+        <span class="motion-logo__dot motion-logo__dot--three" data-dot="3"></span>
+        <span class="motion-logo__dot motion-logo__dot--four" data-dot="4"></span>
+      </span>
+      <span class="motion-logo__text">
+        <span>uptown</span>
+        <span>workroom</span>
+      </span>
+    </a>
+
+    <header class="site-header" data-header>
+      <nav class="site-nav" id="site-nav" data-nav aria-label="Primary navigation">
+        <a href="#services">Services</a>
+        <a href="#brands">Brands</a>
+        <a href="#workroom">Workroom</a>
+        <a href="#quote">Quote</a>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__brand-space">
+          <a class="scroll-indicator" href="#hero-content" aria-label="Scroll to Uptown Workroom introduction">
+            <span>Scroll</span>
+            <span class="scroll-indicator__line" aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div class="hero__content" id="hero-content">
+          <h1 id="hero-title">Simple, bold brand gear for teams that need to be seen.</h1>
+          <p>
+            Uptown Workroom creates screen printing, embroidery, promotional products, and
+            transfer work for businesses that want sharp uniforms and useful branded objects.
+          </p>
+        </div>
+        <div class="hero__image-panel" aria-label="Workroom imagery">
+          <img
+            src="./assets/images/wookroom_screenprinting.webp"
+            alt="Screen printing equipment and colourful ink inside a workroom."
+          />
+          <div class="hero__signal">
+            <span>Formerly Uptown Art</span>
+            <strong>6 Birch Street</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="services" id="services" aria-labelledby="services-title">
+        <div class="section-heading">
+          <h2 id="services-title">The ways we bring your brand into the workday.</h2>
+        </div>
+
+        <div class="service-grid">
+          <article class="service-card service-card--ink">
+            <span>01</span>
+            <h3>Screen Printing</h3>
+            <p>Bold apparel print work for uniforms, merch, launches, teams, and events.</p>
+          </article>
+          <article class="service-card service-card--thread">
+            <span>02</span>
+            <h3>Embroidery</h3>
+            <p>Clean stitched logos for polos, caps, jackets, high-vis gear, and workwear.</p>
+          </article>
+          <article class="service-card service-card--product">
+            <span>03</span>
+            <h3>Promotional Products</h3>
+            <p>Branded objects and giveaways that support campaigns, crews, and customers.</p>
+          </article>
+          <article class="service-card service-card--transfer">
+            <span>04</span>
+            <h3>Transfers</h3>
+            <p>Supacolour, digital, and vinyl transfer options for flexible logo placement.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="customisation" id="customisation" aria-labelledby="customisation-title">
+        <div>
+          <h2 id="customisation-title">Online customisation for teams that need ordering to be simple.</h2>
+          <p>
+            Build and preview branded gear, organise team uniform needs, and move from idea to
+            quote with a clear online pathway backed by the workroom.
+          </p>
+        </div>
+        <a class="customisation-link" href="#quote">Start with a quote</a>
+      </section>
+
+      <section class="brands" id="brands" aria-labelledby="brands-title">
+        <div class="section-heading">
+          <h2 id="brands-title">A selection of brands we can source and customise.</h2>
+        </div>
+
+        <div class="brand-grid" aria-label="Selected brands">
+          <span>AS Colour</span>
+          <span>Bisley Workwear</span>
+          <span>Biz Corporate Workwear</span>
+          <span>Carhartt Workwear</span>
+          <span>Hard Yakka</span>
+          <span>C-Force</span>
+          <span>Gear for Life</span>
+          <span>Eco Gear</span>
+          <span>Dri Gear</span>
+          <span>JB's Wear</span>
+        </div>
+      </section>
+
+      <section class="workroom" id="workroom" aria-labelledby="workroom-title">
+        <div class="workroom__copy">
+          <h2 id="workroom-title">Clean uniforms, useful products, and a finish that feels considered.</h2>
+          <p>
+            From one-off campaigns to repeat uniform runs, Uptown Workroom keeps the process
+            practical, creative, and clear for teams across Dunedin and beyond.
+          </p>
+        </div>
+        <div class="workroom__images">
+          <img src="./assets/images/embroidery_highvis.webp" alt="Embroidery on high-vis workwear." />
+          <img src="./assets/images/swatches.webp" alt="A bright set of colour swatches." />
+          <img src="./assets/images/workroom_cups.webp" alt="Stacks of branded promotional cups." />
+        </div>
+      </section>
+
+      <section class="quote" id="quote" aria-labelledby="quote-title">
+        <h2 id="quote-title">Tell the workroom what your brand needs to become.</h2>
+        <address>
+          <a href="mailto:info@uptownworkroom.co.nz">info@uptownworkroom.co.nz</a>
+          <a href="tel:+6434741306">03 474 1306</a>
+          <span>6 Birch Street, Dunedin Central, Dunedin 9016</span>
+          <span>Mon-Fri, 08:00-16:30</span>
+        </address>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>uptown workroom</span>
+      <span>Screen printing / embroidery / promotional products / transfers</span>
+    </footer>
+  </body>
+</html>
