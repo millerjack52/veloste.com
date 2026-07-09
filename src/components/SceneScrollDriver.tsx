@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useScrollProgress } from "../context/scrollProgressState";
 import { computeScrollDerived } from "../utils/scrollCurves";
@@ -9,7 +9,12 @@ const LEFT_ON = 0.88;
 const LEFT_OFF = 0.72;
 const RIGHT_ON = 0.88;
 const RIGHT_OFF = 0.72;
-const BLUR_ON = 0.88;
+/* Page flips to light chrome (nav ink etc.) once the white flood is
+   well established; hysteresis avoids flicker at the boundary. */
+const LIGHT_ON = 0.7;
+const LIGHT_OFF = 0.55;
+/* Black text arrives after the background is mostly white. */
+const PANE_TEXT_LAG = 1.6;
 const CSS_EPSILON = 0.025;
 const GLOW_STEPS = 16;
 
@@ -44,28 +49,20 @@ export default function SceneScrollDriver({
   easePower?: number;
   curvePower?: number;
 }) {
-  const { gl } = useThree();
   const { pRef, sceneRefs } = useScrollProgress();
-  const opaqueRef = useRef(false);
-  const blurredRef = useRef(false);
+  const lightRef = useRef(false);
   const panelOpenRef = useRef(false);
   const leftInteractiveRef = useRef(false);
   const rightInteractiveRef = useRef(false);
   const cssCacheRef = useRef<Record<string, number>>({});
   const cssFrameRef = useRef(0);
 
-  const blurPx =
-    typeof window !== "undefined" && window.innerWidth < 768 ? 6 : 8;
-
   useEffect(() => {
     return () => {
-      gl.setClearColor(0x000000, 0);
-      gl.setClearAlpha(0);
       document.documentElement.classList.remove(
         "veloste-panel-open",
-        "veloste-panel-blurred",
+        "veloste-light",
       );
-      document.documentElement.style.removeProperty("--veloste-about-blur");
       document.documentElement.style.removeProperty("--veloste-about-open");
       document.documentElement.style.removeProperty("--veloste-left-opacity");
       document.documentElement.style.removeProperty("--veloste-right-opacity");
@@ -73,7 +70,7 @@ export default function SceneScrollDriver({
         "--veloste-indicator-opacity",
       );
     };
-  }, [gl]);
+  }, []);
 
   useFrame(() => {
     const derived = computeScrollDerived(pRef.current, {
@@ -124,14 +121,14 @@ export default function SceneScrollDriver({
         cache,
         "leftOpacity",
         "--veloste-left-opacity",
-        leftOpacity,
+        Math.pow(leftOpacity, PANE_TEXT_LAG),
       );
       setCssVarIfChanged(
         root,
         cache,
         "rightOpacity",
         "--veloste-right-opacity",
-        rightOpacity,
+        Math.pow(rightOpacity, PANE_TEXT_LAG),
       );
       setCssVarIfChanged(
         root,
@@ -148,28 +145,13 @@ export default function SceneScrollDriver({
         scrollDebug.recordThreshold("panelOpen", panelOpen);
       }
 
-      const blurred = overlayBlurAmount >= BLUR_ON;
-      if (blurred !== blurredRef.current) {
-        blurredRef.current = blurred;
-        root.classList.toggle("veloste-panel-blurred", blurred);
-        scrollDebug.recordThreshold("canvasBlurred", blurred);
-        root.style.setProperty(
-          "--veloste-about-blur",
-          blurred ? `${blurPx}px` : "0px",
-        );
-      }
-    }
-
-    const aboutActive = overlayBlurAmount > 0.02;
-    if (aboutActive !== opaqueRef.current) {
-      opaqueRef.current = aboutActive;
-      scrollDebug.recordThreshold("opaqueCanvas", aboutActive);
-      if (aboutActive) {
-        gl.setClearColor(0x000000, 1);
-        gl.setClearAlpha(1);
-      } else {
-        gl.setClearColor(0x000000, 0);
-        gl.setClearAlpha(0);
+      const light = lightRef.current
+        ? overlayBlurAmount > LIGHT_OFF
+        : overlayBlurAmount > LIGHT_ON;
+      if (light !== lightRef.current) {
+        lightRef.current = light;
+        root.classList.toggle("veloste-light", light);
+        scrollDebug.recordThreshold("lightPage", light);
       }
     }
 

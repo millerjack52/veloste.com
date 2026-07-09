@@ -1,7 +1,8 @@
 import React, { useLayoutEffect } from "react";
 
+/* Top clears the fixed nav pill (~56px + breathing room). */
 const SCROLL_PAD =
-  "max(8vh, calc(env(safe-area-inset-top, 0px) + 20px)) max(20px, calc(env(safe-area-inset-right, 0px) + 20px)) max(10vh, calc(env(safe-area-inset-bottom, 0px) + 20px)) max(20px, calc(env(safe-area-inset-left, 0px) + 20px))";
+  "max(12vh, calc(env(safe-area-inset-top, 0px) + 84px)) max(20px, calc(env(safe-area-inset-right, 0px) + 20px)) max(10vh, calc(env(safe-area-inset-bottom, 0px) + 20px)) max(20px, calc(env(safe-area-inset-left, 0px) + 20px))";
 const SCROLL_EDGE_TOL = 8;
 const SHELL_MAX = 1240;
 
@@ -125,12 +126,13 @@ export default function AboutPane({ active }: { active: boolean }) {
         .about-scroll {
           scroll-behavior: smooth;
           scrollbar-width: thin;
-          scrollbar-color: rgba(255,255,255,0.24) transparent;
+          scrollbar-color: rgba(0,0,0,0.28) transparent;
           scroll-snap-type: y proximity;
+          scroll-padding-top: max(12vh, calc(env(safe-area-inset-top, 0px) + 84px));
         }
         .about-scroll::-webkit-scrollbar { width: 6px; }
         .about-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255,255,255,0.22);
+          background: rgba(0,0,0,0.25);
           border-radius: 999px;
         }
         .about-shell {
@@ -139,7 +141,7 @@ export default function AboutPane({ active }: { active: boolean }) {
           display: grid;
           gap: clamp(96px, 18vh, 190px);
           padding-bottom: clamp(88px, 16vh, 170px);
-          color: #fff;
+          color: #000;
         }
         .about-block {
           min-height: min(86vh, 940px);
@@ -149,12 +151,12 @@ export default function AboutPane({ active }: { active: boolean }) {
           gap: clamp(18px, 4vw, 68px);
           align-items: center;
         }
-        .about-rail {
-          align-self: stretch;
-          display: block;
-          padding: clamp(6px, 1vw, 12px) 0;
-          border-left: 1px solid rgba(255, 255, 255, 0.2);
-        }
+        // .about-rail {
+        //   align-self: stretch;
+        //   display: block;
+        //   padding: clamp(6px, 1vw, 12px) 0;
+        //   border-left: 1px solid rgba(0, 0, 0, 0.16);
+        // }
         .about-content {
           width: min(100%, 70rem);
           margin: 0 auto;
@@ -172,8 +174,7 @@ export default function AboutPane({ active }: { active: boolean }) {
           font-size: clamp(10px, 0.9vw, 12px);
           letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.72);
-          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
+          color: rgba(0, 0, 0, 0.55);
         }
         .about-title {
           margin: 0;
@@ -181,9 +182,8 @@ export default function AboutPane({ active }: { active: boolean }) {
           font-size: clamp(42px, 8.4vw, 118px);
           line-height: 0.88;
           letter-spacing: 0.01em;
-          color: #fff;
+          color: #000;
           max-width: 11.5ch;
-          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
         }
         .about-support {
           min-width: 0;
@@ -195,58 +195,61 @@ export default function AboutPane({ active }: { active: boolean }) {
           font-family: ${fontBody};
           font-size: clamp(15px, 1.45vw, 20px);
           line-height: 1.6;
-          color: rgba(255, 255, 255, 0.9);
+          color: rgba(0, 0, 0, 0.78);
           max-width: 54ch;
-          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
         }
         .about-signals {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 1px;
-          border-top: 1px solid rgba(255, 255, 255, 0.22);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+          border-top: 1px solid rgba(0, 0, 0, 0.2);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         }
         .about-signal {
           min-height: 72px;
           display: flex;
           align-items: center;
           padding: 14px 16px;
-          border-left: 1px solid rgba(255, 255, 255, 0.16);
+          border-left: 1px solid rgba(0, 0, 0, 0.14);
           font-family: ${fontMono};
           font-size: clamp(10px, 0.95vw, 12px);
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.84);
-          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
+          color: rgba(0, 0, 0, 0.72);
         }
         .about-signal:first-child {
           border-left: 0;
         }
         .about-case-link {
+          appearance: none;
           width: fit-content;
           display: inline-flex;
           min-height: 42px;
           align-items: center;
           justify-content: center;
-          padding: 0 16px;
-          border: 1px solid rgba(255, 255, 255, 0.34);
-          border-radius: 0;
+          gap: 8px;
+          padding: 0 20px;
+          border: 1px solid rgba(0, 0, 0, 0.32);
+          border-radius: 999px;
           font-family: ${fontMono};
           font-size: clamp(10px, 0.92vw, 12px);
           letter-spacing: 0.13em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.92);
-          background: rgba(255, 255, 255, 0.045);
-          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
+          color: #000;
+          background: transparent;
+          cursor: pointer;
           transition:
-            background-color 160ms ease,
-            border-color 160ms ease;
+            background-color 180ms ease,
+            color 180ms ease,
+            border-color 180ms ease;
         }
         .about-case-link:hover,
         .about-case-link:focus-visible {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.62);
+          background: #000;
+          border-color: #000;
+          color: #fff;
           text-decoration: none;
+          outline: none;
         }
         .about-services {
           grid-column: 1 / -1;
@@ -254,14 +257,14 @@ export default function AboutPane({ active }: { active: boolean }) {
           padding: 0;
           list-style: none;
           display: grid;
-          border-top: 1px solid rgba(255, 255, 255, 0.22);
+          border-top: 1px solid rgba(0, 0, 0, 0.2);
         }
         .about-services li {
           display: grid;
           grid-template-columns: minmax(0, 0.9fr) minmax(240px, 0.7fr);
           gap: clamp(18px, 3vw, 44px);
           padding: clamp(18px, 2.4vw, 28px) 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.16);
         }
         .about-service-title {
           margin: 0;
@@ -269,8 +272,7 @@ export default function AboutPane({ active }: { active: boolean }) {
           font-size: clamp(28px, 4.7vw, 68px);
           line-height: 0.94;
           letter-spacing: 0.01em;
-          color: rgba(255, 255, 255, 0.98);
-          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+          color: #000;
         }
         .about-service-body {
           margin: 0;
@@ -278,8 +280,7 @@ export default function AboutPane({ active }: { active: boolean }) {
           font-family: ${fontBody};
           font-size: clamp(14px, 1.24vw, 17px);
           line-height: 1.55;
-          color: rgba(255, 255, 255, 0.78);
-          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.82);
+          color: rgba(0, 0, 0, 0.66);
         }
         .about-fit-list {
           margin: 0;
@@ -287,23 +288,22 @@ export default function AboutPane({ active }: { active: boolean }) {
           list-style: none;
           display: grid;
           gap: 0;
-          border-top: 1px solid rgba(255, 255, 255, 0.22);
+          border-top: 1px solid rgba(0, 0, 0, 0.2);
         }
         .about-fit-list li {
           padding: 16px 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.14);
           font-family: ${fontBody};
           font-size: clamp(14px, 1.26vw, 18px);
           line-height: 1.55;
-          color: rgba(255, 255, 255, 0.82);
-          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.82);
+          color: rgba(0, 0, 0, 0.72);
         }
         .about-process {
           margin: 0;
           padding: 0;
           list-style: none;
           display: block;
-          border-top: 1px solid rgba(255, 255, 255, 0.22);
+          border-top: 1px solid rgba(0, 0, 0, 0.2);
         }
         .about-process li {
           display: grid;
@@ -311,20 +311,19 @@ export default function AboutPane({ active }: { active: boolean }) {
           gap: clamp(14px, 2vw, 24px);
           align-items: baseline;
           padding: clamp(12px, 1.8vw, 18px) 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.14);
         }
         .about-process-num {
           font-family: ${fontMono};
           font-size: 11px;
           letter-spacing: 0.16em;
-          color: rgba(255, 255, 255, 0.48);
+          color: rgba(0, 0, 0, 0.4);
         }
         .about-process-name {
           font-family: ${fontDisplay};
           font-size: clamp(30px, 4vw, 58px);
           line-height: 0.9;
-          color: rgba(255, 255, 255, 0.96);
-          text-shadow: 0 2px 24px rgba(0, 0, 0, 0.85);
+          color: #000;
         }
         .about-reveal {
           animation: about-reveal-in 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -352,7 +351,7 @@ export default function AboutPane({ active }: { active: boolean }) {
           .about-rail {
             min-height: 0;
             border-left: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.22);
+            border-top: 1px solid rgba(0, 0, 0, 0.2);
             padding: 14px 0 0;
           }
           .about-content {
@@ -369,7 +368,7 @@ export default function AboutPane({ active }: { active: boolean }) {
           .about-signal {
             min-height: 52px;
             border-left: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.14);
+            border-top: 1px solid rgba(0, 0, 0, 0.12);
             padding-left: 0;
           }
           .about-signal:first-child {
@@ -397,7 +396,7 @@ export default function AboutPane({ active }: { active: boolean }) {
           width: "100%",
           height: "calc(var(--vh, 1vh) * 100)",
           background: "transparent",
-          color: "#fff",
+          color: "#000",
           pointerEvents: active ? "auto" : "none",
           overflow: "hidden",
         }}
@@ -468,7 +467,7 @@ export default function AboutPane({ active }: { active: boolean }) {
 
                 <div className="about-content">
                   <div className="about-heading">
-                    <p className="about-eyebrow">{section.eyebrow}</p>
+                    
                     <h1 className="about-title">{section.title}</h1>
                   </div>
 
@@ -484,12 +483,17 @@ export default function AboutPane({ active }: { active: boolean }) {
                             </span>
                           ))}
                         </div>
-                        <a
+                        <button
+                          type="button"
                           className="about-case-link"
-                          href="/uptown-workroom/index.html"
+                          onClick={() =>
+                            window.dispatchEvent(
+                              new CustomEvent("veloste:openWork"),
+                            )
+                          }
                         >
-                          View Uptown Workroom
-                        </a>
+                          View case studies
+                        </button>
                       </>
                     )}
 
@@ -505,16 +509,13 @@ export default function AboutPane({ active }: { active: boolean }) {
                     )}
 
                     {section.id === "team" && (
-                      <ol className="about-process" aria-label="Veloste process">
-                        {ABOUT_PROCESS.map((item, processIdx) => (
+                      <ul className="about-process" aria-label="Veloste process">
+                        {ABOUT_PROCESS.map((item) => (
                           <li key={item}>
-                            <span className="about-process-num">
-                              {String(processIdx + 1).padStart(2, "0")}
-                            </span>
                             <span className="about-process-name">{item}</span>
                           </li>
                         ))}
-                      </ol>
+                      </ul>
                     )}
                   </div>
 
@@ -536,6 +537,7 @@ export default function AboutPane({ active }: { active: boolean }) {
           <nav className="seo-links-hidden" aria-label="SEO navigation links">
             <a href="/web-developer-calgary/">Calgary web developer services</a>
             <a href="/service-areas/calgary-region/">Calgary-region coverage</a>
+            <a href="/uptown-workroom/">Uptown Workroom case study</a>
             <a href="mailto:contact@veloste.com">Get a scoped quote</a>
           </nav>
         </div>

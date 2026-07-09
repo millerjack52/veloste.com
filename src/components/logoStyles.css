@@ -8,9 +8,7 @@
 }
 
 :root {
-  --veloste-about-blur: 0px;
   --veloste-about-open: 0;
-  --veloste-about-dim: 0;
   --veloste-left-opacity: 0;
   --veloste-right-opacity: 0;
   --veloste-indicator-opacity: 1;
@@ -26,28 +24,14 @@
   background: #000;
   overflow: hidden;
 }
-.logo-wrap::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: calc(1 - var(--veloste-about-open) * 1.05);
-}
-.logo-wrap::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-  background: rgba(0, 0, 0, var(--veloste-about-dim));
-}
 
+/* White page plate: the in-canvas circle floods from the star tip,
+   this guarantees full coverage as progress completes. */
 .logo-about-plate {
   position: absolute;
   inset: 0;
-  z-index: auto;
-  background: #000;
+  z-index: 3;
+  background: #fff;
   opacity: var(--veloste-about-open);
   pointer-events: none;
 }
@@ -56,12 +40,6 @@
   position: absolute;
   inset: 0;
   z-index: 2;
-}
-.logo-canvas canvas {
-  filter: none;
-}
-html.veloste-panel-blurred .logo-canvas canvas {
-  filter: blur(var(--veloste-about-blur)) brightness(1.04);
 }
 
 .veloste-overlay {
@@ -114,7 +92,14 @@ html.veloste-panel-blurred .logo-canvas canvas {
   display: flex;
   align-items: center;
   gap: 8px;
-  opacity: calc(var(--veloste-indicator-opacity) * 0.7);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  opacity: calc(var(--veloste-indicator-opacity) * 0.85);
 }
 .veloste-scroll-indicator svg {
   opacity: 0.9;
@@ -134,8 +119,344 @@ html.veloste-panel-blurred .logo-canvas canvas {
 
 html, body, #__next, #root { height: 100%; }
 
+/* ================================
+   Site nav — glass pill (inverts on light pages)
+   ================================ */
+.site-nav {
+  position: fixed;
+  top: max(16px, calc(env(safe-area-inset-top, 0px) + 10px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+}
+.site-nav__pill {
+  display: flex;
+  gap: 2px;
+  padding: 5px;
+  border-radius: 999px;
+  transition: background-color 260ms ease, border-color 260ms ease,
+    box-shadow 260ms ease;
+}
+.site-nav__link {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-family: "Dream Orphans", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: background-color 260ms ease, color 260ms ease;
+}
+.site-nav__link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.09);
+}
+.site-nav__link:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.65);
+  outline-offset: 2px;
+  color: #fff;
+}
+.site-nav__link.is-active {
+  color: #000;
+  background: rgba(255, 255, 255, 0.92);
+}
+html.veloste-light .site-nav__pill {
+  background: rgba(0, 0, 0, 0.045);
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: none;
+}
+html.veloste-light .site-nav__link {
+  color: rgba(0, 0, 0, 0.62);
+}
+html.veloste-light .site-nav__link:hover {
+  color: #000;
+  background: rgba(0, 0, 0, 0.07);
+}
+html.veloste-light .site-nav__link:focus-visible {
+  outline-color: rgba(0, 0, 0, 0.6);
+  color: #000;
+}
+html.veloste-light .site-nav__link.is-active {
+  color: #fff;
+  background: #000;
+}
+@media (max-width: 480px) {
+  .site-nav__link {
+    padding: 8px 13px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* ================================
+   Work overlay — case studies, white gallery
+   ================================ */
+.work-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  animation: work-fade-in 320ms ease both;
+}
+@keyframes work-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.work-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.28) transparent;
+  padding:
+    max(9vh, calc(env(safe-area-inset-top, 0px) + 24px))
+    max(20px, calc(env(safe-area-inset-right, 0px) + 20px))
+    max(10vh, calc(env(safe-area-inset-bottom, 0px) + 28px))
+    max(20px, calc(env(safe-area-inset-left, 0px) + 20px));
+}
+.work-scroll::-webkit-scrollbar { width: 6px; }
+.work-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 999px;
+}
+.work-shell {
+  width: min(100%, 1060px);
+  margin: 0 auto;
+  color: #000;
+}
+.work-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: clamp(28px, 5vh, 56px);
+  animation: work-rise 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.work-eyebrow {
+  margin: 0 0 10px;
+  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
+  font-size: clamp(10px, 0.9vw, 12px);
+  letter-spacing: 0.18em;
+  /* text-transform: uppercase; */
+  color: rgba(0, 0, 0, 0.55);
+}
+.work-title {
+  margin: 0;
+  font-family: 'VelosteFont', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: clamp(44px, 8vw, 108px);
+  line-height: 0.88;
+  letter-spacing: 0.01em;
+  color: #000;
+}
+.work-close {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  background: rgba(0, 0, 0, 0.03);
+  color: rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease,
+    color 180ms ease;
+}
+.work-close:hover,
+.work-close:focus-visible {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  outline: none;
+}
+.work-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(28px, 5vh, 56px);
+}
+.work-card {
+  min-width: 0;
+  animation: work-rise 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.work-card:nth-child(2) { animation-delay: 70ms; }
+.work-card:nth-child(3) { animation-delay: 140ms; }
+@keyframes work-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.work-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 0 0 clamp(16px, 2.4vw, 24px);
+}
+.work-card__content .work-eyebrow { margin: 0; }
+.work-card__title {
+  margin: 0;
+  font-family: 'VelosteFont', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: clamp(30px, 4.4vw, 54px);
+  line-height: 0.92;
+  color: #000;
+}
+.work-card__body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.72);
+  max-width: 62ch;
+}
+.work-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.work-tags {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.work-tag {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  background: rgba(0, 0, 0, 0.025);
+  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  /* text-transform: uppercase; */
+  color: rgba(0, 0, 0, 0.62);
+}
+.work-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: transparent;
+  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  /* text-transform: uppercase; */
+  color: #000;
+  transition: background-color 180ms ease, color 180ms ease,
+    border-color 180ms ease;
+}
+a.work-link:hover,
+a.work-link:focus-visible {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  text-decoration: none;
+  outline: none;
+}
+.work-link--static {
+  border-style: dashed;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* Gallery — swipe-native scroll-snap strip */
+.work-gallery {
+  display: flex;
+  gap: clamp(10px, 1.6vw, 16px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 2px;
+  margin: 0 -2px;
+}
+.work-gallery::-webkit-scrollbar { display: none; }
+.work-shot {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(74vw, 420px);
+  aspect-ratio: 4 / 3;
+  /* border-radius: 16px; */
+  overflow: hidden;
+  scroll-snap-align: center;
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
+  /* box-shadow: 0 18px 44px rgba(0, 0, 0, 0.14); */
+  background: #f2f2f2;
+}
+.work-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.work-shot--dark {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 90% at 50% 12%, rgba(255, 255, 255, 0.14), transparent 60%),
+    #060607;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+.work-shot--dark .work-card__mark {
+  font-family: 'VelosteFont', system-ui, sans-serif;
+  font-size: clamp(72px, 9vw, 120px);
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 0 44px rgba(255, 255, 255, 0.35);
+}
+
+.work-card--cta {
+  border-top: 1px solid rgba(0, 0, 0, 0.14);
+  padding-top: clamp(24px, 4vh, 40px);
+}
+.work-cta {
+  appearance: none;
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 999px;
+  background: #000;
+  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+.work-cta:hover,
+.work-cta:focus-visible {
+  transform: translateY(-1px);
+  opacity: 0.85;
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html.veloste-panel-blurred .logo-canvas canvas {
-    filter: brightness(1.04);
+  .work-overlay,
+  .work-header,
+  .work-card {
+    animation: none;
+  }
+  .work-gallery {
+    scroll-behavior: auto;
   }
 }
