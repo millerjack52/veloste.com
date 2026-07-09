@@ -7,23 +7,24 @@ import { useScrollProgress } from "../context/scrollProgressState";
 const deadZone = 0.15;
 const easePower = 1.5;
 const curvePower = 1.6;
+/* Grow the circle ahead of the CSS white plate so the flood visibly
+   originates from the star tip before the page finishes whitening. */
+const SCALE_LEAD = 0.55;
 
 type TipCircleProps = {
   side: "left" | "right";
   pos: { x: number; y: number; z: number };
   worldZOfGroup: number;
-  color: string;
-  baseOpacity: number;
+  startOpacity: number;
 };
 
 function TipCircle({
   side,
   pos,
   worldZOfGroup,
-  color,
-  baseOpacity,
+  startOpacity,
 }: TipCircleProps) {
-  const { pRef, sceneRefs } = useScrollProgress();
+  const { pRef } = useScrollProgress();
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.MeshBasicMaterial>(null);
   const fillScaleRef = useRef(1);
@@ -31,11 +32,6 @@ function TipCircle({
 
   useFrame(({ viewport, camera }) => {
     const p = pRef.current;
-    const overlayBlur = sceneRefs.overlayBlur.current;
-    if (overlayBlur > 0.92) {
-      if (meshRef.current) meshRef.current.visible = false;
-      return;
-    }
 
     const toUnit = (val: number) =>
       THREE.MathUtils.clamp((val - deadZone) / (1 - deadZone), 0, 1);
@@ -44,10 +40,6 @@ function TipCircle({
     const t = Math.pow(easedT, curvePower);
 
     if (Math.abs(t - lastTRef.current) < 0.004 && meshRef.current?.visible) {
-      if (materialRef.current) {
-        materialRef.current.opacity =
-          baseOpacity * (1 - THREE.MathUtils.clamp(overlayBlur, 0, 1));
-      }
       return;
     }
     lastTRef.current = t;
@@ -56,9 +48,9 @@ function TipCircle({
     fillScaleRef.current = Math.max(v.width, v.height) / 1.5;
 
     const baseScale = 0.1;
+    const tScale = Math.pow(t, SCALE_LEAD);
     const scale =
-      baseScale *
-      Math.pow(fillScaleRef.current / baseScale, t);
+      baseScale * Math.pow(fillScaleRef.current / baseScale, tScale);
 
     if (meshRef.current) {
       meshRef.current.visible = t > 0.008;
@@ -66,8 +58,8 @@ function TipCircle({
     }
 
     if (materialRef.current) {
-      materialRef.current.opacity =
-        baseOpacity * (1 - THREE.MathUtils.clamp(overlayBlur, 0, 1));
+      // Solidify to opaque white — the circle *is* the page background.
+      materialRef.current.opacity = THREE.MathUtils.lerp(startOpacity, 1, t);
     }
   });
 
@@ -76,12 +68,12 @@ function TipCircle({
   return (
     <Billboard position={[x, pos.y, pos.z]} follow>
       <mesh ref={meshRef} scale={0.1} renderOrder={10}>
-        <circleGeometry args={[1, 32]} />
+        <circleGeometry args={[1, 48]} />
         <meshBasicMaterial
           ref={materialRef}
-          color={color}
+          color="#ffffff"
           transparent
-          opacity={baseOpacity}
+          opacity={startOpacity}
           depthTest={false}
           depthWrite={false}
           side={THREE.DoubleSide}
@@ -103,15 +95,13 @@ export default function TipCircles({
         side="left"
         pos={{ x: 6, y: 0.22, z: 0 }}
         worldZOfGroup={groupWorldZ}
-        color="#e8e8e8"
-        baseOpacity={0.55}
+        startOpacity={0.6}
       />
       <TipCircle
         side="right"
         pos={{ x: 5.8, y: 0.22, z: 0 }}
         worldZOfGroup={groupWorldZ}
-        color="#ffffff"
-        baseOpacity={1}
+        startOpacity={0.8}
       />
     </>
   );

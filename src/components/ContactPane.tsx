@@ -1,7 +1,8 @@
 import React from "react";
 
+/* Top clears the fixed nav pill (~56px + breathing room). */
 const SCROLL_PAD =
-  "max(8vh, calc(env(safe-area-inset-top, 0px) + 20px)) max(20px, calc(env(safe-area-inset-right, 0px) + 20px)) max(10vh, calc(env(safe-area-inset-bottom, 0px) + 20px)) max(20px, calc(env(safe-area-inset-left, 0px) + 20px))";
+  "max(12vh, calc(env(safe-area-inset-top, 0px) + 84px)) max(20px, calc(env(safe-area-inset-right, 0px) + 20px)) max(10vh, calc(env(safe-area-inset-bottom, 0px) + 20px)) max(20px, calc(env(safe-area-inset-left, 0px) + 20px))";
 const SHELL_MAX = 1240;
 
 const fontDisplay = `'VelosteFont', system-ui, Avenir, Helvetica, Arial, sans-serif`;
@@ -78,18 +79,18 @@ export default function ContactPane({
         .contact-scroll {
           scroll-behavior: smooth;
           scrollbar-width: thin;
-          scrollbar-color: rgba(255,255,255,0.24) transparent;
+          scrollbar-color: rgba(0,0,0,0.28) transparent;
         }
         .contact-scroll::-webkit-scrollbar { width: 6px; }
         .contact-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255,255,255,0.22);
+          background: rgba(0,0,0,0.25);
           border-radius: 999px;
         }
         .contact-shell {
           width: min(100%, ${SHELL_MAX}px);
           margin: 0 auto;
           padding-bottom: 18vh;
-          color: #fff;
+          color: #000;
         }
         .contact-block {
           min-height: min(84vh, 920px);
@@ -101,11 +102,6 @@ export default function ContactPane({
         .contact-content {
           width: min(100%, 60rem);
           margin: 0 auto;
-          padding: clamp(18px, 3vw, 30px);
-          border-radius: 18px;
-          background: rgba(0, 0, 0, 0.52);
-          backdrop-filter: blur(8px) saturate(120%);
-          -webkit-backdrop-filter: blur(8px) saturate(120%);
         }
         .contact-title {
           margin: 0;
@@ -113,9 +109,8 @@ export default function ContactPane({
           font-size: clamp(42px, 10vw, 136px);
           line-height: 0.92;
           letter-spacing: 0.01em;
-          color: rgba(255, 255, 255, 0.98);
+          color: #000;
           max-width: 12ch;
-          text-shadow: 0 1px 14px rgba(0, 0, 0, 0.82);
         }
         .contact-body,
         .contact-meta {
@@ -124,16 +119,15 @@ export default function ContactPane({
           font-family: ${fontBody};
           font-size: clamp(16px, 1.8vw, 23px);
           line-height: 1.6;
-          color: rgba(255, 255, 255, 0.94);
+          color: rgba(0, 0, 0, 0.78);
           max-width: 58ch;
-          text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8);
         }
         .contact-meta {
           margin-top: clamp(10px, 1.4vw, 18px);
           font-size: clamp(15px, 1.5vw, 19px);
         }
         .contact-meta a {
-          color: rgba(255, 255, 255, 0.98);
+          color: #000;
           text-decoration: underline;
           text-underline-offset: 3px;
         }
@@ -158,8 +152,7 @@ export default function ContactPane({
           font-size: clamp(11px, 1vw, 13px);
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.92);
-          text-shadow: 0 1px 12px rgba(0, 0, 0, 0.78);
+          color: rgba(0, 0, 0, 0.55);
         }
         .contact-field {
           box-sizing: border-box;
@@ -168,23 +161,23 @@ export default function ContactPane({
           font-size: 16px;
           line-height: 1.45;
           font-family: ${fontBody};
-          color: rgba(255, 255, 255, 0.98);
-          background: rgba(255, 255, 255, 0.05);
-          border: none;
-          border-radius: 10px;
+          color: #000;
+          background: rgba(0, 0, 0, 0.035);
+          border: 1px solid rgba(0, 0, 0, 0.16);
+          border-radius: 12px;
           outline: none;
-          text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
-          transition: background-color 160ms ease;
+          transition: background-color 160ms ease, border-color 160ms ease;
         }
         .contact-field::placeholder {
-          color: rgba(255, 255, 255, 0.66);
+          color: rgba(0, 0, 0, 0.38);
         }
         .contact-field:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(0, 0, 0, 0.3);
         }
         .contact-field:focus,
         .contact-field:focus-visible {
-          background: rgba(255, 255, 255, 0.1);
+          background: #fff;
+          border-color: rgba(0, 0, 0, 0.65);
         }
         .contact-textarea {
           min-height: 120px;
@@ -196,38 +189,36 @@ export default function ContactPane({
           font-family: ${fontBody};
           font-size: clamp(14px, 1.4vw, 16px);
           line-height: 1.5;
-          color: #ffb4a8;
-          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+          color: #a4241a;
         }
         .contact-submit {
           justify-self: start;
           margin-top: 8px;
-          padding: 10px 16px;
+          padding: 14px 28px;
           border: none;
-          border-radius: 10px;
-          background: rgba(255, 255, 255, 0.14);
-          font-family: ${fontBody};
-          font-size: 14px;
+          border-radius: 999px;
+          background: #000;
+          font-family: ${fontMono};
+          font-size: 12px;
           line-height: 1.2;
           font-weight: 600;
-          letter-spacing: 0.04em;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.98);
+          color: #fff;
           cursor: pointer;
-          text-shadow: none;
-          transition: background-color 160ms ease, opacity 160ms ease;
+          transition: transform 160ms ease, opacity 160ms ease;
         }
         .contact-submit:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.22);
-          opacity: 1;
+          transform: translateY(-1px);
+          opacity: 0.85;
         }
         .contact-submit:disabled {
-          opacity: 0.45;
+          opacity: 0.4;
           cursor: default;
         }
         .contact-submit:focus-visible {
-          outline: none;
-          background: rgba(255, 255, 255, 0.26);
+          outline: 1px solid rgba(0, 0, 0, 0.6);
+          outline-offset: 3px;
         }
         .contact-success {
           margin: clamp(28px, 4vw, 48px) 0 0;
@@ -235,8 +226,7 @@ export default function ContactPane({
           font-family: ${fontBody};
           font-size: clamp(15px, 1.7vw, 22px);
           line-height: 1.6;
-          color: #fff;
-          text-shadow: 0 2px 28px rgba(0, 0, 0, 0.85);
+          color: #000;
         }
         @media (max-width: 900px) {
           .contact-block {
@@ -259,7 +249,7 @@ export default function ContactPane({
           width: "100%",
           height: "calc(var(--vh, 1vh) * 100)",
           background: "transparent",
-          color: "#fff",
+          color: "#000",
           pointerEvents: active ? "auto" : "none",
           overflowY: active ? "auto" : "hidden",
           WebkitOverflowScrolling: active ? "touch" : "auto",

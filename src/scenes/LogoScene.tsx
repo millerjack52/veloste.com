@@ -1,5 +1,7 @@
 import React, {
   Suspense,
+  lazy,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -17,6 +19,10 @@ import Lights from "../components/Lights";
 import SceneScrollDriver from "../components/SceneScrollDriver";
 import ScrollProgress1D from "../controls/ScrollProgress1D";
 import ScrollDebugHud from "../components/ScrollDebugHud";
+import SiteNav from "../components/SiteNav";
+
+const workPaneImport = () => import("../components/WorkPane");
+const WorkPane = lazy(workPaneImport);
 
 function useResponsiveMaxDpr() {
   const [maxDpr, setMaxDpr] = useState(1.5);
@@ -63,7 +69,8 @@ const LogoSceneCanvas = React.memo(function LogoSceneCanvas({
       ]}
       gl={{
         alpha: true,
-        antialias: true,
+        // MSAA on the EffectComposer handles AA; canvas AA would double the cost.
+        antialias: false,
         powerPreference: "high-performance",
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure,
@@ -134,6 +141,19 @@ const LogoScene: React.FC = () => {
 
   const [leftInteractive, setLeftInteractive] = useState(false);
   const [rightInteractive, setRightInteractive] = useState(false);
+  const [workOpen, setWorkOpen] = useState(false);
+
+  const openWork = useCallback(() => setWorkOpen(true), []);
+  const closeWork = useCallback(() => setWorkOpen(false), []);
+  const prefetchWork = useCallback(() => {
+    void workPaneImport();
+  }, []);
+  const workToContact = useCallback(() => {
+    setWorkOpen(false);
+    window.dispatchEvent(
+      new CustomEvent("veloste:setProgress", { detail: { p: 1 } }),
+    );
+  }, []);
 
   useEffect(() => {
     const onLeft = (e: Event) => {
@@ -144,11 +164,14 @@ const LogoScene: React.FC = () => {
       const active = (e as CustomEvent<{ active: boolean }>).detail.active;
       setRightInteractive(active);
     };
+    const onOpenWork = () => setWorkOpen(true);
     window.addEventListener("veloste:leftInteractive", onLeft);
     window.addEventListener("veloste:rightInteractive", onRight);
+    window.addEventListener("veloste:openWork", onOpenWork);
     return () => {
       window.removeEventListener("veloste:leftInteractive", onLeft);
       window.removeEventListener("veloste:rightInteractive", onRight);
+      window.removeEventListener("veloste:openWork", onOpenWork);
     };
   }, []);
 
@@ -172,6 +195,12 @@ const LogoScene: React.FC = () => {
         leftInteractive={leftInteractive}
         rightInteractive={rightInteractive}
       />
+      <SiteNav onOpenWork={openWork} onPrefetchWork={prefetchWork} />
+      {workOpen && (
+        <Suspense fallback={null}>
+          <WorkPane onClose={closeWork} onContact={workToContact} />
+        </Suspense>
+      )}
       <ScrollDebugHud />
     </div>
   );
