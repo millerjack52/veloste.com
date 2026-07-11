@@ -29,8 +29,10 @@ function TipCircle({
   const materialRef = useRef<THREE.MeshBasicMaterial>(null);
   const fillScaleRef = useRef(1);
   const lastTRef = useRef(-1);
+  const lastSizeWRef = useRef(-1);
+  const lastSizeHRef = useRef(-1);
 
-  useFrame(({ viewport, camera }) => {
+  useFrame(({ viewport, camera, size }) => {
     const p = pRef.current;
 
     const toUnit = (val: number) =>
@@ -44,8 +46,16 @@ function TipCircle({
     }
     lastTRef.current = t;
 
-    const v = viewport.getCurrentViewport(camera, [0, 0, worldZOfGroup]);
-    fillScaleRef.current = Math.max(v.width, v.height) / 1.5;
+    // getCurrentViewport allocates; only recompute when the canvas resizes.
+    if (
+      size.width !== lastSizeWRef.current ||
+      size.height !== lastSizeHRef.current
+    ) {
+      lastSizeWRef.current = size.width;
+      lastSizeHRef.current = size.height;
+      const v = viewport.getCurrentViewport(camera, [0, 0, worldZOfGroup]);
+      fillScaleRef.current = Math.max(v.width, v.height) / 1.5;
+    }
 
     const baseScale = 0.1;
     const tScale = Math.pow(t, SCALE_LEAD);

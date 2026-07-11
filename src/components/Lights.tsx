@@ -1,154 +1,88 @@
 import * as THREE from "three";
-import { useRef, type ComponentProps } from "react";
+import { useRef } from "react";
 import { Environment, Lightformer } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useScrollProgress } from "../context/scrollProgressState";
 
-type LightformerComponentProps = ComponentProps<typeof Lightformer>;
-
-function BoostedLightformer({
-  baseIntensity,
-  ...props
-}: LightformerComponentProps & { baseIntensity: number }) {
-  const ref = useRef<THREE.Mesh & { intensity: number }>(null);
-  const { sceneRefs } = useScrollProgress();
-  const lastBoostRef = useRef(1);
-
-  useFrame(() => {
-    const node = ref.current;
-    if (!node) return;
-    const boost = sceneRefs.lightBoost.current;
-    if (Math.abs(boost - lastBoostRef.current) < 1e-4) return;
-    lastBoostRef.current = boost;
-    node.intensity = baseIntensity * boost;
-  });
-
-  return <Lightformer ref={ref} intensity={baseIntensity} {...props} />;
-}
-
-function BoostedDirectionalLight({
-  baseIntensity,
-  position,
-}: {
-  baseIntensity: number;
-  position: [number, number, number];
-}) {
-  const ref = useRef<THREE.DirectionalLight>(null);
-  const { sceneRefs } = useScrollProgress();
-  const lastBoostRef = useRef(1);
-
-  useFrame(() => {
-    const boost = sceneRefs.lightBoost.current;
-    if (Math.abs(boost - lastBoostRef.current) < 1e-4) return;
-    lastBoostRef.current = boost;
-    if (ref.current) ref.current.intensity = baseIntensity * boost;
-  });
-
-  return (
-    <directionalLight
-      ref={ref}
-      position={position}
-      intensity={baseIntensity}
-      color="#ffffff"
-    />
-  );
-}
-
-function BoostedPointLight({
-  baseIntensity,
-  position,
-  distance,
-}: {
-  baseIntensity: number;
-  position: [number, number, number];
-  distance: number;
-}) {
-  const ref = useRef<THREE.PointLight>(null);
-  const { sceneRefs } = useScrollProgress();
-  const lastBoostRef = useRef(1);
-
-  useFrame(() => {
-    const boost = sceneRefs.lightBoost.current;
-    if (Math.abs(boost - lastBoostRef.current) < 1e-4) return;
-    lastBoostRef.current = boost;
-    if (ref.current) ref.current.intensity = baseIntensity * boost;
-  });
-
-  return (
-    <pointLight
-      ref={ref}
-      position={position}
-      intensity={baseIntensity}
-      color="#ffffff"
-      distance={distance}
-      decay={2}
-    />
-  );
-}
+const AMBIENT_BASE = 0.008;
+const HEMISPHERE_BASE = 0.016;
+const KEY_BASE = 10;
+const RIM_BASE = 6.5;
+const UNDER_BASE = 22;
 
 export default function Lights() {
   const { sceneRefs } = useScrollProgress();
   const ambientRef = useRef<THREE.AmbientLight>(null);
   const hemisphereRef = useRef<THREE.HemisphereLight>(null);
+  const keyRef = useRef<THREE.DirectionalLight>(null);
+  const rimRef = useRef<THREE.DirectionalLight>(null);
+  const underRef = useRef<THREE.PointLight>(null);
   const lastBoostRef = useRef(1);
 
+  // Single subscription drives every boostable light. The Lightformers are
+  // intentionally not boosted: with Environment frames={1} the env map bakes
+  // once at mount, so per-frame Lightformer intensity writes never re-bake.
   useFrame(() => {
     const boost = sceneRefs.lightBoost.current;
     if (Math.abs(boost - lastBoostRef.current) < 1e-4) return;
     lastBoostRef.current = boost;
 
-    if (ambientRef.current) ambientRef.current.intensity = 0.008 * boost;
+    if (ambientRef.current) ambientRef.current.intensity = AMBIENT_BASE * boost;
     if (hemisphereRef.current) {
-      hemisphereRef.current.intensity = 0.016 * boost;
+      hemisphereRef.current.intensity = HEMISPHERE_BASE * boost;
     }
+    if (keyRef.current) keyRef.current.intensity = KEY_BASE * boost;
+    if (rimRef.current) rimRef.current.intensity = RIM_BASE * boost;
+    if (underRef.current) underRef.current.intensity = UNDER_BASE * boost;
   });
 
   return (
     <>
-      <ambientLight ref={ambientRef} intensity={0.008} />
+      <ambientLight ref={ambientRef} intensity={AMBIENT_BASE} />
       <hemisphereLight
         ref={hemisphereRef}
-        intensity={0.016}
+        intensity={HEMISPHERE_BASE}
         color="#ffffff"
         groundColor="#000000"
       />
 
-      {/* Key + rim directionals — crisp specular edges like chrome product shots */}
-      <BoostedDirectionalLight
-        baseIntensity={10}
+      {/* Key + rim directionals — crisp specular edges like chrome product shots.
+          The two weak back directionals were folded into the baked back
+          Lightformer strips below (intensities bumped to compensate). */}
+      <directionalLight
+        ref={keyRef}
         position={[5.5, 6.5, 5.5]}
+        intensity={KEY_BASE}
+        color="#ffffff"
       />
-      <BoostedDirectionalLight
-        baseIntensity={6.5}
+      <directionalLight
+        ref={rimRef}
         position={[-7.5, 2.8, -5.5]}
-      />
-      <BoostedDirectionalLight
-        baseIntensity={4.2}
-        position={[0.8, 0.4, -9]}
-      />
-      <BoostedDirectionalLight
-        baseIntensity={2.8}
-        position={[7, 1.5, -4.5]}
+        intensity={RIM_BASE}
+        color="#ffffff"
       />
       {/* True under-light, placed below/front-left of the logo. */}
-      <BoostedPointLight
-        baseIntensity={22}
+      <pointLight
+        ref={underRef}
         position={[-1.8, -5.8, 3.2]}
+        intensity={UNDER_BASE}
+        color="#ffffff"
         distance={7}
+        decay={2}
       />
 
       <Environment background={false} blur={0.55} frames={1}>
         {/* Key — upper-right front */}
-        <BoostedLightformer
-          baseIntensity={28}
+        <Lightformer
+          intensity={28}
           form="rect"
           color="#ffffff"
           scale={[1.4, 1.1, 1]}
           position={[2.4, 3.2, 3.6]}
           rotation={[-0.62, -0.32, 0]}
         />
-        <BoostedLightformer
-          baseIntensity={17}
+        <Lightformer
+          intensity={17}
           form="rect"
           color="#ffffff"
           scale={[1.5, 0.32, 1]}
@@ -157,17 +91,17 @@ export default function Lights() {
         />
 
         {/* Rim — narrow back-left vertical strip */}
-        <BoostedLightformer
-          baseIntensity={22}
+        <Lightformer
+          intensity={22}
           form="rect"
           color="#ffffff"
           scale={[0.42, 7.5, 1]}
           position={[-2.1, 0.45, -3.6]}
           rotation={[0, Math.PI, 0]}
         />
-        {/* Rim — back-right edge (weaker, asymmetric) */}
-        <BoostedLightformer
-          baseIntensity={11}
+        {/* Rim — back-right edge (covers the removed back-right directional) */}
+        <Lightformer
+          intensity={15}
           form="rect"
           color="#ffffff"
           scale={[0.38, 6, 1]}
@@ -175,8 +109,8 @@ export default function Lights() {
           rotation={[0, Math.PI, 0]}
         />
         {/* Rim — top-back horizontal, catches star tips */}
-        <BoostedLightformer
-          baseIntensity={18}
+        <Lightformer
+          intensity={20}
           form="rect"
           color="#ffffff"
           scale={[5.5, 0.38, 1]}
@@ -184,8 +118,8 @@ export default function Lights() {
           rotation={[-0.42, 0, 0]}
         />
         {/* Rim — bottom-back, lower arm edges */}
-        <BoostedLightformer
-          baseIntensity={12}
+        <Lightformer
+          intensity={13}
           form="rect"
           color="#ffffff"
           scale={[4.5, 0.32, 1]}
@@ -193,8 +127,8 @@ export default function Lights() {
           rotation={[0.38, 0, 0]}
         />
         {/* Top spill — keeps forehead-style highlight without filling shadows */}
-        <BoostedLightformer
-          baseIntensity={7}
+        <Lightformer
+          intensity={7}
           form="rect"
           color="#ffffff"
           scale={[5, 1.1, 1]}

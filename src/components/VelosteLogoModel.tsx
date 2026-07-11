@@ -102,6 +102,7 @@ export default function VelosteLogoModel({
 
   useFrame(() => {
     const g = THREE.MathUtils.clamp(sceneRefs.glow.current, 0, 1);
+    if (Math.abs(g - lastGlowRef.current) < 1e-4) return;
 
     for (const m of materialsRef.current) {
       const baseColor = m.userData.baseColor;
@@ -121,8 +122,6 @@ export default function VelosteLogoModel({
           baseEnvMapIntensity;
         continue;
       }
-
-      if (Math.abs(g - lastGlowRef.current) < 1e-4) continue;
 
       const lift = 1 + g * 4.35;
       const emissiveIntensity = g * 12.5;

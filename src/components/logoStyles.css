@@ -1,13 +1,16 @@
 /* Load Dream Orphans */
 @font-face {
   font-family: "Dream Orphans";
-  src: url('../assets/Dream-Orphans.otf');
+  src: url('/fonts/Dream-Orphans.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-:root {
+/* Scroll-driven vars are scoped to .logo-wrap (written per-frame by
+   SceneScrollDriver) so style recalc stays inside the scene subtree
+   instead of invalidating the whole document from :root. */
+.logo-wrap {
   --veloste-about-open: 0;
   --veloste-left-opacity: 0;
   --veloste-right-opacity: 0;

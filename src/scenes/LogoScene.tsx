@@ -12,7 +12,6 @@ import * as THREE from "three";
 
 import "../components/logoStyles.css";
 import VelosteLogoModel from "../components/VelosteLogoModel";
-import LogoGlowHalo from "../components/LogoGlowHalo";
 import TipCircles from "../components/TipCircles";
 import CircleContentOverlay from "../components/CircleContentOverlay";
 import Lights from "../components/Lights";
@@ -40,6 +39,7 @@ function useResponsiveMaxDpr() {
 
 const LogoSceneCanvas = React.memo(function LogoSceneCanvas({
   groupRef,
+  cssRootRef,
   maxYaw,
   deadZone,
   easePower,
@@ -49,6 +49,7 @@ const LogoSceneCanvas = React.memo(function LogoSceneCanvas({
   toneMappingExposure,
 }: {
   groupRef: React.RefObject<THREE.Group | null>;
+  cssRootRef: React.RefObject<HTMLElement | null>;
   maxYaw: number;
   deadZone: number;
   easePower: number;
@@ -60,6 +61,7 @@ const LogoSceneCanvas = React.memo(function LogoSceneCanvas({
   return (
     <Canvas
       className="logo-canvas"
+      frameloop="demand"
       dpr={[
         1,
         Math.min(
@@ -90,6 +92,7 @@ const LogoSceneCanvas = React.memo(function LogoSceneCanvas({
         >
           <SceneScrollDriver
             groupRef={groupRef}
+            cssRootRef={cssRootRef}
             maxYaw={maxYaw}
             deadZone={deadZone}
             easePower={easePower}
@@ -97,11 +100,10 @@ const LogoSceneCanvas = React.memo(function LogoSceneCanvas({
           />
           <Lights />
           <group ref={groupRef} position={[0, 0, groupZ]}>
-            <LogoGlowHalo rotation={[0, Math.PI * 1.5, 0]} />
             <VelosteLogoModel rotation={[0, Math.PI * 1.5, 0]} />
             <TipCircles groupWorldZ={groupZ} />
           </group>
-          <EffectComposer multisampling={maxDpr > 1.25 ? 4 : 0}>
+          <EffectComposer multisampling={maxDpr > 1.25 ? 2 : 0}>
             <Bloom
               intensity={0.36}
               luminanceThreshold={0.72}
@@ -118,6 +120,7 @@ const LogoSceneCanvas = React.memo(function LogoSceneCanvas({
 
 const LogoScene: React.FC = () => {
   const groupRef = useRef<THREE.Group>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const groupZ = 1;
   const maxYaw = THREE.MathUtils.degToRad(40);
   const maxDpr = useResponsiveMaxDpr();
@@ -176,12 +179,13 @@ const LogoScene: React.FC = () => {
   }, []);
 
   return (
-    <div className="logo-wrap">
+    <div className="logo-wrap" ref={wrapRef}>
       <div className="bg-text">VELOSTE</div>
       <div className="logo-about-plate" aria-hidden />
 
       <LogoSceneCanvas
         groupRef={groupRef}
+        cssRootRef={wrapRef}
         maxYaw={maxYaw}
         deadZone={deadZone}
         easePower={easePower}
