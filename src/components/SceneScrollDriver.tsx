@@ -38,18 +38,22 @@ function setCssVarIfChanged(
 
 export default function SceneScrollDriver({
   groupRef,
+  cssRootRef,
   maxYaw,
   deadZone = 0.15,
   easePower = 1.5,
   curvePower = 1.6,
 }: {
   groupRef: React.RefObject<THREE.Group | null>;
+  /** Element the per-frame --veloste-* vars are written to (scopes style
+      recalc to the scene subtree). Falls back to <html> if unset. */
+  cssRootRef?: React.RefObject<HTMLElement | null>;
   maxYaw: number;
   deadZone?: number;
   easePower?: number;
   curvePower?: number;
 }) {
-  const { pRef, sceneRefs } = useScrollProgress();
+  const { pRef, pTargetRef, sceneRefs } = useScrollProgress();
   const lightRef = useRef(false);
   const panelOpenRef = useRef(false);
   const leftInteractiveRef = useRef(false);
@@ -58,19 +62,19 @@ export default function SceneScrollDriver({
   const cssFrameRef = useRef(0);
 
   useEffect(() => {
+    const varRoot = cssRootRef?.current;
     return () => {
       document.documentElement.classList.remove(
         "veloste-panel-open",
         "veloste-light",
       );
-      document.documentElement.style.removeProperty("--veloste-about-open");
-      document.documentElement.style.removeProperty("--veloste-left-opacity");
-      document.documentElement.style.removeProperty("--veloste-right-opacity");
-      document.documentElement.style.removeProperty(
-        "--veloste-indicator-opacity",
-      );
+      const root = varRoot ?? document.documentElement;
+      root.style.removeProperty("--veloste-about-open");
+      root.style.removeProperty("--veloste-left-opacity");
+      root.style.removeProperty("--veloste-right-opacity");
+      root.style.removeProperty("--veloste-indicator-opacity");
     };
-  }, []);
+  }, [cssRootRef]);
 
   useFrame(() => {
     const derived = computeScrollDerived(pRef.current, {
@@ -105,8 +109,11 @@ export default function SceneScrollDriver({
     sceneRefs.overlayBlur.current = glow;
 
     cssFrameRef.current += 1;
-    if (cssFrameRef.current % 2 === 0) {
-      const root = document.documentElement;
+    // The settled check guarantees the last frame of a demand-driven burst
+    // always flushes CSS, even when the parity throttle would skip it.
+    const settled = pRef.current === pTargetRef.current;
+    if (cssFrameRef.current % 2 === 0 || settled) {
+      const root = cssRootRef?.current ?? document.documentElement;
       const cache = cssCacheRef.current;
 
       setCssVarIfChanged(
@@ -138,10 +145,15 @@ export default function SceneScrollDriver({
         indicatorOpacity,
       );
 
+      /* Class toggles stay on <html>: consumers use html.veloste-* selectors,
+         and they only flip at hysteresis thresholds (~2x per traversal). */
       const panelOpen = overlayBlurAmount > 0.02;
       if (panelOpen !== panelOpenRef.current) {
         panelOpenRef.current = panelOpen;
-        root.classList.toggle("veloste-panel-open", panelOpen);
+        document.documentElement.classList.toggle(
+          "veloste-panel-open",
+          panelOpen,
+        );
         scrollDebug.recordThreshold("panelOpen", panelOpen);
       }
 
@@ -150,7 +162,7 @@ export default function SceneScrollDriver({
         : overlayBlurAmount > LIGHT_ON;
       if (light !== lightRef.current) {
         lightRef.current = light;
-        root.classList.toggle("veloste-light", light);
+        document.documentElement.classList.toggle("veloste-light", light);
         scrollDebug.recordThreshold("lightPage", light);
       }
     }

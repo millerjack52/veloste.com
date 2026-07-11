@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import {
   ScrollProgressProvider,
@@ -14,9 +14,18 @@ function ScrollProgressFrame({
 }) {
   const { pRef, pTargetRef, smooth } = useScrollProgress();
 
-  useFrame((_, dt) => {
-    const k = 1 - Math.pow(smooth, dt * 60);
-    pRef.current = THREE.MathUtils.lerp(pRef.current, pTargetRef.current, k);
+  useFrame((state, dt) => {
+    // Demand frameloop: keep requesting frames only while the lerp is
+    // unconverged, then snap exactly onto the target for one final frame.
+    const dist = Math.abs(pRef.current - pTargetRef.current);
+    if (dist > 1e-4) {
+      const k = 1 - Math.pow(smooth, dt * 60);
+      pRef.current = THREE.MathUtils.lerp(pRef.current, pTargetRef.current, k);
+      state.invalidate();
+    } else if (pRef.current !== pTargetRef.current) {
+      pRef.current = pTargetRef.current;
+      state.invalidate();
+    }
     scrollDebug.recordFrame({
       dtSeconds: dt,
       pCurrent: pRef.current,
@@ -39,6 +48,7 @@ function ScrollProgressInput({
   children: React.ReactNode;
 }) {
   const { pTargetRef } = useScrollProgress();
+  const invalidate = useThree((s) => s.invalidate);
 
   useEffect(() => {
     const clamp = (v: number) => THREE.MathUtils.clamp(v, -1, 1);
@@ -77,6 +87,7 @@ function ScrollProgressInput({
       if (!consumed) return;
       e.preventDefault();
       pTargetRef.current = nextClamped;
+      invalidate();
     };
 
     let lastY = 0;
@@ -110,6 +121,7 @@ function ScrollProgressInput({
 
       e.preventDefault();
       pTargetRef.current = nextClamped;
+      invalidate();
     };
 
     const onTouchEnd = () => {
@@ -128,6 +140,7 @@ function ScrollProgressInput({
         clamped: Math.abs(nextClamped - detail.p) > 1e-9,
       });
       pTargetRef.current = nextClamped;
+      invalidate();
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
@@ -149,7 +162,7 @@ function ScrollProgressInput({
         onSetProgress as EventListener,
       );
     };
-  }, [ticksToMax, notchSize, polarity, pTargetRef]);
+  }, [ticksToMax, notchSize, polarity, pTargetRef, invalidate]);
 
   return <>{children}</>;
 }
