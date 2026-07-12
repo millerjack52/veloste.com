@@ -15,8 +15,7 @@ const LIGHT_ON = 0.7;
 const LIGHT_OFF = 0.55;
 /* Black text arrives after the background is mostly white. */
 const PANE_TEXT_LAG = 1.6;
-const CSS_EPSILON = 0.025;
-const GLOW_STEPS = 16;
+const CSS_EPSILON = 0.01;
 
 function quantize(value: number, steps: number) {
   return Math.round(value * steps) / steps;
@@ -100,10 +99,9 @@ export default function SceneScrollDriver({
       groupRef.current.rotation.y = pRef.current * maxYaw;
     }
 
-    const glow =
-      overlayBlurAmount < 0.02
-        ? 0
-        : quantize(overlayBlurAmount, GLOW_STEPS);
+    /* Unquantized: 1/16 steps produced visible brightness stepping during
+       the flood now that frames only run while scrolling (demand loop). */
+    const glow = overlayBlurAmount < 0.02 ? 0 : overlayBlurAmount;
     sceneRefs.glow.current = glow;
     sceneRefs.lightBoost.current = 1 + glow * 0.6;
     sceneRefs.overlayBlur.current = glow;
