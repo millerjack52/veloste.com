@@ -28,7 +28,6 @@ function TipCircle({
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.MeshBasicMaterial>(null);
   const fillScaleRef = useRef(1);
-  const lastTRef = useRef(-1);
   const lastSizeWRef = useRef(-1);
   const lastSizeHRef = useRef(-1);
 
@@ -41,10 +40,9 @@ function TipCircle({
     const easedT = Math.pow(toUnit(sideRaw), easePower);
     const t = Math.pow(easedT, curvePower);
 
-    if (Math.abs(t - lastTRef.current) < 0.004 && meshRef.current?.visible) {
-      return;
-    }
-    lastTRef.current = t;
+    /* No change-epsilon here: with the demand frameloop, frames only run
+       while the scroll lerp is moving, and skipping sub-0.004 deltas made
+       the flood expansion visibly step during the slow lerp tail. */
 
     // getCurrentViewport allocates; only recompute when the canvas resizes.
     if (
