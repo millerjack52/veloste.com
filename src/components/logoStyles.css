@@ -203,9 +203,10 @@ html.veloste-light .site-nav__link.is-active {
   position: fixed;
   inset: 0;
   z-index: 8;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  /* No backdrop-filter: the scroller lives inside this element, so a blur
+     here forces a full-viewport re-raster on every scroll frame. At 96%
+     white the peek-through reads the same without it. */
+  background: rgba(255, 255, 255, 0.96);
   animation: work-fade-in 320ms ease both;
 }
 @keyframes work-fade-in {
