@@ -52,13 +52,12 @@ export default function SceneScrollDriver({
   easePower?: number;
   curvePower?: number;
 }) {
-  const { pRef, pTargetRef, sceneRefs } = useScrollProgress();
+  const { pRef, sceneRefs } = useScrollProgress();
   const lightRef = useRef(false);
   const panelOpenRef = useRef(false);
   const leftInteractiveRef = useRef(false);
   const rightInteractiveRef = useRef(false);
   const cssCacheRef = useRef<Record<string, number>>({});
-  const cssFrameRef = useRef(0);
 
   useEffect(() => {
     const varRoot = cssRootRef?.current;
@@ -106,11 +105,10 @@ export default function SceneScrollDriver({
     sceneRefs.lightBoost.current = 1 + glow * 0.6;
     sceneRefs.overlayBlur.current = glow;
 
-    cssFrameRef.current += 1;
-    // The settled check guarantees the last frame of a demand-driven burst
-    // always flushes CSS, even when the parity throttle would skip it.
-    const settled = pRef.current === pTargetRef.current;
-    if (cssFrameRef.current % 2 === 0 || settled) {
+    /* No frame throttle: writes are diffed+quantized (setCssVarIfChanged)
+       and scoped to .logo-wrap, and the plate fading at half frame rate
+       was visible against the per-frame canvas flood. */
+    {
       const root = cssRootRef?.current ?? document.documentElement;
       const cache = cssCacheRef.current;
 
