@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import {
@@ -13,17 +13,36 @@ function ScrollProgressFrame({
   children: React.ReactNode;
 }) {
   const { pRef, pTargetRef, smooth } = useScrollProgress();
+  const velRef = useRef(0);
 
   useFrame((state, dt) => {
-    // Demand frameloop: keep requesting frames only while the lerp is
-    // unconverged, then snap exactly onto the target for one final frame.
-    const dist = Math.abs(pRef.current - pTargetRef.current);
-    if (dist > 1e-4) {
-      const k = 1 - Math.pow(smooth, dt * 60);
-      pRef.current = THREE.MathUtils.lerp(pRef.current, pTargetRef.current, k);
+    /* Critically damped spring instead of an exponential lerp: wheel
+       notches are large (ticksToMax is small), and a lerp turns each notch
+       into an instant velocity jump — a visible lurch once the tip-circle
+       flood amplifies it. A spring keeps velocity continuous (notches only
+       change acceleration). omega is derived from `smooth` so the existing
+       tuning knob keeps its meaning (higher = softer, ~same settle time
+       as the old lerp). */
+    const omega = 87 * -Math.log(smooth);
+    const clampedDt = Math.min(dt, 1 / 30);
+    const p = pRef.current;
+    const target = pTargetRef.current;
+    const dist = target - p;
+    const v = velRef.current;
+
+    if (Math.abs(dist) > 1e-4 || Math.abs(v) > 1e-3) {
+      const accel = omega * omega * dist - 2 * omega * v;
+      velRef.current = v + accel * clampedDt;
+      pRef.current = THREE.MathUtils.clamp(
+        p + velRef.current * clampedDt,
+        -1,
+        1,
+      );
       state.invalidate();
-    } else if (pRef.current !== pTargetRef.current) {
-      pRef.current = pTargetRef.current;
+    } else if (p !== target) {
+      // Snap exactly onto the target for one final settled frame.
+      pRef.current = target;
+      velRef.current = 0;
       state.invalidate();
     }
     scrollDebug.recordFrame({
