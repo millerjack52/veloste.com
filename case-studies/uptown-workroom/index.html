@@ -80,13 +80,25 @@
             }
           },
           {
-            "@type": "ProfessionalService",
+            "@type": ["Organization", "ProfessionalService"],
             "@id": "https://www.veloste.com/#business",
             "name": "Veloste",
             "url": "https://www.veloste.com/",
             "logo": "https://www.veloste.com/vstar.svg",
             "email": "contact@veloste.com",
-            "telephone": "+1-825-521-4542"
+            "telephone": "+1-825-521-4542",
+            "founder": {
+              "@id": "https://www.veloste.com/#jack-miller"
+            }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://www.veloste.com/#jack-miller",
+            "name": "Jack Miller",
+            "jobTitle": "Founder and Director",
+            "worksFor": {
+              "@id": "https://www.veloste.com/#business"
+            }
           },
           {
             "@type": "BreadcrumbList",
@@ -277,6 +289,7 @@
       <nav aria-label="Footer">
         <a href="/">Interactive homepage</a>
         <a href="/web-developer-calgary/">Services</a>
+        <a href="/resources/website-brief-calgary/">Free brief builder</a>
         <a href="mailto:contact@veloste.com">Contact</a>
       </nav>
     </footer>
