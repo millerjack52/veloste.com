@@ -262,7 +262,7 @@ export default function ContactPane({
         <div className="contact-shell">
           <section className="contact-block" aria-label="05 Contact">
             <div className="contact-content">
-              <h1 className="contact-title">Get a scoped quote.</h1>
+              <h2 className="contact-title">Get a scoped quote.</h2>
               <p className="contact-body">
                 Share your business type, timeline, and budget range. We&apos;ll
                 reply with a recommended scope and next steps.

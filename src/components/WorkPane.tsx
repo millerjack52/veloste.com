@@ -16,9 +16,9 @@ const CASE_STUDIES: ReadonlyArray<{
 }> = [
   {
     id: "uptown-workroom",
-    eyebrow: "Screen printing & embroidery — Calgary",
+    eyebrow: "Screen printing & embroidery — Dunedin, New Zealand",
     title: "Uptown Workroom",
-    body: "A brand site for a Calgary workroom producing screen-printed and embroidered gear for teams. Bold typography, an online customisation flow, and a structure built to turn local searches into quote requests.",
+    body: "A brand site for a Dunedin workroom producing screen-printed and embroidered gear for teams. Bold typography, an online customisation flow, and a structure built to turn local searches into quote requests.",
     tags: ["Brand site", "Online customisation", "Local SEO"],
     shots: [
       {
@@ -47,8 +47,8 @@ const CASE_STUDIES: ReadonlyArray<{
         alt: "Paints and inks in the workroom",
       },
     ],
-    href: "/uptown-workroom/",
-    linkLabel: "Visit live site",
+    href: "/case-studies/uptown-workroom/",
+    linkLabel: "Read case study",
   },
   {
     id: "veloste",
@@ -102,7 +102,7 @@ export default function WorkPane({
           <header className="work-header">
             <div>
               <p className="work-eyebrow">Selected work</p>
-              <h1 className="work-title">Case Studies</h1>
+              <h2 className="work-title">Case Studies</h2>
             </div>
             <button
               ref={closeRef}

@@ -10,8 +10,10 @@
     "dev:server": "nodemon --watch server --ext ts --exec \"tsx\" server/index.ts",
     "dev": "concurrently -k \"npm run dev:server\" \"vite\"",
     "build": "tsc -b && vite build",
+    "check:seo": "node scripts/seo-audit.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
+    "predeploy": "npm run build && npm run check:seo",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
