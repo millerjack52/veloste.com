@@ -14,8 +14,8 @@ const ABOUT_SECTIONS = [
   {
     id: "intro",
     eyebrow: "Calgary-first. Built custom.",
-    title: "Calgary web developer for lead-generating websites.",
-    body: "Veloste is a Calgary web developer and design studio building custom websites, motion-led interfaces, and immersive 3D experiences for businesses across Canada and the United States.",
+    title: "Custom web design, motion, and interactive development.",
+    body: "Veloste is a Calgary design and development studio building custom websites, motion-led interfaces, and immersive 3D experiences for businesses across Canada and the United States.",
   },
   {
     id: "services",
@@ -325,6 +325,38 @@ export default function AboutPane({ active }: { active: boolean }) {
           line-height: 0.9;
           color: #000;
         }
+        .about-resource-links {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 1px;
+          margin-top: clamp(-46px, -5vh, -24px);
+          border: 1px solid rgba(0, 0, 0, 0.22);
+          background: rgba(0, 0, 0, 0.22);
+        }
+        .about-resource-links a {
+          min-height: 72px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+          background: rgba(255, 255, 255, 0.9);
+          color: #000;
+          font-family: ${fontMono};
+          font-size: clamp(10px, 0.95vw, 12px);
+          letter-spacing: 0.11em;
+          text-align: center;
+          text-transform: uppercase;
+          transition:
+            background-color 180ms ease,
+            color 180ms ease;
+        }
+        .about-resource-links a:hover,
+        .about-resource-links a:focus-visible {
+          background: #000;
+          color: #fff;
+          outline: none;
+          text-decoration: none;
+        }
         .about-reveal {
           animation: about-reveal-in 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
@@ -377,6 +409,9 @@ export default function AboutPane({ active }: { active: boolean }) {
           .about-services li {
             grid-template-columns: minmax(0, 1fr);
             gap: 10px;
+          }
+          .about-resource-links {
+            grid-template-columns: minmax(0, 1fr);
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -468,7 +503,11 @@ export default function AboutPane({ active }: { active: boolean }) {
                 <div className="about-content">
                   <div className="about-heading">
                     
-                    <h1 className="about-title">{section.title}</h1>
+                    {idx === 0 ? (
+                      <h1 className="about-title">{section.title}</h1>
+                    ) : (
+                      <h2 className="about-title">{section.title}</h2>
+                    )}
                   </div>
 
                   <div className="about-support">
@@ -532,14 +571,13 @@ export default function AboutPane({ active }: { active: boolean }) {
                 </div>
               </section>
             ))}
+            <nav className="about-resource-links" aria-label="Veloste services and work">
+              <a href="/web-developer-calgary/">Calgary web developer services</a>
+              <a href="/case-studies/uptown-workroom/">Uptown Workroom case study</a>
+              <a href="/resources/website-brief-calgary/">Free website brief builder</a>
+              <a href="mailto:contact@veloste.com">Start a website project</a>
+            </nav>
           </div>
-
-          <nav className="seo-links-hidden" aria-label="SEO navigation links">
-            <a href="/web-developer-calgary/">Calgary web developer services</a>
-            <a href="/service-areas/calgary-region/">Calgary-region coverage</a>
-            <a href="/uptown-workroom/">Uptown Workroom case study</a>
-            <a href="mailto:contact@veloste.com">Get a scoped quote</a>
-          </nav>
         </div>
       </div>
     </>
