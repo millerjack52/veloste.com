@@ -623,6 +623,15 @@ main {
   gap: 24px;
 }
 
+.noscript-message {
+  margin: 0;
+  padding: 14px 16px;
+  background: rgba(216, 255, 69, 0.08);
+  border: 1px solid rgba(216, 255, 69, 0.55);
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
 .brief-form fieldset {
   display: grid;
   gap: 18px;
@@ -851,6 +860,14 @@ main {
 
   body > main {
     width: 100%;
+  }
+
+  body > main > * {
+    display: none !important;
+  }
+
+  body > main > .brief-builder-section {
+    display: block !important;
   }
 
   body > main .brief-builder-section {
