@@ -17,10 +17,10 @@ const pages = [
     minWords: 1200,
   },
   {
-    path: "case-studies/uptown-workroom/index.html",
-    canonical: "https://www.veloste.com/case-studies/uptown-workroom/",
-    title: "Uptown Workroom Website Case Study | Veloste",
-    minWords: 350,
+    path: "case-studies/juniper-hotel/index.html",
+    canonical: "https://www.veloste.com/case-studies/juniper-hotel/",
+    title: "Juniper Hotel Website Case Study | Veloste",
+    minWords: 650,
   },
   {
     path: "resources/website-brief-calgary/index.html",
@@ -170,7 +170,7 @@ if (!targetHtml.includes('href="/resources/website-brief-calgary/"')) {
 }
 
 for (const supportingPath of [
-  "case-studies/uptown-workroom/index.html",
+  "case-studies/juniper-hotel/index.html",
   "resources/website-brief-calgary/index.html",
 ]) {
   const html = pageDocuments.get(supportingPath) ?? "";
@@ -216,23 +216,53 @@ if (existsSync(redirectFile)) {
   }
 }
 
-const previewFiles = [
+const retiredProjectFiles = [
+  "case-studies/uptown-workroom/index.html",
   "uptown-workroom/index.html",
   "uptown-workroom/assets/images/UWLogo.html",
 ];
-for (const relative of previewFiles) {
+for (const relative of retiredProjectFiles) {
   const file = resolve(dist, relative);
   if (existsSync(file)) {
     const html = readFileSync(file, "utf8");
     if (!/name=["']robots["'][^>]+noindex/i.test(html)) {
-      errors.push(`${relative}: private preview must remain noindex`);
+      errors.push(`${relative}: retired project page must remain noindex`);
     }
-    if (
-      !html.includes('href="https://www.veloste.com/case-studies/uptown-workroom/"') ||
-      !/http-equiv=["']refresh["'][^>]+case-studies\/uptown-workroom/i.test(html)
-    ) {
-      errors.push(`${relative}: stale preview must consolidate into the case study`);
+    if (/rel=["']canonical["']/i.test(html) || /http-equiv=["']refresh["']/i.test(html)) {
+      errors.push(`${relative}: unrelated retired project must not canonicalize or redirect`);
     }
+  }
+}
+
+for (const [relative, html] of pageDocuments.entries()) {
+  if (/href=["'][^"']*uptown-workroom/i.test(html)) {
+    errors.push(`${relative}: canonical pages must not link to the retired Uptown project`);
+  }
+}
+
+const juniperPath = "case-studies/juniper-hotel/index.html";
+const juniperHtml = pageDocuments.get(juniperPath) ?? "";
+if (
+  !juniperHtml.includes(
+    '<meta property="og:url" content="https://www.veloste.com/case-studies/juniper-hotel/"',
+  ) ||
+  !juniperHtml.includes(
+    '"url": "https://www.veloste.com/case-studies/juniper-hotel/"',
+  ) ||
+  !juniperHtml.includes(
+    '"item": "https://www.veloste.com/case-studies/juniper-hotel/"',
+  )
+) {
+  errors.push(`${juniperPath}: Open Graph, Article, or breadcrumb URL is stale`);
+}
+
+for (const relative of [
+  "case-studies/juniper-hotel/assets/juniper-hero.webp",
+  "case-studies/juniper-hotel/assets/juniper-deluxe-king.webp",
+  "case-studies/juniper-hotel/assets/juniper-patio.webp",
+]) {
+  if (!existsSync(resolve(dist, relative))) {
+    errors.push(`${juniperPath}: missing project asset ${relative}`);
   }
 }
 
