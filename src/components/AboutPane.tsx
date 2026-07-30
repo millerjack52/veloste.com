@@ -573,7 +573,7 @@ export default function AboutPane({ active }: { active: boolean }) {
             ))}
             <nav className="about-resource-links" aria-label="Veloste services and work">
               <a href="/web-developer-calgary/">Calgary web developer services</a>
-              <a href="/case-studies/uptown-workroom/">Uptown Workroom case study</a>
+              <a href="/case-studies/juniper-hotel/">Juniper Hotel case study</a>
               <a href="/resources/website-brief-calgary/">Free website brief builder</a>
               <a href="mailto:contact@veloste.com">Start a website project</a>
             </nav>

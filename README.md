@@ -7,7 +7,7 @@ experiences.
 ## Website
 
 - [Calgary web developer services](https://www.veloste.com/web-developer-calgary/)
-- [Uptown Workroom website case study](https://www.veloste.com/case-studies/uptown-workroom/)
+- [Juniper Hotel website case study](https://www.veloste.com/case-studies/juniper-hotel/)
 - [Free website brief builder for Calgary businesses](https://www.veloste.com/resources/website-brief-calgary/)
 - [Contact Veloste](mailto:contact@veloste.com)
 

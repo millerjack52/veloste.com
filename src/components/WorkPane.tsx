@@ -15,39 +15,29 @@ const CASE_STUDIES: ReadonlyArray<{
   linkLabel: string;
 }> = [
   {
-    id: "uptown-workroom",
-    eyebrow: "Screen printing & embroidery — Dunedin, New Zealand",
-    title: "Uptown Workroom",
-    body: "A brand site for a Dunedin workroom producing screen-printed and embroidered gear for teams. Bold typography, an online customisation flow, and a structure built to turn local searches into quote requests.",
-    tags: ["Brand site", "Online customisation", "Local SEO"],
+    id: "juniper-hotel",
+    eyebrow: "Boutique hospitality — Banff, Alberta",
+    title: "The Juniper Hotel & Bistro",
+    body: "A custom hospitality platform pairing an immersive guest experience with more than 30 purpose-built WordPress blocks, structured room and event content, booking journeys, and operational tools.",
+    tags: ["UX/UI design", "Custom WordPress", "Operational tools"],
     shots: [
       {
         kind: "image",
-        src: "/uptown-workroom/assets/images/workroom_cups.webp",
-        alt: "Stacked branded cups produced by Uptown Workroom",
+        src: "/case-studies/juniper-hotel/assets/juniper-hero.webp",
+        alt: "The Juniper Hotel overlooking a Rocky Mountain valley in Banff",
       },
       {
         kind: "image",
-        src: "/uptown-workroom/assets/images/embroidery_highvis.webp",
-        alt: "Embroidered high-visibility workwear",
+        src: "/case-studies/juniper-hotel/assets/juniper-deluxe-king.webp",
+        alt: "A deluxe king room at The Juniper Hotel",
       },
       {
         kind: "image",
-        src: "/uptown-workroom/assets/images/wookroom_screenprinting.webp",
-        alt: "Screen printing in progress at the workroom",
-      },
-      {
-        kind: "image",
-        src: "/uptown-workroom/assets/images/swatches.webp",
-        alt: "Fabric and colour swatches",
-      },
-      {
-        kind: "image",
-        src: "/uptown-workroom/assets/images/workroompaint.webp",
-        alt: "Paints and inks in the workroom",
+        src: "/case-studies/juniper-hotel/assets/juniper-patio.webp",
+        alt: "Guests overlooking the mountains from The Juniper patio",
       },
     ],
-    href: "/case-studies/uptown-workroom/",
+    href: "/case-studies/juniper-hotel/",
     linkLabel: "Read case study",
   },
   {

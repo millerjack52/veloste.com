@@ -20,8 +20,11 @@ Verified Search Console baseline before the campaign:
 - 0 external links reported.
 - The Calgary service page, case study, and website brief were submitted for
   priority crawling.
-- The stale `/uptown-workroom/index.html` result was submitted for temporary
-  removal while its permanent `noindex` and redirect are processed.
+- The retired Uptown Workroom URLs are excluded from the sitemap and internal
+  links and serve permanent `noindex` tombstones while Google processes the
+  previously submitted temporary removal.
+- The current featured project is the Juniper Hotel website case study:
+  https://www.veloste.com/case-studies/juniper-hotel/
 
 The first authority milestone is not “more content.” It is five legitimate,
 relevant referring domains plus the first verified client reviews.
@@ -44,10 +47,10 @@ Preferred example:
 > Website strategy, design and development by
 > [Veloste](https://www.veloste.com/web-developer-calgary/).
 
-For Uptown Workroom, the better destination is the project evidence:
+For The Juniper Hotel & Bistro, the better destination is the project evidence:
 
 > Read the
-> [Uptown Workroom website case study](https://www.veloste.com/case-studies/uptown-workroom/)
+> [Juniper Hotel website case study](https://www.veloste.com/case-studies/juniper-hotel/)
 > by Veloste.
 
 Client request:
