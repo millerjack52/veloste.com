@@ -1,69 +1,37 @@
-# React + TypeScript + Vite
+# Veloste
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[Veloste](https://www.veloste.com/) is a Calgary web design and development
+studio creating custom websites, motion-led interfaces, and interactive 3D web
+experiences.
 
-Currently, two official plugins are available:
+## Website
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Calgary web developer services](https://www.veloste.com/web-developer-calgary/)
+- [Uptown Workroom website case study](https://www.veloste.com/case-studies/uptown-workroom/)
+- [Free website brief builder for Calgary businesses](https://www.veloste.com/resources/website-brief-calgary/)
+- [Contact Veloste](mailto:contact@veloste.com)
 
-## Expanding the ESLint configuration
+## Technology
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The interactive homepage uses React, TypeScript, Vite, React Three Fiber, and
+Three.js. Search-focused service, case-study, and resource routes are delivered
+as lightweight semantic HTML with shared CSS.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Local development
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Validation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+npm run build
+npm run lint
+npm run check:seo
 ```
+
+The SEO audit checks canonical pages, titles, robots directives, structured
+data syntax, sitemap coverage, internal links, consolidated legacy routes, and
+the website-brief builder’s required behavior.
