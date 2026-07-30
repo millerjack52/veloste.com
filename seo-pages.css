@@ -603,6 +603,283 @@ main {
   max-height: 760px;
 }
 
+.resource-hero h1 {
+  max-width: 11ch;
+}
+
+.brief-builder-section {
+  background: linear-gradient(145deg, rgba(216, 255, 69, 0.055), transparent 42%);
+}
+
+.brief-builder {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+  gap: clamp(34px, 6vw, 84px);
+  align-items: start;
+}
+
+.brief-form {
+  display: grid;
+  gap: 24px;
+}
+
+.brief-form fieldset {
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: clamp(22px, 3vw, 36px);
+  background: rgba(255, 255, 255, 0.018);
+  border: 1px solid var(--line);
+}
+
+.brief-form legend {
+  padding: 0 10px;
+  font-family: "Veloste Display", Impact, sans-serif;
+  font-size: clamp(1.35rem, 2.3vw, 2.2rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.brief-form legend span {
+  margin-right: 9px;
+  color: var(--accent);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  vertical-align: middle;
+}
+
+.brief-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brief-form input,
+.brief-form select,
+.brief-form textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  background: #070707;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--ink);
+  font: 400 0.98rem/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.brief-form textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.brief-form input::placeholder,
+.brief-form textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.brief-form input:focus,
+.brief-form select:focus,
+.brief-form textarea:focus {
+  border-color: var(--accent);
+  outline: 2px solid rgba(216, 255, 69, 0.2);
+  outline-offset: 1px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field-help {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.choice-grid label {
+  min-height: 44px;
+  display: flex;
+  grid-template-columns: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.choice-grid label:has(input:checked) {
+  background: rgba(216, 255, 69, 0.08);
+  border-color: rgba(216, 255, 69, 0.65);
+  color: var(--ink);
+}
+
+.choice-grid input {
+  width: 18px;
+  min-height: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--accent);
+}
+
+.reset-button {
+  width: fit-content;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.brief-output {
+  position: sticky;
+  top: 104px;
+  padding: clamp(24px, 3.5vw, 42px);
+  background: var(--ink);
+  color: #111;
+}
+
+.brief-output-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.brief-output .brief-label {
+  margin-bottom: 9px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.brief-output h3 {
+  margin: 0;
+  color: #050505;
+}
+
+.completion-meter {
+  flex: 0 0 auto;
+  padding: 7px 9px;
+  background: #050505;
+  color: var(--accent);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brief-output pre {
+  min-height: 440px;
+  max-height: 62vh;
+  margin: 22px 0;
+  padding: 0 12px 0 0;
+  overflow: auto;
+  color: rgba(0, 0, 0, 0.76);
+  font: 400 0.84rem/1.65 ui-monospace, "Cascadia Code", Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.brief-output-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+.brief-output .button {
+  cursor: pointer;
+}
+
+.brief-output .button-secondary {
+  border-color: rgba(0, 0, 0, 0.42);
+  color: #050505;
+}
+
+.brief-output .button-secondary:hover {
+  border-color: #050505;
+  color: #050505;
+}
+
+.brief-status {
+  min-height: 1.5em;
+  margin: 14px 0 0;
+  color: rgba(0, 0, 0, 0.62);
+  font-size: 0.75rem;
+}
+
+.author-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+  gap: clamp(38px, 8vw, 120px);
+  align-items: start;
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  body > * {
+    display: none !important;
+  }
+
+  body > main,
+  body > main .brief-builder-section,
+  body > main .brief-builder,
+  body > main .brief-output {
+    display: block !important;
+  }
+
+  body > main {
+    width: 100%;
+  }
+
+  body > main .brief-builder-section {
+    padding: 0;
+    border: 0;
+  }
+
+  body > main .section-heading,
+  body > main .brief-form,
+  body > main .brief-output-actions,
+  body > main .brief-status {
+    display: none !important;
+  }
+
+  body > main .brief-output {
+    position: static;
+    padding: 0;
+    background: #fff;
+  }
+
+  body > main .brief-output pre {
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    color: #000;
+    font-size: 10pt;
+  }
+}
+
 @media (max-width: 900px) {
   .site-links a:not(.nav-cta) {
     display: none;
@@ -614,7 +891,9 @@ main {
   .local-section,
   .work-feature,
   .contact-section,
-  .split-heading {
+  .split-heading,
+  .brief-builder,
+  .author-panel {
     grid-template-columns: 1fr;
   }
 
@@ -629,6 +908,10 @@ main {
   .site-footer {
     grid-template-columns: 1fr;
     padding: 36px 0;
+  }
+
+  .brief-output {
+    position: static;
   }
 }
 
@@ -680,6 +963,11 @@ main {
   .deliverable-list li {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .field-grid,
+  .choice-grid {
+    grid-template-columns: 1fr;
   }
 
   .case-gallery {
