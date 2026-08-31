@@ -326,33 +326,30 @@ export default function AboutPane({ active }: { active: boolean }) {
           color: #000;
         }
         .about-resource-links {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 1px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
           margin-top: clamp(-46px, -5vh, -24px);
-          border: 1px solid rgba(0, 0, 0, 0.22);
-          background: rgba(0, 0, 0, 0.22);
         }
         .about-resource-links a {
-          min-height: 72px;
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          justify-content: center;
-          padding: 16px;
-          background: rgba(255, 255, 255, 0.9);
+          padding: 11px 18px;
+          border-radius: 999px;
+          border: 1px solid rgba(0, 0, 0, 0.3);
           color: #000;
           font-family: ${fontMono};
-          font-size: clamp(10px, 0.95vw, 12px);
-          letter-spacing: 0.11em;
-          text-align: center;
-          text-transform: uppercase;
+          font-size: 11px;
+          letter-spacing: 0.14em;
           transition:
             background-color 180ms ease,
-            color 180ms ease;
+            color 180ms ease,
+            border-color 180ms ease;
         }
         .about-resource-links a:hover,
         .about-resource-links a:focus-visible {
           background: #000;
+          border-color: #000;
           color: #fff;
           outline: none;
           text-decoration: none;
@@ -409,9 +406,6 @@ export default function AboutPane({ active }: { active: boolean }) {
           .about-services li {
             grid-template-columns: minmax(0, 1fr);
             gap: 10px;
-          }
-          .about-resource-links {
-            grid-template-columns: minmax(0, 1fr);
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -575,7 +569,19 @@ export default function AboutPane({ active }: { active: boolean }) {
               <a href="/web-developer-calgary/">Calgary web developer services</a>
               <a href="/case-studies/juniper-hotel/">Juniper Hotel case study</a>
               <a href="/resources/website-brief-calgary/">Free website brief builder</a>
-              <a href="mailto:contact@veloste.com">Start a website project</a>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.dispatchEvent(
+                    new CustomEvent("veloste:setProgress", {
+                      detail: { p: 1 },
+                    }),
+                  );
+                }}
+              >
+                Start a website project
+              </a>
             </nav>
           </div>
         </div>

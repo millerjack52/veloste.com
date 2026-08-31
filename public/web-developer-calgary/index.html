@@ -277,9 +277,7 @@
             clear messaging, fast code, and a focused path to contact or purchase.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="mailto:contact@veloste.com?subject=Calgary%20website%20project">
-              Get a scoped recommendation
-            </a>
+            <a class="button button-primary" href="#contact">Get a scoped quote</a>
             <a class="button button-secondary" href="#work">See selected work</a>
           </div>
         </div>
@@ -656,10 +654,35 @@
             Send your current site, business goal, ideal launch window, and budget range. Veloste
             will reply with the best next step for scoping the project.
           </p>
-          <div class="contact-links">
+          <p class="contact-meta-line">
+            Prefer email or a call?
             <a href="mailto:contact@veloste.com?subject=Calgary%20website%20project">contact@veloste.com</a>
-            <a href="tel:+18255214542">(825) 521-4542</a>
-          </div>
+            or <a href="tel:+18255214542">(825) 521-4542</a>.
+          </p>
+          <form class="contact-form" id="contact-form">
+            <div class="field-grid">
+              <label>
+                Name
+                <input name="name" type="text" autocomplete="name" required placeholder="Your name" />
+              </label>
+              <label>
+                Email
+                <input name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+              </label>
+            </div>
+            <label>
+              Message
+              <textarea name="message" rows="5" required placeholder="Tell us about your project, timeline, and goals&#8230;"></textarea>
+            </label>
+            <p class="form-status" role="alert" aria-live="polite"></p>
+            <button class="button button-primary" type="submit">Send message</button>
+          </form>
+          <noscript>
+            <p class="noscript-message">
+              JavaScript is off in this browser &#8212; email
+              <a href="mailto:contact@veloste.com">contact@veloste.com</a> instead.
+            </p>
+          </noscript>
         </div>
       </section>
     </main>
@@ -678,5 +701,6 @@
       </nav>
     </footer>
     <script src="/nav.js" defer></script>
+    <script src="/contact-form.js" defer></script>
   </body>
 </html>
