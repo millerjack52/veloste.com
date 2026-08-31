@@ -1,0 +1,74 @@
+/* ============================================================
+   Veloste shared design tokens — single source of truth for the
+   homepage (linked from /index.html) and every static page
+   (linked before /seo-pages.css).
+
+   The system is strictly monochrome: black and white, no color
+   accents. Dark surfaces are for arrival, white surfaces are for
+   reading; each polarity gets its own ink/line scale.
+   ============================================================ */
+
+@font-face {
+  font-family: "VelosteFont";
+  src: url("/fonts/Dream-Orphans-Bd.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Nav / label face (the homepage pill nav) */
+@font-face {
+  font-family: "Dream Orphans";
+  src: url("/fonts/Dream-Orphans.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Ink — light-on-dark surfaces (--on-ink = text on an --ink fill) */
+  --ink: #fff;
+  --on-ink: #000;
+  --ink-dim: rgba(255, 255, 255, 0.72);
+  --ink-faint: rgba(255, 255, 255, 0.48);
+  --line: rgba(255, 255, 255, 0.16);
+  --line-strong: rgba(255, 255, 255, 0.3);
+
+  /* Ink — dark-on-light surfaces */
+  --ink-inv: #000;
+  --ink-inv-dim: rgba(0, 0, 0, 0.72);
+  --ink-inv-faint: rgba(0, 0, 0, 0.55);
+  --line-inv: rgba(0, 0, 0, 0.14);
+  --line-inv-strong: rgba(0, 0, 0, 0.3);
+
+  /* Glass — dark surfaces only; keep backdrop-filter rare (PERF-PLAN.md) */
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-bg-strong: rgba(12, 12, 14, 0.58);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-strong: rgba(255, 255, 255, 0.26);
+  --glass-highlight: rgba(255, 255, 255, 0.09);
+  --glass-blur: 18px;
+  --glass-radius: 20px;
+  --glass-radius-sm: 12px;
+  --glass-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+
+  /* Shape — pills for controls, 12px fields, square-edged imagery */
+  --radius-pill: 999px;
+  --radius-field: 12px;
+
+  /* Type */
+  --font-display: "VelosteFont", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-body: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+
+  /* Display scale (uppercase, tight leading; xl matches .work-title) */
+  --display-xl: clamp(44px, 8vw, 108px);
+  --display-lg: clamp(2.2rem, 5vw, 4rem);
+  --display-md: clamp(1.4rem, 2.4vw, 2.1rem);
+
+  /* Motion */
+  --ease-rise: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-rise: 560ms;
+  --dur-fade: 320ms;
+  --dur-hover: 180ms;
+}

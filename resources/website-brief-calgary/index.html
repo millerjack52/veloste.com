@@ -12,7 +12,7 @@
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <meta name="theme-color" content="#050505" />
+    <meta name="theme-color" content="#000000" />
     <link rel="canonical" href="https://www.veloste.com/resources/website-brief-calgary/" />
     <link
       rel="alternate"
@@ -32,6 +32,7 @@
       type="font/woff2"
       crossorigin
     />
+    <link rel="stylesheet" href="/tokens.css" />
     <link rel="stylesheet" href="/seo-pages.css" />
 
     <meta property="og:type" content="website" />
@@ -45,7 +46,7 @@
       property="og:description"
       content="Turn your website requirements into a clear, copyable project brief—free and private in your browser."
     />
-    <meta property="og:image" content="https://www.veloste.com/og-calgary-v2.png" />
+    <meta property="og:image" content="https://www.veloste.com/og-calgary-v3.png" />
     <meta property="og:image:width" content="1730" />
     <meta property="og:image:height" content="909" />
     <meta
@@ -62,7 +63,7 @@
       name="twitter:description"
       content="Create a useful website brief covering goals, pages, features, content, budget, and launch priorities."
     />
-    <meta name="twitter:image" content="https://www.veloste.com/og-calgary-v2.png" />
+    <meta name="twitter:image" content="https://www.veloste.com/og-calgary-v3.png" />
 
     <script type="application/ld+json">
       {
@@ -177,20 +178,14 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <header class="site-header">
-      <a class="brand" href="/" aria-label="Veloste homepage">
-        <img src="/vstar.svg" alt="" width="24" height="24" />
-        <span>Veloste</span>
+    <nav class="pill-nav" aria-label="Primary">
+      <a class="pill-nav__brand" href="/" aria-label="Veloste homepage">
+        <img src="/vstar.svg" alt="" width="18" height="18" />
       </a>
-      <nav class="site-links" aria-label="Primary">
-        <a href="#builder">Build your brief</a>
-        <a href="#guide">Brief guide</a>
-        <a href="/web-developer-calgary/">Calgary web development</a>
-        <a class="nav-cta" href="mailto:contact@veloste.com?subject=Website%20project%20brief">
-          Discuss a project
-        </a>
-      </nav>
-    </header>
+      <a class="pill-nav__link" href="/#about">About</a>
+      <a class="pill-nav__link" href="/#work">Work</a>
+      <a class="pill-nav__link" href="/#contact">Contact</a>
+    </nav>
 
     <main id="main">
       <section class="landing-hero resource-hero" aria-labelledby="page-title">
@@ -225,7 +220,7 @@
         <span>Budget and timeline</span>
       </section>
 
-      <section class="section intro-section" aria-labelledby="why-brief">
+      <section class="section surface-light intro-section" aria-labelledby="why-brief">
         <div>
           <p class="eyebrow">Start with decisions, not decoration</p>
           <h2 id="why-brief">The brief is the first design tool.</h2>
@@ -246,7 +241,7 @@
         </div>
       </section>
 
-      <section class="section brief-builder-section" id="builder" aria-labelledby="builder-title">
+      <section class="section surface-light brief-builder-section" id="builder" aria-labelledby="builder-title">
         <div class="section-heading split-heading">
           <div>
             <p class="eyebrow">Interactive website brief builder</p>
@@ -451,7 +446,7 @@
         </div>
       </section>
 
-      <section class="section" id="guide" aria-labelledby="guide-title">
+      <section class="section surface-light" id="guide" aria-labelledby="guide-title">
         <div class="section-heading">
           <p class="eyebrow">How to write a useful website brief</p>
           <h2 id="guide-title">Five sections that prevent expensive ambiguity.</h2>
@@ -522,7 +517,7 @@
         </ol>
       </section>
 
-      <section class="section local-section" aria-labelledby="calgary-context">
+      <section class="section surface-light local-section" aria-labelledby="calgary-context">
         <div>
           <p class="eyebrow">Using the brief in Calgary</p>
           <h2 id="calgary-context">Compare recommendations, not just totals.</h2>
@@ -551,7 +546,7 @@
         </div>
       </section>
 
-      <section class="section author-panel" aria-labelledby="author-title">
+      <section class="section surface-light author-panel" aria-labelledby="author-title">
         <div>
           <p class="eyebrow">About the author</p>
           <h2 id="author-title">Built from the questions used in real discovery.</h2>
@@ -583,10 +578,14 @@
             will identify the next useful scoping step and flag assumptions that need to be
             resolved before a proposal.
           </p>
-          <div class="contact-links">
-            <a href="mailto:contact@veloste.com?subject=Website%20project%20brief">contact@veloste.com</a>
-            <a href="tel:+18255214542">(825) 521-4542</a>
+          <div class="contact-actions">
+            <a class="button button-primary" href="/#contact">Get a scoped quote</a>
           </div>
+          <p class="contact-meta-line">
+            Prefer email or a call?
+            <a href="mailto:contact@veloste.com?subject=Website%20project%20brief">contact@veloste.com</a>
+            or <a href="tel:+18255214542">(825) 521-4542</a>.
+          </p>
         </div>
       </section>
     </main>
@@ -606,5 +605,6 @@
     </footer>
 
     <script src="/resources/website-brief-calgary/brief-builder.js" defer></script>
+    <script src="/nav.js" defer></script>
   </body>
 </html>
