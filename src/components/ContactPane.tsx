@@ -273,6 +273,13 @@ export default function ContactPane({
                 <a href="mailto:contact@veloste.com">contact@veloste.com</a> or
                 call <a href="tel:+18255214542">(825) 521-4542</a>.
               </p>
+              <p className="contact-meta">
+                Prefer to scope it yourself first? Try the free{" "}
+                <a href="/resources/website-brief-calgary/">
+                  website brief builder
+                </a>
+                .
+              </p>
 
               {!sent ? (
                 <form
