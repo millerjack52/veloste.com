@@ -830,6 +830,54 @@ main {
   max-width: 11ch;
 }
 
+/* ============================================================
+   Case-study flow — the About pane's scroll formula on a full
+   page: proximity snap, near-viewport blocks with the content
+   vertically centred, and About-scale section titles. Opt in
+   with class="case-snap" on the page's <html> element. The
+   global scroll-padding-top keeps snapped blocks clear of the
+   pill nav.
+   ============================================================ */
+html.case-snap {
+  scroll-snap-type: y proximity;
+}
+
+html.case-snap .case-hero,
+html.case-snap .section,
+html.case-snap .contact-section {
+  scroll-snap-align: start;
+}
+
+html.case-snap .section {
+  display: grid;
+  align-content: center;
+  min-height: min(86vh, 940px);
+  padding: clamp(56px, 9vh, 110px) 0;
+}
+
+html.case-snap .contact-section {
+  align-content: center;
+  min-height: min(80vh, 880px);
+}
+
+html.case-snap .section h2,
+html.case-snap .contact-section h2 {
+  max-width: 11.5ch;
+  font-size: clamp(42px, 8.4vw, 118px);
+  line-height: 0.88;
+}
+
+@media (max-width: 900px) {
+  html.case-snap .section {
+    min-height: 72vh;
+  }
+
+  html.case-snap .section h2,
+  html.case-snap .contact-section h2 {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+  }
+}
+
 .brief-builder-section {
   background-image: linear-gradient(145deg, var(--wash-soft), transparent 42%);
 }
