@@ -15,19 +15,9 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Glass design tokens — deep-contrast black & white */
-  --ink: #fff;
-  --ink-dim: rgba(255, 255, 255, 0.72);
-  --ink-faint: rgba(255, 255, 255, 0.48);
-  --glass-bg: rgba(255, 255, 255, 0.045);
-  --glass-bg-strong: rgba(12, 12, 14, 0.58);
-  --glass-border: rgba(255, 255, 255, 0.14);
-  --glass-border-strong: rgba(255, 255, 255, 0.26);
-  --glass-highlight: rgba(255, 255, 255, 0.09);
-  --glass-blur: 18px;
-  --glass-radius: 20px;
-  --glass-radius-sm: 12px;
-  --glass-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+  /* Design tokens (--ink*, --glass-*, type, shape, motion) live in
+     /public/tokens.css, linked from index.html ahead of this bundle
+     and shared with the static pages. */
 }
 
 html, body {
@@ -38,13 +28,7 @@ html, body {
   overflow-x: hidden; /* avoid 100vw / canvas horizontal bleed on mobile */
 }
 
-@font-face {
-  font-family: 'VelosteFont';
-  src: url('/fonts/Dream-Orphans-Bd.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+/* 'VelosteFont' @font-face is declared in /public/tokens.css. */
 
 a {
   font-weight: 500;
