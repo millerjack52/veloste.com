@@ -162,16 +162,29 @@ function ScrollProgressInput({
       invalidate();
     };
 
+    // Deep links from the static pages: /#about and /#contact land on the
+    // matching pane instead of the black landing. Also fires on in-page
+    // hash navigation (no reload) via hashchange.
+    const applyHash = () => {
+      const h = window.location.hash;
+      if (h !== "#about" && h !== "#contact") return;
+      pTargetRef.current = clamp(h === "#about" ? -1 : 1);
+      invalidate();
+    };
+    applyHash();
+
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("hashchange", applyHash);
     window.addEventListener(
       "veloste:setProgress",
       onSetProgress as EventListener,
     );
 
     return () => {
+      window.removeEventListener("hashchange", applyHash);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);

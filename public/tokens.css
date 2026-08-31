@@ -16,6 +16,15 @@
   font-display: swap;
 }
 
+/* Nav / label face (the homepage pill nav) */
+@font-face {
+  font-family: "Dream Orphans";
+  src: url("/fonts/Dream-Orphans.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Ink — light-on-dark surfaces (--on-ink = text on an --ink fill) */
   --ink: #fff;
