@@ -6,6 +6,16 @@
       "has": [{ "type": "host", "value": "veloste.com" }],
       "destination": "https://www.veloste.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/service-areas/calgary-region",
+      "destination": "/web-developer-calgary/",
+      "permanent": true
+    },
+    {
+      "source": "/service-areas/calgary-region/",
+      "destination": "/web-developer-calgary/",
+      "permanent": true
     }
   ],
   "headers": [
@@ -28,6 +38,15 @@
     },
     {
       "source": "/og-image.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/og-calgary-v3.png",
       "headers": [
         {
           "key": "Cache-Control",
