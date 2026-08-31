@@ -168,13 +168,23 @@ const LogoScene: React.FC = () => {
       setRightInteractive(active);
     };
     const onOpenWork = () => setWorkOpen(true);
+    // Deep link from the static pages: /#work opens the case-studies
+    // overlay; moving to another pane's hash closes it again.
+    const applyWorkHash = () => {
+      const h = window.location.hash;
+      if (h === "#work") setWorkOpen(true);
+      else if (h === "#about" || h === "#contact") setWorkOpen(false);
+    };
+    applyWorkHash();
     window.addEventListener("veloste:leftInteractive", onLeft);
     window.addEventListener("veloste:rightInteractive", onRight);
     window.addEventListener("veloste:openWork", onOpenWork);
+    window.addEventListener("hashchange", applyWorkHash);
     return () => {
       window.removeEventListener("veloste:leftInteractive", onLeft);
       window.removeEventListener("veloste:rightInteractive", onRight);
       window.removeEventListener("veloste:openWork", onOpenWork);
+      window.removeEventListener("hashchange", applyWorkHash);
     };
   }, []);
 

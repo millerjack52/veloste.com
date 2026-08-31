@@ -1,11 +1,4 @@
-/* Load Dream Orphans */
-@font-face {
-  font-family: "Dream Orphans";
-  src: url('/fonts/Dream-Orphans.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+/* "Dream Orphans" @font-face is declared in /public/tokens.css. */
 
 /* Scroll-driven vars are scoped to .logo-wrap (written per-frame by
    SceneScrollDriver) so style recalc stays inside the scene subtree
