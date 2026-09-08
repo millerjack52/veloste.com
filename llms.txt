@@ -22,6 +22,7 @@ Veloste is a design-focused web development studio creating unique websites that
 - Email: contact@veloste.com
 - Hours: 24/7 (available any time for inquiries, Mountain Time)
 - Social: not listed publicly on the site; contact via email or contact form
+- Privacy policy: https://www.veloste.com/privacy/ (contact form details used only to reply about the inquiry; never shared or sold)
 
 ## Service Area
 Canada and United States (Calgary-first service with nearby Alberta support in Airdrie, Cochrane, Okotoks, and Chestermere)

@@ -183,6 +183,19 @@ export default function ContactPane({
           min-height: 120px;
           resize: vertical;
         }
+        .contact-consent {
+          margin: -8px 0 0;
+          max-width: 48ch;
+          font-family: ${fontBody};
+          font-size: clamp(13px, 1.2vw, 14px);
+          line-height: 1.5;
+          color: rgba(0, 0, 0, 0.55);
+        }
+        .contact-consent a {
+          color: #000;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+        }
         .contact-error {
           margin: 0;
           padding: 12px 0;
@@ -334,6 +347,12 @@ export default function ContactPane({
                       rows={5}
                     />
                   </div>
+
+                  <p className="contact-consent">
+                    Your name, email, and message are used only to reply about
+                    your project. See the{" "}
+                    <a href="/privacy/">privacy policy</a>.
+                  </p>
 
                   {error && (
                     <p className="contact-error" role="alert" aria-live="polite">
