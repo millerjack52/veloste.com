@@ -1299,3 +1299,34 @@ html.case-snap .contact-section h2 {
     scroll-behavior: auto;
   }
 }
+
+/* ============================================================
+   Privacy policy page + form consent line
+   ============================================================ */
+.policy-meta {
+  margin: 0;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.prose ul {
+  margin: 0 0 1.1em;
+  padding-left: 1.2em;
+  color: var(--body);
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+}
+
+.prose li + li {
+  margin-top: 0.35em;
+}
+
+.form-consent {
+  max-width: 48ch;
+}
+
+.form-consent a {
+  color: var(--ink);
+}
