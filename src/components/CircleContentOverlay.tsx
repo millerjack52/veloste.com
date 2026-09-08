@@ -14,6 +14,9 @@ export default function CircleContentOverlay({
 }) {
   return (
     <div className="veloste-overlay" aria-hidden={false}>
+      {/* Sides follow the tip-circle floods: the Contact flood (p > 0)
+          grows from the star's left tip and the About flood (p < 0)
+          from its right tip, so the labels sit on the same edges. */}
       <div className="veloste-scroll-indicators" aria-hidden>
         <div className="veloste-scroll-indicator veloste-scroll-indicator--left">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -25,10 +28,10 @@ export default function CircleContentOverlay({
               strokeLinejoin="round"
             />
           </svg>
-          <span>About</span>
+          <span>Contact</span>
         </div>
         <div className="veloste-scroll-indicator veloste-scroll-indicator--right">
-          <span>Contact</span>
+          <span>About</span>
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <path
               d="M7 4L12 9L7 14"

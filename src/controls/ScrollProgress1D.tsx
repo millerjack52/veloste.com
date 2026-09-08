@@ -85,10 +85,31 @@ function ScrollProgressInput({
       return true;
     };
 
+    /* Nested scroll: while a pane is open, a gesture that its own
+       scroller can still absorb (content left to scroll in that
+       direction) belongs to the pane, not to the 1D axis. Without this,
+       swiping up through the Contact form drives p back toward 0 and
+       the lower fields can never be reached on a phone. Only once the
+       pane is at its end does the gesture fall through to the axis. */
+    const paneAbsorbs = (target: EventTarget | null, dyPixels: number) => {
+      if (!(target instanceof Element)) return false;
+      const scroller = target.closest<HTMLElement>(
+        ".about-scroll, .contact-scroll",
+      );
+      if (!scroller) return false;
+      if (getComputedStyle(scroller).overflowY === "hidden") return false;
+      const maxTop = scroller.scrollHeight - scroller.clientHeight;
+      if (maxTop <= 1) return false;
+      if (dyPixels > 0) return scroller.scrollTop < maxTop - 1;
+      if (dyPixels < 0) return scroller.scrollTop > 1;
+      return false;
+    };
+
     const onWheel = (e: WheelEvent) => {
       const modeScale =
         e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
       const dy = e.deltaY * modeScale;
+      if (paneAbsorbs(e.target, dy)) return;
       const dP = deltaToP(dy);
       const prevTarget = pTargetRef.current;
       const nextRaw = prevTarget + dP;
@@ -111,10 +132,16 @@ function ScrollProgressInput({
 
     let lastY = 0;
     let touching = false;
+    /* Once a pane's scroller has taken a gesture the browser scrolls it
+       natively and later touchmoves are no longer cancelable, so the
+       axis must sit out until the finger lifts — otherwise reaching the
+       pane's end mid-flick would start closing it. */
+    let paneOwnsGesture = false;
 
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length !== 1) return;
       touching = true;
+      paneOwnsGesture = false;
       lastY = e.touches[0].clientY;
     };
 
@@ -123,6 +150,11 @@ function ScrollProgressInput({
       const y = e.touches[0].clientY;
       const dy = lastY - y;
       lastY = y;
+      if (paneOwnsGesture) return;
+      if (paneAbsorbs(e.target, dy) || !e.cancelable) {
+        paneOwnsGesture = true;
+        return;
+      }
 
       const dP = deltaToP(dy);
       const prevTarget = pTargetRef.current;
@@ -145,6 +177,7 @@ function ScrollProgressInput({
 
     const onTouchEnd = () => {
       touching = false;
+      paneOwnsGesture = false;
     };
 
     const onSetProgress = (e: Event) => {
