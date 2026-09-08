@@ -77,6 +77,11 @@ export default function ContactPane({
     <>
       <style>{`
         .contact-scroll {
+          /* Let the shell size to its content instead of stretching to the
+             viewport: a stretched shell swallows its own bottom padding
+             once the form overflows it, leaving the submit button flush
+             with the bottom edge on phones. */
+          align-items: flex-start;
           scroll-behavior: smooth;
           scrollbar-width: thin;
           scrollbar-color: rgba(0,0,0,0.28) transparent;
