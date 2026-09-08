@@ -28,6 +28,11 @@ const pages = [
     title: "Free Website Brief Template for Calgary Businesses | Veloste",
     minWords: 900,
   },
+  {
+    path: "privacy/index.html",
+    canonical: "https://www.veloste.com/privacy/",
+    title: "Privacy Policy | Veloste",
+  },
 ];
 
 const errors = [];
