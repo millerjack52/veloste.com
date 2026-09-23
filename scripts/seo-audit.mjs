@@ -285,6 +285,7 @@ const caseStudies = [
       "case-studies/veloste/assets/veloste-landing.webp",
       "case-studies/veloste/assets/veloste-flood.webp",
       "case-studies/veloste/assets/veloste-star-detail.webp",
+      "case-studies/veloste/assets/veloste-blender.webp",
       "case-studies/veloste/assets/veloste-normal-map.webp",
       "case-studies/veloste/assets/veloste-about.webp",
       "case-studies/veloste/assets/veloste-work.webp",
