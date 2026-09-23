@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en-CA" class="case-snap">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Golden Electrical Website Case Study | Veloste</title>
+    <meta
+      name="description"
+      content="See how Veloste redesigned and rebuilt the Golden Electrical Contracting website as a static Next.js site on GitHub Pages, with a free Cloudflare Worker contact mailer and no monthly hosting costs."
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="theme-color" content="#000000" />
+    <link rel="canonical" href="https://www.veloste.com/case-studies/golden-electrical/" />
+    <link
+      rel="alternate"
+      hreflang="en-CA"
+      href="https://www.veloste.com/case-studies/golden-electrical/"
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://www.veloste.com/case-studies/golden-electrical/"
+    />
+    <link rel="icon" type="image/svg+xml" href="/vstar.svg" />
+    <link
+      rel="preload"
+      href="/fonts/Dream-Orphans-Bd.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/case-studies/golden-electrical/assets/ge-home-hero.webp"
+      as="image"
+    />
+    <link rel="stylesheet" href="/tokens.css" />
+    <link rel="stylesheet" href="/seo-pages.css" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Veloste" />
+    <meta property="og:url" content="https://www.veloste.com/case-studies/golden-electrical/" />
+    <meta property="og:title" content="Golden Electrical Website Case Study | Veloste" />
+    <meta
+      property="og:description"
+      content="A redesigned static website on GitHub Pages with a free contact-form mailer for Golden Electrical Contracting in Golden, British Columbia."
+    />
+    <meta
+      property="og:image"
+      content="https://www.veloste.com/case-studies/golden-electrical/assets/ge-home-hero.webp"
+    />
+    <meta
+      property="og:image:alt"
+      content="The Golden Electrical Contracting homepage with the crew standing in front of their trucks"
+    />
+    <meta property="og:locale" content="en_CA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Golden Electrical Website Case Study | Veloste" />
+    <meta
+      name="twitter:description"
+      content="Veloste's static-site redesign, zero-cost hosting, and free contact mailer for Golden Electrical Contracting."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.veloste.com/case-studies/golden-electrical/assets/ge-home-hero.webp"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Article",
+            "@id": "https://www.veloste.com/case-studies/golden-electrical/#article",
+            "headline": "Golden Electrical website case study",
+            "description": "Website redesign, static Next.js build, GitHub Pages hosting, and a Cloudflare Worker contact mailer for Golden Electrical Contracting in Golden, British Columbia.",
+            "url": "https://www.veloste.com/case-studies/golden-electrical/",
+            "datePublished": "2026-09-23",
+            "dateModified": "2026-09-23",
+            "inLanguage": "en-CA",
+            "image": [
+              "https://www.veloste.com/case-studies/golden-electrical/assets/ge-home-hero.webp",
+              "https://www.veloste.com/case-studies/golden-electrical/assets/ge-home-panels.webp",
+              "https://www.veloste.com/case-studies/golden-electrical/assets/ge-contact-form.webp"
+            ],
+            "author": {
+              "@id": "https://www.veloste.com/#business"
+            },
+            "publisher": {
+              "@id": "https://www.veloste.com/#business"
+            },
+            "about": {
+              "@type": "WebSite",
+              "name": "Golden Electrical Contracting website",
+              "url": "https://goldenelectrical.ca/"
+            }
+          },
+          {
+            "@type": ["Organization", "ProfessionalService"],
+            "@id": "https://www.veloste.com/#business",
+            "name": "Veloste",
+            "url": "https://www.veloste.com/",
+            "logo": "https://www.veloste.com/vstar.svg",
+            "email": "contact@veloste.com",
+            "telephone": "+1-825-521-4542",
+            "founder": {
+              "@id": "https://www.veloste.com/#jack-miller"
+            }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://www.veloste.com/#jack-miller",
+            "name": "Jack Miller",
+            "jobTitle": "Founder and Director",
+            "worksFor": {
+              "@id": "https://www.veloste.com/#business"
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://www.veloste.com/case-studies/golden-electrical/#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.veloste.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Case Studies",
+                "item": "https://www.veloste.com/#work"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Golden Electrical Contracting",
+                "item": "https://www.veloste.com/case-studies/golden-electrical/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <nav class="pill-nav" aria-label="Primary">
+      <a class="pill-nav__brand" href="/" aria-label="Veloste homepage">
+        <img src="/vstar.svg" alt="" width="18" height="18" />
+      </a>
+      <a class="pill-nav__link" href="/#about">About</a>
+      <a class="pill-nav__link" href="/#work">Work</a>
+      <a class="pill-nav__link" href="/#contact">Contact</a>
+    </nav>
+
+    <main id="main">
+      <article>
+        <header class="case-hero">
+          <div>
+            <a class="back-link" href="/#work"><span aria-hidden="true">&#8592;</span> All case studies</a>
+            <p class="eyebrow">Case study / Trades business website</p>
+            <h1>Golden Electrical Contracting</h1>
+            <p class="hero-lede">
+              A full redesign for a licensed electrical contractor in Golden, British Columbia,
+              rebuilt as a static site on GitHub Pages with a serverless contact mailer, so the
+              company keeps a modern website and a working enquiry form with no monthly hosting
+              bill.
+            </p>
+          </div>
+          <ul class="case-meta" aria-label="Project details">
+            <li><strong>Client</strong><span>Golden Electrical Contracting Ltd.</span></li>
+            <li><strong>Location</strong><span>Golden, British Columbia</span></li>
+            <li><strong>Industry</strong><span>Electrical contracting</span></li>
+            <li>
+              <strong>Scope</strong>
+              <span>Redesign, Next.js static build, GitHub Pages deployment, contact mailer</span>
+            </li>
+          </ul>
+        </header>
+
+        <section class="section surface-light intro-section" aria-labelledby="challenge-title">
+          <div>
+            <p class="eyebrow">The challenge</p>
+            <h2 id="challenge-title">Keep the website modern without keeping a hosting bill.</h2>
+          </div>
+          <div class="prose">
+            <p>
+              Golden Electrical Contracting is a small, busy electrical contractor serving Golden
+              and the Columbia Valley. Its public website ran on WordPress with paid shared
+              hosting, and an earlier Next.js version leaned on a hosted content management
+              system and a separately hosted mail function tied to a Gmail password. Each piece
+              added a recurring cost or another account to keep alive, for a site whose content
+              changes a few times a year.
+            </p>
+            <p>
+              The brief was straightforward: a cleaner, faster site that reflects the crew and
+              the work, that costs nothing to keep online, and that still delivers enquiries to
+              the company inbox reliably. That last point could not be a compromise. For a trades
+              business, the contact form is the website.
+            </p>
+          </div>
+        </section>
+
+        <section class="section surface-light" aria-labelledby="design-title">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="eyebrow">The design</p>
+              <h2 id="design-title">A confident, work-first identity for the trade.</h2>
+            </div>
+            <div class="prose">
+              <p>
+                The visual direction starts with the company's own colours and crew. A warm
+                off-white base, a slate-blue accent, and Barlow Condensed typography give the
+                site a sturdy, workwear feel, and every page opens with full-bleed photography or
+                video of the team, their trucks, and their job sites around Golden.
+              </p>
+              <p>
+                Sections meet at slanted dividers that carry the eye down the page, and headings
+                are underlined by a small animated detail: two lines extend from the edges and
+                meet in the middle like a plug connecting. Content is organised into clear
+                bands, with welcome copy, photo panels for Services, About, and Join Our Team,
+                customer reviews, a frequently asked questions accordion, and a call to action.
+                The About page adds team profiles, access equipment, and a previous-projects
+                list, while the Services page presents twelve services as icon cards.
+              </p>
+              <p>
+                Motion is kept light. Sections ease in diagonally as they enter the viewport,
+                section reveals respect reduced-motion preferences, and the layout adapts down to
+                small phones with a fixed header and a mobile menu.
+              </p>
+              <p>
+                <a class="text-link" href="https://goldenelectrical.ca/" rel="noopener">
+                  Visit the Golden Electrical website <span aria-hidden="true">-&gt;</span>
+                </a>
+              </p>
+            </div>
+          </div>
+          <div class="case-gallery" aria-label="Golden Electrical project imagery">
+            <img
+              src="/case-studies/golden-electrical/assets/ge-home-hero.webp"
+              alt="The Golden Electrical Contracting homepage with the crew standing in front of their trucks"
+              loading="eager"
+              decoding="async"
+            />
+            <img
+              src="/case-studies/golden-electrical/assets/ge-home-panels.webp"
+              alt="Slanted section dividers and photo panels for Services, About, and Join Our Team on the homepage"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/case-studies/golden-electrical/assets/ge-contact-form.webp"
+              alt="The contact form with a Cloudflare Turnstile check beside the company's contact details"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </section>
+
+        <section class="section surface-light" aria-labelledby="platform-title">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="eyebrow">The platform</p>
+              <h2 id="platform-title">A static site that costs nothing to host.</h2>
+            </div>
+            <div class="prose">
+              <p>
+                The site is built with Next.js and exported as plain static files. Page copy,
+                navigation, contact details, and search metadata live in a single versioned
+                content file in the repository, so there is no content management system to
+                subscribe to, patch, or lose access to. Editing a page is a text change and a
+                commit.
+              </p>
+              <p>
+                Every push to the main branch triggers a GitHub Actions workflow that installs
+                dependencies, runs the build, checks that every route exported correctly,
+                regenerates the robots file and sitemap, and publishes the output to GitHub
+                Pages under the company's own domain. Source code stays in a private repository
+                and only the compiled site is published. GitHub Pages serves it over HTTPS at no
+                cost.
+              </p>
+              <p>
+                Going live was a DNS change. The domain's web records now point at GitHub
+                Pages, while the company's existing email records were left untouched. The
+                workflow also refuses to build unless the contact-form configuration is present,
+                so a deploy with a broken form cannot happen by accident.
+              </p>
+            </div>
+          </div>
+          <ul class="deliverable-list">
+            <li>
+              <span>Static Next.js export</span>
+              <small>Six routes rendered to plain HTML, CSS, and JavaScript</small>
+            </li>
+            <li>
+              <span>GitHub Actions publishing</span>
+              <small>Build, validate, and publish on every push to the main branch</small>
+            </li>
+            <li>
+              <span>Zero hosting cost</span>
+              <small>GitHub Pages with the company's custom domain and HTTPS</small>
+            </li>
+            <li>
+              <span>Versioned content</span>
+              <small>One content file in the repository instead of a CMS subscription</small>
+            </li>
+            <li>
+              <span>Search foundations</span>
+              <small>Per-page titles and descriptions, Electrician and FAQ structured data, generated sitemap and robots files</small>
+            </li>
+            <li>
+              <span>Optimised media</span>
+              <small>More than 40 worksite photographs, team portraits, and hero video prepared for the web</small>
+            </li>
+          </ul>
+        </section>
+
+        <section class="section surface-light local-section" aria-labelledby="mailer-title">
+          <div>
+            <p class="eyebrow">The free mailing system</p>
+            <h2 id="mailer-title">A contact form with no server to pay for.</h2>
+          </div>
+          <div class="prose">
+            <p>
+              A static site cannot send email on its own, and the usual answers are a paid form
+              service or a hosted function tied to someone's personal email account. Instead,
+              Veloste built a small, isolated Cloudflare Worker that does one job: accept a
+              contact-form submission from goldenelectrical.ca and deliver it to the company
+              inbox through Resend's transactional email API. At launch, both services offered
+              free tiers far above the traffic a local contractor's form will ever see, with
+              Cloudflare Workers allowing 100,000 requests a day and Resend covering 3,000 emails
+              a month.
+            </p>
+            <p>
+              The Worker is careful about what it accepts. It only answers JSON requests from
+              the site's own origin, validates every field against a strict schema, escapes
+              anything that ends up in the email, discards honeypot submissions silently,
+              verifies a Cloudflare Turnstile token on the server, and rate-limits attempts per
+              visitor address. Messages are sent from a verified sending subdomain so they land
+              in the inbox rather than spam, with the visitor's address set as Reply-To so the
+              office can answer with a single click. API keys exist only as encrypted Worker
+              secrets and are never exposed to the browser.
+            </p>
+            <p>
+              A unit-test suite mocks both providers, so the Worker can be verified without
+              sending real email. The result is a contact form that behaves like the one on a
+              fully hosted site: instant confirmation for the visitor, a clean email for the
+              office, and no monthly invoice for either.
+            </p>
+            <p>
+              This case study documents the implemented website and mailer functionality.
+              Veloste does not publish invented traffic, enquiry, or revenue results.
+            </p>
+          </div>
+        </section>
+      </article>
+
+      <section class="contact-section" aria-labelledby="contact-title">
+        <div>
+          <p class="eyebrow">Build the next case study</p>
+          <h2 id="contact-title">Need a website that costs nothing to keep online?</h2>
+        </div>
+        <div>
+          <p>
+            Veloste builds conversion-focused websites and custom web systems for businesses in
+            Calgary, Alberta, and beyond, including static builds for small businesses that want
+            a modern site without recurring platform fees. Send your goals, timeline, and budget
+            range to get the right next step.
+          </p>
+          <div class="contact-actions">
+            <a class="button button-primary" href="/#contact">Start a conversation</a>
+            <a class="button button-secondary" href="/web-developer-calgary/">Calgary web development</a>
+          </div>
+          <p class="contact-meta-line">
+            Prefer email?
+            <a href="mailto:contact@veloste.com?subject=Website%20project">contact@veloste.com</a>.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand" href="/">
+        <img src="/vstar.svg" alt="" width="20" height="20" />
+        <span>Veloste</span>
+      </a>
+      <p>Custom web design and development in Calgary, Alberta.</p>
+      <nav aria-label="Footer">
+        <a href="/">Interactive homepage</a>
+        <a href="/web-developer-calgary/">Services</a>
+        <a href="/resources/website-brief-calgary/">Free brief builder</a>
+        <a href="mailto:contact@veloste.com">Contact</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </footer>
+    <script src="/nav.js" defer></script>
+  </body>
+</html>
