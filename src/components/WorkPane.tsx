@@ -41,6 +41,32 @@ const CASE_STUDIES: ReadonlyArray<{
     linkLabel: "Read case study",
   },
   {
+    id: "golden-electrical",
+    eyebrow: "Electrical contractor — Golden, British Columbia",
+    title: "Golden Electrical Contracting",
+    body: "A full redesign rebuilt as a static Next.js site published to GitHub Pages, with a Cloudflare Worker contact mailer, so the company keeps a modern website and a working enquiry form with no monthly hosting costs.",
+    tags: ["Redesign", "Static Next.js", "Zero-cost hosting"],
+    shots: [
+      {
+        kind: "image",
+        src: "/case-studies/golden-electrical/assets/ge-home-hero.webp",
+        alt: "The Golden Electrical Contracting homepage with the crew in front of their trucks",
+      },
+      {
+        kind: "image",
+        src: "/case-studies/golden-electrical/assets/ge-home-panels.webp",
+        alt: "Slanted section dividers and photo panels on the Golden Electrical homepage",
+      },
+      {
+        kind: "image",
+        src: "/case-studies/golden-electrical/assets/ge-contact-form.webp",
+        alt: "The Golden Electrical contact form with a Cloudflare Turnstile check",
+      },
+    ],
+    href: "/case-studies/golden-electrical/",
+    linkLabel: "Read case study",
+  },
+  {
     id: "veloste",
     eyebrow: "Real-time 3D identity — in-house",
     title: "Veloste.com",

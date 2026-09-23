@@ -8,6 +8,7 @@ experiences.
 
 - [Calgary web developer services](https://www.veloste.com/web-developer-calgary/)
 - [Juniper Hotel website case study](https://www.veloste.com/case-studies/juniper-hotel/)
+- [Golden Electrical website case study](https://www.veloste.com/case-studies/golden-electrical/)
 - [Free website brief builder for Calgary businesses](https://www.veloste.com/resources/website-brief-calgary/)
 - [Contact Veloste](mailto:contact@veloste.com)
 
