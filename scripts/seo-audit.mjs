@@ -29,6 +29,12 @@ const pages = [
     minWords: 650,
   },
   {
+    path: "case-studies/veloste/index.html",
+    canonical: "https://www.veloste.com/case-studies/veloste/",
+    title: "Veloste.com Website Case Study | Veloste",
+    minWords: 650,
+  },
+  {
     path: "resources/website-brief-calgary/index.html",
     canonical: "https://www.veloste.com/resources/website-brief-calgary/",
     title: "Free Website Brief Template for Calgary Businesses | Veloste",
@@ -183,6 +189,7 @@ if (!targetHtml.includes('href="/resources/website-brief-calgary/"')) {
 for (const supportingPath of [
   "case-studies/juniper-hotel/index.html",
   "case-studies/golden-electrical/index.html",
+  "case-studies/veloste/index.html",
   "resources/website-brief-calgary/index.html",
 ]) {
   const html = pageDocuments.get(supportingPath) ?? "";
@@ -269,6 +276,19 @@ const caseStudies = [
       "case-studies/golden-electrical/assets/ge-home-hero.webp",
       "case-studies/golden-electrical/assets/ge-home-panels.webp",
       "case-studies/golden-electrical/assets/ge-contact-form.webp",
+    ],
+  },
+  {
+    path: "case-studies/veloste/index.html",
+    url: "https://www.veloste.com/case-studies/veloste/",
+    assets: [
+      "case-studies/veloste/assets/veloste-landing.webp",
+      "case-studies/veloste/assets/veloste-flood.webp",
+      "case-studies/veloste/assets/veloste-star-detail.webp",
+      "case-studies/veloste/assets/veloste-normal-map.webp",
+      "case-studies/veloste/assets/veloste-about.webp",
+      "case-studies/veloste/assets/veloste-work.webp",
+      "case-studies/veloste/assets/veloste-mobile.webp",
     ],
   },
 ];

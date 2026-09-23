@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en-CA" class="case-snap">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Veloste.com Website Case Study | Veloste</title>
+    <meta
+      name="description"
+      content="How Veloste built its own site: a single-screen real-time 3D experience with a one-axis scroll, a chrome star with painted normals, and the optimisation that keeps it smooth."
+    />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="theme-color" content="#000000" />
+    <link rel="canonical" href="https://www.veloste.com/case-studies/veloste/" />
+    <link rel="alternate" hreflang="en-CA" href="https://www.veloste.com/case-studies/veloste/" />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://www.veloste.com/case-studies/veloste/"
+    />
+    <link rel="icon" type="image/svg+xml" href="/vstar.svg" />
+    <link
+      rel="preload"
+      href="/fonts/Dream-Orphans-Bd.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="/case-studies/veloste/assets/veloste-landing.webp" as="image" />
+    <link rel="stylesheet" href="/tokens.css" />
+    <link rel="stylesheet" href="/seo-pages.css" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Veloste" />
+    <meta property="og:url" content="https://www.veloste.com/case-studies/veloste/" />
+    <meta property="og:title" content="Veloste.com Website Case Study | Veloste" />
+    <meta
+      property="og:description"
+      content="A single-screen, real-time 3D studio site whose layout demonstrates the design, motion, and 3D work Veloste delivers for clients."
+    />
+    <meta
+      property="og:image"
+      content="https://www.veloste.com/case-studies/veloste/assets/veloste-landing.webp"
+    />
+    <meta
+      property="og:image:alt"
+      content="The Veloste landing screen: a chrome star rendered live in WebGL over the wordmark"
+    />
+    <meta property="og:locale" content="en_CA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Veloste.com Website Case Study | Veloste" />
+    <meta
+      name="twitter:description"
+      content="One scroll axis, a chrome star with painted normals, and a demand-driven render loop. How the Veloste site was built."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.veloste.com/case-studies/veloste/assets/veloste-landing.webp"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Article",
+            "@id": "https://www.veloste.com/case-studies/veloste/#article",
+            "headline": "Veloste.com website case study",
+            "description": "How Veloste designed and built its own single-screen real-time 3D website: one-axis scroll interaction, a chrome star with painted normals, and performance engineering.",
+            "url": "https://www.veloste.com/case-studies/veloste/",
+            "datePublished": "2026-09-23",
+            "dateModified": "2026-09-23",
+            "inLanguage": "en-CA",
+            "image": [
+              "https://www.veloste.com/case-studies/veloste/assets/veloste-landing.webp",
+              "https://www.veloste.com/case-studies/veloste/assets/veloste-flood.webp",
+              "https://www.veloste.com/case-studies/veloste/assets/veloste-star-detail.webp",
+              "https://www.veloste.com/case-studies/veloste/assets/veloste-about.webp"
+            ],
+            "author": {
+              "@id": "https://www.veloste.com/#business"
+            },
+            "publisher": {
+              "@id": "https://www.veloste.com/#business"
+            },
+            "about": {
+              "@type": "WebSite",
+              "name": "Veloste.com",
+              "url": "https://www.veloste.com/"
+            }
+          },
+          {
+            "@type": ["Organization", "ProfessionalService"],
+            "@id": "https://www.veloste.com/#business",
+            "name": "Veloste",
+            "url": "https://www.veloste.com/",
+            "logo": "https://www.veloste.com/vstar.svg",
+            "email": "contact@veloste.com",
+            "telephone": "+1-825-521-4542",
+            "founder": {
+              "@id": "https://www.veloste.com/#jack-miller"
+            }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://www.veloste.com/#jack-miller",
+            "name": "Jack Miller",
+            "jobTitle": "Founder and Director",
+            "worksFor": {
+              "@id": "https://www.veloste.com/#business"
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://www.veloste.com/case-studies/veloste/#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.veloste.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Case Studies",
+                "item": "https://www.veloste.com/#work"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Veloste.com",
+                "item": "https://www.veloste.com/case-studies/veloste/"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <nav class="pill-nav" aria-label="Primary">
+      <a class="pill-nav__brand" href="/" aria-label="Veloste homepage">
+        <img src="/vstar.svg" alt="" width="18" height="18" />
+      </a>
+      <a class="pill-nav__link" href="/#about">About</a>
+      <a class="pill-nav__link" href="/#work">Work</a>
+      <a class="pill-nav__link" href="/#contact">Contact</a>
+    </nav>
+
+    <main id="main">
+      <article>
+        <header class="case-hero">
+          <div>
+            <a class="back-link" href="/#work"><span aria-hidden="true">&#8592;</span> All case studies</a>
+            <p class="eyebrow">Case study / Studio website</p>
+            <h1>Veloste.com</h1>
+            <p class="hero-lede">
+              Our own site. A single-screen, real-time 3D experience whose layout is a working
+              demonstration of what Veloste brings to clients: interaction that feels new yet
+              needs no instructions, a chrome mark rendered live in the browser, and the
+              optimisation discipline that keeps all of it smooth.
+            </p>
+          </div>
+          <ul class="case-meta" aria-label="Project details">
+            <li><strong>Client</strong><span>Veloste, in-house</span></li>
+            <li><strong>Location</strong><span>Calgary, Alberta</span></li>
+            <li><strong>Industry</strong><span>Design and development studio</span></li>
+            <li>
+              <strong>Scope</strong>
+              <span>Identity, UX, real-time 3D, motion system, performance engineering</span>
+            </li>
+          </ul>
+        </header>
+
+        <section class="section surface-light intro-section" aria-labelledby="challenge-title">
+          <div>
+            <p class="eyebrow">The challenge</p>
+            <h2 id="challenge-title">Show what we do instead of saying it.</h2>
+          </div>
+          <div class="prose">
+            <p>
+              A studio website has to prove its own claims. Veloste sells three things, custom
+              brand-led websites, interaction and motion systems, and immersive 3D experiences,
+              and a page of adjectives would not demonstrate any of them. The site had to be the
+              portfolio.
+            </p>
+            <p>
+              It also had to respect the people using it. Distinctive enough to be remembered,
+              familiar enough that nobody needs a tutorial, fast enough that the 3D never feels
+              like a cost, and shaped so that every path ends at a scoped-quote form. The whole
+              thing had to work in strict black and white, with no colour to hide behind.
+            </p>
+          </div>
+        </section>
+
+        <section class="section surface-light" aria-labelledby="ux-title">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="eyebrow">The interaction</p>
+              <h2 id="ux-title">Unique, yet familiar.</h2>
+            </div>
+            <div class="prose">
+              <p>
+                The entire site lives on one scroll axis that runs from minus one to plus one.
+                The landing sits at zero: a black screen, the wordmark, and the chrome star.
+                Scrolling down opens About. Scrolling up from the landing opens Contact. That is
+                the only gesture a visitor has to know, and it is the one they already use
+                everywhere else. The page does not move down, though. It opens.
+              </p>
+              <p>
+                As progress passes a dead zone, a white circle at the star's tip solidifies and
+                grows until it becomes the page background, and the star itself lifts toward
+                white and blooms into it. A plain white plate fades in beneath to guarantee full
+                coverage, and the black text arrives deliberately late, so type only lands once
+                there is white to land on. Scroll input drives a critically damped spring rather
+                than a linear tween, so each wheel notch changes acceleration, not velocity, and
+                the flood never lurches.
+              </p>
+              <p>
+                Everything around that moment is conventional on purpose. A pill navigation with
+                About, Work, and Contact floats at the top and inverts when the page turns light.
+                Labelled indicators sit at the star's tips. Overlays close on Escape and hand
+                focus to their close button. Deep links such as /#contact land on the right pane,
+                open panes scroll natively on touch, and reduced-motion preferences are honoured.
+              </p>
+              <p>
+                <a class="text-link" href="/" rel="noopener">
+                  Open the Veloste homepage <span aria-hidden="true">-&gt;</span>
+                </a>
+              </p>
+            </div>
+          </div>
+          <div class="case-gallery" aria-label="Veloste.com project imagery">
+            <img
+              src="/case-studies/veloste/assets/veloste-landing.webp"
+              alt="The Veloste landing screen: a chrome star rendered live in WebGL over the wordmark on black"
+              loading="eager"
+              decoding="async"
+            />
+            <img
+              src="/case-studies/veloste/assets/veloste-flood.webp"
+              alt="Mid-transition: a white circle grows from the star's tip while the star glows white and the Contact pane fades in"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/case-studies/veloste/assets/veloste-star-detail.webp"
+              alt="Close-up of the chrome star showing brushed, dotted, and hatched surface detail in the reflections"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/case-studies/veloste/assets/veloste-normal-map.webp"
+              alt="The star's tangent-space normal map: a lavender texture with hand-painted dapple, halftone, and hatch patterns across the UV island"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/case-studies/veloste/assets/veloste-about.webp"
+              alt="The About pane: large black display type on white with a service list and a case-studies button"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/case-studies/veloste/assets/veloste-work.webp"
+              alt="The Work overlay: a white case-studies gallery with horizontal image strips over the faded landing"
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/case-studies/veloste/assets/veloste-mobile.webp"
+              alt="Two phone frames: the landing with the star and the About pane at phone width"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </section>
+
+        <section class="section surface-light" aria-labelledby="layout-title">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="eyebrow">The layout</p>
+              <h2 id="layout-title">Every surface demonstrates a service.</h2>
+            </div>
+            <div class="prose">
+              <p>
+                The site is arranged so that each thing a visitor touches corresponds to
+                something Veloste can build for them. The landing is the immersive 3D work. The
+                transition between screens is the motion system. The About and Contact panes are
+                the brand-led design and conversion-focused UX. The Work overlay and the static
+                case-study pages show that the same language holds up across a whole site, not
+                just a hero.
+              </p>
+              <p>
+                The static pages, including this one, are hand-written HTML that share one token
+                file and the same pill navigation with the homepage, so they read as rooms of the
+                same building. Every route funnels to the same place: a short scoped-quote form
+                with email and phone alongside it, and a link to a free website brief builder for
+                people who prefer to scope things themselves first.
+              </p>
+            </div>
+          </div>
+          <ul class="deliverable-list">
+            <li>
+              <span>Landing</span>
+              <small>Immersive 3D: a chrome star lit and rendered live in WebGL</small>
+            </li>
+            <li>
+              <span>Transition</span>
+              <small>Motion system: spring-driven scroll, tip-circle flood, lagged type</small>
+            </li>
+            <li>
+              <span>About pane</span>
+              <small>Brand-led design: monochrome, typography-first, structured content</small>
+            </li>
+            <li>
+              <span>Contact pane</span>
+              <small>Conversion-focused UX: scoped-quote form, email, phone, brief builder</small>
+            </li>
+            <li>
+              <span>Work overlay</span>
+              <small>Case studies with horizontal scroll-snap galleries, lazy-loaded on demand</small>
+            </li>
+            <li>
+              <span>Static pages</span>
+              <small>Service, resource, and case-study pages on shared tokens and navigation</small>
+            </li>
+          </ul>
+        </section>
+
+        <section class="section surface-light" aria-labelledby="star-title">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="eyebrow">The 3D logo and painted normals</p>
+              <h2 id="star-title">A light mesh that reads as worked metal.</h2>
+            </div>
+            <div class="prose">
+              <p>
+                The star is a single mesh with one physically based material, and it is
+                deliberately smooth. Its character comes from a tangent-space normal map instead
+                of the geometry: the brushed patches, halftone dots, and hatching that break up
+                its reflections were painted into the map by hand. The surface stays light to
+                render, but under the lights it reads as a worked metal object, and because the
+                painted normals bend the reflections, the chrome shifts as the star yaws with
+                each scroll.
+              </p>
+              <p>
+                Lighting is treated like a product shot. A key and a rim directional light and a
+                point light from below give the crisp specular edges, while an environment built
+                from seven rectangular area lights is baked once at load and supplies the soft
+                chrome reflections for free at runtime. The base colour is levelled and
+                contrast-stretched in code so the mark stays strictly monochrome, and the frame
+                passes through filmic tone mapping with an exposure derived from a simple
+                whites, highlights, shadows, and blacks grade.
+              </p>
+              <p>
+                The glow is the same material, not a second model. As the flood advances, the
+                star's colour lifts toward white, its emissive intensity rises above the bloom
+                threshold, and the post-processing pass carries the halo, so the mark burns out
+                into the page without drawing anything twice.
+              </p>
+            </div>
+          </div>
+          <ul class="deliverable-list">
+            <li>
+              <span>One mesh, one material</span>
+              <small>20,791 vertices and 37,440 triangles, no separate glow copy</small>
+            </li>
+            <li>
+              <span>Painted normal map</span>
+              <small>1024-pixel tangent-space map carrying brushed, dotted, and hatched detail</small>
+            </li>
+            <li>
+              <span>Product-shot lighting</span>
+              <small>Key, rim, and under lights plus a once-baked seven-panel environment</small>
+            </li>
+            <li>
+              <span>Emissive glow through bloom</span>
+              <small>Colour, emissive, metalness, roughness, and reflection strength all keyed to scroll</small>
+            </li>
+            <li>
+              <span>Scroll-linked yaw</span>
+              <small>The star turns up to 40 degrees across the axis, so the reflections move</small>
+            </li>
+            <li>
+              <span>Monochrome grade</span>
+              <small>Levels, contrast, and filmic tone mapping tuned for pure black and white</small>
+            </li>
+          </ul>
+        </section>
+
+        <section class="section surface-light local-section" aria-labelledby="perf-title">
+          <div>
+            <p class="eyebrow">Optimisation</p>
+            <h2 id="perf-title">Render only when something changes.</h2>
+          </div>
+          <div class="prose">
+            <p>
+              The model ships at under 200 KB. It is compressed with glTF-Transform using
+              meshopt compression and mesh quantization, and both textures are stored as WebP:
+              the 1024-pixel normal map costs about 9 KB and the colour map about 2 KB. The
+              model and both display fonts, converted from OTF to WOFF2 at roughly 25 KB each,
+              are preloaded from the document head so the scene can start the moment the bundle
+              is ready. The Work overlay is a separate chunk that is prefetched when the cursor
+              reaches the navigation.
+            </p>
+            <p>
+              The render loop is demand-driven. Frames are only requested while the scroll
+              spring is still moving, so a site that is sitting still costs the GPU nothing. The
+              entire scroll pipeline is built on refs rather than React state: every
+              scroll-linked value, from the star's rotation to the pane opacities, is derived
+              from a single progress number, and no component re-renders during a scroll. Values
+              that reach CSS are quantized, diffed, and written to the scene wrapper rather than
+              the document root, so style recalculation stays inside the scene subtree.
+            </p>
+            <p>
+              GPU cost is budgeted rather than assumed. Device pixel ratio is capped by viewport
+              width, canvas anti-aliasing is off in favour of two-sample MSAA in the
+              post-processing pass, five punctual lights were consolidated into three with the
+              baked environment carrying the rest, and thirteen per-frame subscriptions became
+              one. The full-viewport backdrop blur behind the Work overlay was removed after it
+              proved to be the cause of choppy scrolling there, and glass blur now survives only
+              on the small navigation pill and indicators.
+            </p>
+            <p>
+              Measured while scrolling hard on a 144 Hz display, the main axis holds 135 frames
+              per second with a 95th-percentile frame time of 7 milliseconds, and six frames out
+              of more than 650 exceeded 33 milliseconds. Those figures come from the studio's own
+              hardware. Veloste does not publish invented traffic or conversion results.
+            </p>
+          </div>
+        </section>
+      </article>
+
+      <section class="contact-section" aria-labelledby="contact-title">
+        <div>
+          <p class="eyebrow">Build the next case study</p>
+          <h2 id="contact-title">Want a site that proves what you do?</h2>
+        </div>
+        <div>
+          <p>
+            Veloste builds conversion-focused websites, motion systems, and real-time 3D
+            experiences for businesses in Calgary, Alberta, and beyond. Send your goals,
+            timeline, and budget range to get the right next step.
+          </p>
+          <div class="contact-actions">
+            <a class="button button-primary" href="/#contact">Start a conversation</a>
+            <a class="button button-secondary" href="/web-developer-calgary/">Calgary web development</a>
+          </div>
+          <p class="contact-meta-line">
+            Prefer email?
+            <a href="mailto:contact@veloste.com?subject=Website%20project">contact@veloste.com</a>.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand" href="/">
+        <img src="/vstar.svg" alt="" width="20" height="20" />
+        <span>Veloste</span>
+      </a>
+      <p>Custom web design and development in Calgary, Alberta.</p>
+      <nav aria-label="Footer">
+        <a href="/">Interactive homepage</a>
+        <a href="/web-developer-calgary/">Services</a>
+        <a href="/resources/website-brief-calgary/">Free brief builder</a>
+        <a href="mailto:contact@veloste.com">Contact</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </footer>
+    <script src="/nav.js" defer></script>
+  </body>
+</html>
