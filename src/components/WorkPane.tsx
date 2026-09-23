@@ -73,7 +73,6 @@ const CASE_STUDIES: ReadonlyArray<{
     body: "This site. A chrome mark rendered live in WebGL, driven by a one-dimensional scroll axis that floods the page white to open About and Contact. The model ships meshopt-compressed at under 200 KB and holds 60 fps on mobile.",
     tags: ["React Three Fiber", "Motion design", "Performance"],
     shots: [
-      { kind: "mark" },
       {
         kind: "image",
         src: "/case-studies/veloste/assets/veloste-landing.webp",
