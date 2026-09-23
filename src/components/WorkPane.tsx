@@ -76,12 +76,22 @@ const CASE_STUDIES: ReadonlyArray<{
       { kind: "mark" },
       {
         kind: "image",
-        src: "/og-image.png",
-        alt: "Veloste chrome star identity over the wordmark",
+        src: "/case-studies/veloste/assets/veloste-landing.webp",
+        alt: "The Veloste landing: a chrome star rendered live in WebGL over the wordmark",
+      },
+      {
+        kind: "image",
+        src: "/case-studies/veloste/assets/veloste-flood.webp",
+        alt: "The white flood growing from the star tip as the Contact pane opens",
+      },
+      {
+        kind: "image",
+        src: "/case-studies/veloste/assets/veloste-about.webp",
+        alt: "The About pane: black display type on white",
       },
     ],
-    href: null,
-    linkLabel: "You're looking at it",
+    href: "/case-studies/veloste/",
+    linkLabel: "Read case study",
   },
 ];
 
