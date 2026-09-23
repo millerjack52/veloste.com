@@ -47,9 +47,30 @@
   box-sizing: border-box;
 }
 
+/* Page flow tokens — the About pane's numbers (see the "Page flow"
+   block near the end of this file). */
+:root {
+  --snap-top: max(12vh, calc(env(safe-area-inset-top, 0px) + 84px));
+  --snap-block: min(86vh, 940px);
+  --snap-gap: clamp(96px, 18vh, 190px);
+  --snap-pad: clamp(56px, 9vh, 110px);
+}
+
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 92px;
+  scroll-snap-type: y proximity;
+  scroll-padding-top: var(--snap-top);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.55) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.5);
+  border-radius: 999px;
 }
 
 body {
@@ -384,7 +405,6 @@ main {
 }
 
 .section {
-  padding: clamp(90px, 14vw, 180px) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -621,7 +641,6 @@ main {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
   gap: clamp(40px, 8vw, 120px);
-  padding: clamp(100px, 16vw, 210px) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -831,49 +850,91 @@ main {
 }
 
 /* ============================================================
-   Case-study flow — the About pane's scroll formula on a full
-   page: proximity snap, near-viewport blocks with the content
-   vertically centred, and About-scale section titles. Opt in
-   with class="case-snap" on the page's <html> element. The
-   global scroll-padding-top keeps snapped blocks clear of the
-   pill nav.
-   ============================================================ */
-html.case-snap {
-  scroll-snap-type: y proximity;
-}
+   Page flow — the About pane's scroll formula on a full page.
 
-html.case-snap .case-hero,
-html.case-snap .section,
-html.case-snap .contact-section {
+   The document itself is the scroll container: keyboard paging,
+   scroll restoration, find-in-page and the mobile URL bar keep
+   their native behaviour, and the snap engine is the same one an
+   inner scroller would use (proximity = one third of the snapport).
+
+   Each .section is an About block: a min(86vh, 940px) area with the
+   content vertically centred, snapped to start under the pill nav
+   (--snap-top), followed by an 18vh breathing gap. The gap is folded
+   into the block's bottom padding so the white band stays
+   continuous, and excluded from the snap area with a negative
+   scroll-margin, so a short section rests exactly where an About
+   block would and a tall one only rests while its content still
+   covers the snapport. Content that regularly outgrows a viewport
+   (galleries, deliverable lists, card grids, process lists, FAQs)
+   is its own centre-aligned snap area, so it has an eye-level rest
+   position instead of fighting the next section's start.
+   ============================================================ */
+.landing-hero,
+.case-hero {
   scroll-snap-align: start;
 }
 
-html.case-snap .section {
+.section {
   display: grid;
   align-content: center;
-  min-height: min(86vh, 940px);
-  padding: clamp(56px, 9vh, 110px) 0;
+  min-height: calc(var(--snap-block) + var(--snap-gap));
+  padding: var(--snap-pad) 0 calc(var(--snap-gap) + var(--snap-pad));
+  scroll-snap-align: start;
+  scroll-margin-bottom: calc(-1 * var(--snap-gap));
 }
 
-html.case-snap .contact-section {
+.contact-section {
   align-content: center;
-  min-height: min(80vh, 880px);
+  min-height: var(--snap-block);
+  padding: var(--snap-pad) 0;
+  scroll-snap-align: start;
 }
 
-html.case-snap .section h2,
-html.case-snap .contact-section h2 {
+/* The footer sits past the last block's rest position; give the
+   page bottom its own snap position so End (and one more notch)
+   can reveal it instead of springing back. */
+.site-footer {
+  scroll-snap-align: end;
+}
+
+/* Hash targets are the section headings, which sit one block
+   padding plus one eyebrow (0.72rem x 1.45 line-height + 1em margin)
+   below the section's top edge. Offsetting the anchor by that same
+   amount makes a fragment navigation land on the section's rest
+   position instead of a few pixels past it, where a tall section's
+   covering range would otherwise let it settle. */
+.section h2[id],
+.contact-section h2[id] {
+  scroll-margin-top: calc(var(--snap-pad) + 1.764rem);
+}
+
+/* Viewport-outgrowing content gets an eye-level rest of its own. */
+.case-gallery,
+.deliverable-list,
+.service-grid,
+.process-list,
+.faq-list,
+.work-images {
+  scroll-snap-align: center;
+}
+
+/* Case-study pages carry About-scale section titles. Opt in with
+   class="case-study" on the page's <html> element. */
+html.case-study .section h2,
+html.case-study .contact-section h2 {
   max-width: 11.5ch;
   font-size: clamp(42px, 8.4vw, 118px);
   line-height: 0.88;
 }
 
 @media (max-width: 900px) {
-  html.case-snap .section {
-    min-height: 72vh;
+  :root {
+    --snap-block: 72vh;
+    --snap-gap: 12vh;
   }
 
-  html.case-snap .section h2,
-  html.case-snap .contact-section h2 {
+  html.case-study .section h2,
+  html.case-study .contact-section h2 {
     font-size: clamp(2.5rem, 10vw, 4.5rem);
   }
 }
@@ -1146,6 +1207,7 @@ html.case-snap .contact-section h2 {
   }
 
   body > main .brief-builder-section {
+    min-height: 0;
     padding: 0;
     border: 0;
   }
