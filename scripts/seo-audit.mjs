@@ -23,6 +23,12 @@ const pages = [
     minWords: 650,
   },
   {
+    path: "case-studies/golden-electrical/index.html",
+    canonical: "https://www.veloste.com/case-studies/golden-electrical/",
+    title: "Golden Electrical Website Case Study | Veloste",
+    minWords: 650,
+  },
+  {
     path: "resources/website-brief-calgary/index.html",
     canonical: "https://www.veloste.com/resources/website-brief-calgary/",
     title: "Free Website Brief Template for Calgary Businesses | Veloste",
@@ -176,6 +182,7 @@ if (!targetHtml.includes('href="/resources/website-brief-calgary/"')) {
 
 for (const supportingPath of [
   "case-studies/juniper-hotel/index.html",
+  "case-studies/golden-electrical/index.html",
   "resources/website-brief-calgary/index.html",
 ]) {
   const html = pageDocuments.get(supportingPath) ?? "";
@@ -245,29 +252,41 @@ for (const [relative, html] of pageDocuments.entries()) {
   }
 }
 
-const juniperPath = "case-studies/juniper-hotel/index.html";
-const juniperHtml = pageDocuments.get(juniperPath) ?? "";
-if (
-  !juniperHtml.includes(
-    '<meta property="og:url" content="https://www.veloste.com/case-studies/juniper-hotel/"',
-  ) ||
-  !juniperHtml.includes(
-    '"url": "https://www.veloste.com/case-studies/juniper-hotel/"',
-  ) ||
-  !juniperHtml.includes(
-    '"item": "https://www.veloste.com/case-studies/juniper-hotel/"',
-  )
-) {
-  errors.push(`${juniperPath}: Open Graph, Article, or breadcrumb URL is stale`);
-}
+const caseStudies = [
+  {
+    path: "case-studies/juniper-hotel/index.html",
+    url: "https://www.veloste.com/case-studies/juniper-hotel/",
+    assets: [
+      "case-studies/juniper-hotel/assets/juniper-hero.webp",
+      "case-studies/juniper-hotel/assets/juniper-deluxe-king.webp",
+      "case-studies/juniper-hotel/assets/juniper-patio.webp",
+    ],
+  },
+  {
+    path: "case-studies/golden-electrical/index.html",
+    url: "https://www.veloste.com/case-studies/golden-electrical/",
+    assets: [
+      "case-studies/golden-electrical/assets/ge-home-hero.webp",
+      "case-studies/golden-electrical/assets/ge-home-panels.webp",
+      "case-studies/golden-electrical/assets/ge-contact-form.webp",
+    ],
+  },
+];
 
-for (const relative of [
-  "case-studies/juniper-hotel/assets/juniper-hero.webp",
-  "case-studies/juniper-hotel/assets/juniper-deluxe-king.webp",
-  "case-studies/juniper-hotel/assets/juniper-patio.webp",
-]) {
-  if (!existsSync(resolve(dist, relative))) {
-    errors.push(`${juniperPath}: missing project asset ${relative}`);
+for (const study of caseStudies) {
+  const html = pageDocuments.get(study.path) ?? "";
+  if (
+    !html.includes(`<meta property="og:url" content="${study.url}"`) ||
+    !html.includes(`"url": "${study.url}"`) ||
+    !html.includes(`"item": "${study.url}"`)
+  ) {
+    errors.push(`${study.path}: Open Graph, Article, or breadcrumb URL is stale`);
+  }
+
+  for (const relative of study.assets) {
+    if (!existsSync(resolve(dist, relative))) {
+      errors.push(`${study.path}: missing project asset ${relative}`);
+    }
   }
 }
 
