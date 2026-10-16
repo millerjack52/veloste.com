@@ -63,3 +63,6 @@ logs/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# git-filter-repo --replace-text rule files (contain secrets)
+replacements.txt
